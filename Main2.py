@@ -75,5 +75,3 @@ print('Current Models Max Difference On All Data:', Max) #maybe use an absolute 
 #ToDo make it to where you can add binary data, such as yes or no
 #ToDo make all these programs onto one program
 
-
-
