@@ -20,3 +20,4 @@ y = np.array(DataPicks[TargetVariable])
 x_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1) #add in randomstate= a # to stop randomly changing your arrays
 
 MyLinearRegression = linear_model.LinearRegression().fit(x_train, y_train)
+CurrentModelsPredictions = MyLinearRegression.predict(X_test) #predicts all the outputs for the x variables in the x_test dataframe

@@ -23,13 +23,7 @@ x_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y
 
 MyLinearRegression = linear_model.LinearRegression().fit(x_train, y_train)
 
-print("(Feature)",
-      "[Coefficient Value] *The Coefficient below is the correlators of your current data picks, while the corr method above is the correlators of the entire data set")
-for index, feature in enumerate(DataPicks):
-    try:
-        print("(", feature, ")", "[", MyLinearRegression.coef_[index], "]")
-    except:
-        pass
+Functions.GetCurrentCoefficients()
 
 CurrentModelsPredictions = MyLinearRegression.predict(X_test) #predicts all the outputs for the x variables in the x_test dataframe
 
@@ -47,7 +41,7 @@ except:
     print("Current model failed to predict user input")
     pass
 
-
+# Functions.CurrentModelPredictor([4, 4, 18])
 
 
 import pickle
