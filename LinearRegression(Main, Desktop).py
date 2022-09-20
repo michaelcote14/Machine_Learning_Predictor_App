@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 import Functions
 
+<<<<<<< HEAD
 
-import Functions
+=======
+>>>>>>> 81cb0a029fb1ba650c5e57bffd11a22dcaea02f5
 
 
 UploadFile = "Feature Optimizer Data.csv"

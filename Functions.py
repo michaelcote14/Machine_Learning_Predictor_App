@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 def imports():
     import pandas as pd
@@ -7,6 +8,8 @@ def imports():
     from sklearn import metrics
     import matplotlib.pyplot as plt
     from sklearn.metrics import r2_score
+=======
+>>>>>>> 81cb0a029fb1ba650c5e57bffd11a22dcaea02f5
 from Variables import *
 
 
@@ -20,5 +23,9 @@ def GetCoefficients():
             print("(", feature, ")", "[", MyLinearRegression.coef_[index], "]")
         except:
             pass
+<<<<<<< HEAD
 GetCoefficients()
 
+=======
+GetCoefficients()
+>>>>>>> 81cb0a029fb1ba650c5e57bffd11a22dcaea02f5
