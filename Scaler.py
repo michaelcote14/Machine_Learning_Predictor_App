@@ -3,7 +3,7 @@ from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler
 scale = StandardScaler()
 
-df = pd.read_csv("student-mat.csv", sep=";")
+df = pd.read_csv("Data/student-mat.csv", sep=";")
 
 X = df[['G1', 'G2', 'absences', 'age']] #puts all this data for these columns in X for your independant variables
 y = df[['G3']]

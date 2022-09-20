@@ -7,7 +7,7 @@ import matplotlib.pyplot as pyplot #this allows you to make graphs
 import pickle #this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
 from matplotlib import style #this changes the style of your plot's grid
 
-Dataframe = pd.read_csv("student-mat.csv", sep=',')
+Dataframe = pd.read_csv("../Data/student-mat.csv", sep=',')
 EmptyDataList = []
 DataPicks = Dataframe[["Medu", "Fedu", "G1", "G2", "studytime", "famrel", "freetime", "traveltime", "failures", "health", "Walc", "Dalc", "G3"]] #always put predictor variable last
 DataPicks = Dataframe["Medu"]
@@ -41,12 +41,12 @@ for _ in range(Runtimes): #runs the model 30 times  #this also gives us 30 new d
     TotalAccuracy += accuracy
     if accuracy > best: #this portion saves the best prediction after 30 run throughs                         #
         best = accuracy                                                                                       #
-        with open("studentmodel.pickle", "wb") as f: #this saves a file in our current directory and studentmodel.pickle (the wb means to write a new one if it doesn't already exist) and saves the prediction model in it #
+        with open("../Data/studentmodel.pickle", "wb") as f: #this saves a file in our current directory and studentmodel.pickle (the wb means to write a new one if it doesn't already exist) and saves the prediction model in it #
             pickle.dump(linear, f)
-        filename = 'finalized_model.sav'
+        filename = '../Data/finalized_model.sav'
         pickle.dump(linear, open(filename, 'wb'))
 
-PickledRegressionLine = pickle.load(open("studentmodel.pickle", "rb")) #loads the prediction model into the variable "linear"
+PickledRegressionLine = pickle.load(open("../Data/studentmodel.pickle", "rb")) #loads the prediction model into the variable "linear"
 PickleModelAccuracy = PickledRegressionLine.score(x_test, y_test)
 print("Current Pickle Model Accuracy:", PickleModelAccuracy)
 
@@ -54,7 +54,7 @@ TotalPickleModelAccuracy = 0
 for _ in range(Runtimes):
     x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y,test_size=0.1)  # this randomly places all the data into 10% test and 90% train
 
-    pickle_in = open("studentmodel.pickle", "rb")  # loads the prediction model into the variable "linear"
+    pickle_in = open("../Data/studentmodel.pickle", "rb")  # loads the prediction model into the variable "linear"
     CurrentPickleModel = pickle.load(pickle_in)
     PickleModelAccuracy = CurrentPickleModel.score(x_test, y_test)
     TotalPickleModelAccuracy += PickleModelAccuracy

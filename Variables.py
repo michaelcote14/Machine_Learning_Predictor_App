@@ -15,9 +15,14 @@ Dataframe = pd.read_csv(UploadFile, sep=',')
 PickedFeatures = ['Fedu', 'Medu', 'age', 'G3']
 DataPicks = Dataframe[PickedFeatures]
 TargetVariable = "G3"
-X = np.array(DataPicks.drop([TargetVariable], axis=1))
+X = np.array(DataPicks.drop([TargetVariable], axis=1, randomstate=0))
 y = np.array(DataPicks[TargetVariable])
 x_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1) #add in randomstate= a # to stop randomly changing your arrays
 
 MyLinearRegression = linear_model.LinearRegression().fit(x_train, y_train)
 CurrentModelsPredictions = MyLinearRegression.predict(X_test) #predicts all the outputs for the x variables in the x_test dataframe
+
+PredictorInputData = [4, 4, 18]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+
+RunEvalution = "No"
