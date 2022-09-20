@@ -6,6 +6,9 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
+import Functions
+imports()
+
 
 UploadFile = "Feature Optimizer Data.csv"
 Dataframe = pd.read_csv(UploadFile, sep=',')
