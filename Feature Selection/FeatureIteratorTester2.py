@@ -28,11 +28,13 @@ print("Picked dataframe Columns:", PickeddataframeColumns, '\n')
 PickeddataframeColumnsList = PickeddataframeColumns.tolist()
 print("Picked dataframe Columns List", PickeddataframeColumnsList, '\n')
 newdata = dataframe[PickeddataframeColumnsList]
+
+print("PickeddataframeColumnsList:", PickeddataframeColumnsList)
 print("newdata:\n", newdata)
 
 
-
-
+#PickeddataframeColumnsList: ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures', 'famrel', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'absences', 'G1', 'G2']
+#data needed: matrix of: age  Medu  Fedu  traveltime  studytime  ...  Walc  health  absences  G1  G2
 
 TargetVariable = "G3"
 
@@ -41,24 +43,28 @@ for loop in PickeddataframeColumnsList:
     result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop)+1)
     print("loop:", loop)
     for item in result:
-        print(item)
+        print("item:", list(item))
         combinations = combinations + 1
-    X = np.array(newdata) # This needs to be whole data frame minus the target
-    y = np.array(data[TargetVariable])
-
-    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1,
-                                                                                random_state=0)  # add in randomstate= a # to stop randomly changing your arrays
-
-    MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-
+        newdata = list(item)
+        print("newdata:", newdata)
+        X = np.array(dataframe[newdata])
+        y = np.array(data[TargetVariable])
+        print('X shape:', X.shape)
+        print('y shape:', y.shape)
 
 
+                #stuck here right now
+        # X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1,
+        #                                                                             random_state=0)  # add in randomstate= a # to stop randomly changing your arrays
+        #
+        # MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+        # print(MyLinearRegression.score(X_test, y_test))
+
+print("combinations:", combinations)
 
 
 
 
-
-# print("combinations:", combinations)
 #
 # print('DataPicks:\n', DataPicks)
 # X = np.array(DataPicks.drop([TargetVariable], axis=1))

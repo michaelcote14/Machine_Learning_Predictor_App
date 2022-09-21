@@ -18,6 +18,10 @@ target_variable = 'G3'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+
+
 PredictorInputData = [4, 4, 4, 4, 4, 4]
 PicklePredictorInputData = [4, 4, 4, 4, 4, 4]
 
