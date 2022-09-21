@@ -8,6 +8,7 @@ import matplotlib.pyplot as pyplot  # this allows you to make graphs
 import \
     pickle  # this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
 from matplotlib import style  # this changes the style of your plot's grid
+from runtime_calculator import iterator_runtime_predictor
 
 
 dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/student-mat(Numerical Only).csv', sep=',')
@@ -38,43 +39,66 @@ print("newdata:\n", newdata)
 
 TargetVariable = "G3"
 
+best = 0
 combinations = 0
+runtimes = 2
+iterator_runtime_predictor(runtimes)
+
+
+print('\nRun feature iterator? Hit ENTER for yes')
+user_input = input()
+if user_input == '':
+    pass
+else:
+    quit()
+
+total_score = 0
 for loop in PickeddataframeColumnsList:
     result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop)+1)
     print("loop:", loop)
+    average_score = []
     for item in result:
         print("item:", list(item))
-        combinations = combinations + 1
-        newdata = list(item)
-        print("newdata:", newdata)
-        X = np.array(dataframe[newdata])
-        y = np.array(data[TargetVariable])
-        print('X shape:', X.shape)
-        print('y shape:', y.shape)
+        for i in range(runtimes):
+            combinations = combinations + 1
+            newdata = list(item)
+            X = np.array(dataframe[newdata])
+            y = np.array(data[TargetVariable])
 
+            X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)  # add in randomstate= a # to stop randomly changing your arrays
 
-                #stuck here right now
-        # X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1,
-        #                                                                             random_state=0)  # add in randomstate= a # to stop randomly changing your arrays
-        #
-        # MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-        # print(MyLinearRegression.score(X_test, y_test))
-
-print("combinations:", combinations)
+            MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+            print('Score:', MyLinearRegression.score(X_test, y_test))
 
 
 
+            MyLinearRegressionScore = MyLinearRegression.score(X_test, y_test)
 
-#
-# print('DataPicks:\n', DataPicks)
-# X = np.array(DataPicks.drop([TargetVariable], axis=1))
-# y = np.array(DataPicks[TargetVariable])
-#
-# ##this puts the data into 4 different arrays: X train, X test, y train, and y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
-# X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1, random_state=0) #add in randomstate= a # to stop randomly changing your arrays
-#
-# MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-# print(MyLinearRegression.score(X_test, y_test))
+            #ToDo Fix this bug
+            total_score = total_score + MyLinearRegression.score(X_test, y_test)
+            print('\nTotal Score:', total_score)
+            average_score = total_score / runtimes
+            print('\nAverage Score:', average_score)
+
+        #ToDo put in average score calculator, that way you can accurately test feature groups
+
+
+        #ToDo save the best score/features into a file of some sort, then upload it and only
+        #ToDo change the file if the accuracy is greater
+            # if MyLinearRegressionScore > best:
+            #     best = MyLinearRegressionScore
+            #     best_features = newdata
+
+
+# print("Total Combinations:", combinations)
+# print('Best Score:', best)
+# print('Best Features:', best_features)
+
+current_best_score = 0.8313653113470161
+current_best_features = ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'famrel', 'Dalc', 'health', 'G1', 'G2']
+
+
+
 
 
 
