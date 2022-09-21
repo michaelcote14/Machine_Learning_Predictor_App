@@ -1,6 +1,4 @@
-
-
-def iterator_runtime_predictor(runtimes):
+def runtime_predictor(runtimes):
     PredictedTime = 41.2*runtimes + 4.5
     NewTime = PredictedTime
 
@@ -14,13 +12,18 @@ def iterator_runtime_predictor(runtimes):
     minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
     print('Runtime Predictor:', days, "days", hours, "hours", minutes, "minutes")
 
-# iterator_runtime_predictor(8)
 
-# total_score = 0
-# score = .1
-# for o in range(3):
-#     for i in range(5):
-#         total_score = total_score + score
-#         print('inside total score', total_score)
-#     print('outside total score', total_score)
-#     total_score = 0
+
+#adds text to a file
+def text_file_appender(filename, text_to_add):
+    with open (filename, 'a') as file:
+        file.write(text_to_add)
+        file.close()
+
+
+
+if __name__ == "__main__":
+    runtime_predictor(3)
+    text_file_appender('test_data', ['blue', 'yellow'])
+
+text_data = ['blue', 'yellow']

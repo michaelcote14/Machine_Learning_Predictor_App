@@ -3,35 +3,22 @@ import numpy as np  # this is for doing interesting things with numbers
 import sklearn  # this is the machine learning module
 from sklearn import linear_model
 import itertools
-from sklearn.utils import shuffle
-import matplotlib.pyplot as pyplot  # this allows you to make graphs
-import \
-    pickle  # this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
-from matplotlib import style  # this changes the style of your plot's grid
 from runtime_calculator import iterator_runtime_predictor
-
+import functions
 
 dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/student-mat(Numerical Only).csv', sep=',')
 data = dataframe[['Medu', 'Fedu', 'G1', 'G2', 'studytime', 'famrel', 'G3']]
 
-
-
-
 print("All dataframe Columns:", dataframe.columns)
 AllDataColumns = dataframe.columns
 AlldataframesColumnsList = AllDataColumns.tolist()
-print("All Data Frame Columns List", AlldataframesColumnsList)
 DataPicks = dataframe[AlldataframesColumnsList]
-print('Data Picks:\n', DataPicks)
-
 PickeddataframeColumns = AllDataColumns.drop("G3")
-print("Picked dataframe Columns:", PickeddataframeColumns, '\n')
 PickeddataframeColumnsList = PickeddataframeColumns.tolist()
-print("Picked dataframe Columns List", PickeddataframeColumnsList, '\n')
 newdata = dataframe[PickeddataframeColumnsList]
 
-print("PickeddataframeColumnsList:", PickeddataframeColumnsList)
-print("newdata:\n", newdata)
+
+
 
 
 #PickeddataframeColumnsList: ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures', 'famrel', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'absences', 'G1', 'G2']
@@ -41,8 +28,8 @@ TargetVariable = "G3"
 
 best = 0
 combinations = 0
-runtimes = 2
-iterator_runtime_predictor(runtimes)
+run_throughs = 2
+iterator_runtime_predictor(run_throughs)
 
 
 print('\nRun feature iterator? Hit ENTER for yes')
@@ -52,16 +39,17 @@ if user_input == '':
 else:
     quit()
 
+
 total_score = 0
 for loop in PickeddataframeColumnsList:
     result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop)+1)
-    print("loop:", loop)
-    average_score = []
     for item in result:
         print("item:", list(item))
-        for i in range(runtimes):
+        for i in range(run_throughs):
             combinations = combinations + 1
+
             newdata = list(item)
+
             X = np.array(dataframe[newdata])
             y = np.array(data[TargetVariable])
 
@@ -69,35 +57,41 @@ for loop in PickeddataframeColumnsList:
 
             MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
             print('Score:', MyLinearRegression.score(X_test, y_test))
-
-
-
-            MyLinearRegressionScore = MyLinearRegression.score(X_test, y_test)
-
-            #ToDo Fix this bug
+            # make this add up 5 times first one should equal 0.184
             total_score = total_score + MyLinearRegression.score(X_test, y_test)
-            print('\nTotal Score:', total_score)
-            average_score = total_score / runtimes
-            print('\nAverage Score:', average_score)
+            my_linear_regression_score = MyLinearRegression.score(X_test, y_test)
 
-        #ToDo put in average score calculator, that way you can accurately test feature groups
+            if my_linear_regression_score > best:
+                best = my_linear_regression_score
+                print('newdata', newdata)
+                best_features = newdata
+                print('best_features', best_features)
+
+
+        # print('\nTotal Score:', total_score)
+        average_score = total_score/run_throughs
+        print('Average Score:', average_score, '\n')
+        total_score = 0
+        if average_score > best:
+            best = average_score
+            best_features = newdata
+            print('newdata:', newdata)
+            print('best_features:', best_features)
 
 
         #ToDo save the best score/features into a file of some sort, then upload it and only
         #ToDo change the file if the accuracy is greater
-            # if MyLinearRegressionScore > best:
-            #     best = MyLinearRegressionScore
-            #     best_features = newdata
 
 
-# print("Total Combinations:", combinations)
-# print('Best Score:', best)
-# print('Best Features:', best_features)
+
+print("Total Combinations:", combinations)
+print('Best Score:', best)
+print('Best Features:', best_features)
 
 current_best_score = 0.8313653113470161
 current_best_features = ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'famrel', 'Dalc', 'health', 'G1', 'G2']
 
-
+functions.text_file_appender('Best Data', [best, best_features])
 
 
 
