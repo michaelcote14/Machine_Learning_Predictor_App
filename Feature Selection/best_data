@@ -1,0 +1,5 @@
+Best Score:, 0.9781666393813532,
+Best Features:, ['age', 'failures', 'famrel', 'Dalc', 'health', 'G1', 'G2'], 
+Runthroughs:, 100, 
+Time to Run:, 4227.655410766602, seconds, 
+Date Ran:, Thu Sep 22 14:45:04 2022
