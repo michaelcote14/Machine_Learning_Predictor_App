@@ -20,10 +20,36 @@ def text_file_appender(filename, text_to_add):
         file.write(text_to_add)
         file.close()
 
+# Reads up to whatever line you specify
+def text_file_reader(filename, letter_index1, letter_index2):
+    with open(filename, 'r') as file:
+        all_letters = file.read()
+        print(all_letters[letter_index1:letter_index2]) #do this to select which letters you want to read in
+        return (all_letters[letter_index1:letter_index2])
+        file.close()
+        pass
+
+# reads specific lines of a file, just add another readline statement
+# to get the next line
+def line_checker(filename, line_length):
+    with open (filename, 'r') as file:
+        print(file.readline())
+        line_to_check = (len(file.readline()))
+        print(line_to_check)
+        if line_to_check > 34:
+
+            print('worked')
+
+        file.close()
+
 
 
 if __name__ == "__main__":
-    runtime_predictor(3)
-    text_file_appender('test_data', ['blue', 'yellow'])
 
-text_data = ['blue', 'yellow']
+    runtime_predictor(3)
+    line_checker('test_data', 5)
+
+
+
+
+

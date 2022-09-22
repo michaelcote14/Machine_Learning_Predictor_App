@@ -5,6 +5,7 @@ from sklearn import linear_model
 import itertools
 from runtime_calculator import iterator_runtime_predictor
 import functions
+import time
 
 dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/student-mat(Numerical Only).csv', sep=',')
 data = dataframe[['Medu', 'Fedu', 'G1', 'G2', 'studytime', 'famrel', 'G3']]
@@ -17,19 +18,18 @@ PickeddataframeColumns = AllDataColumns.drop("G3")
 PickeddataframeColumnsList = PickeddataframeColumns.tolist()
 newdata = dataframe[PickeddataframeColumnsList]
 
-
-
-
-
-#PickeddataframeColumnsList: ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures', 'famrel', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'absences', 'G1', 'G2']
-#data needed: matrix of: age  Medu  Fedu  traveltime  studytime  ...  Walc  health  absences  G1  G2
-
 TargetVariable = "G3"
 
 best = 0
 combinations = 0
-run_throughs = 2
+run_throughs = 100
 iterator_runtime_predictor(run_throughs)
+start_time = time.time()
+
+
+
+# functions.line_checker('best_data', 12)
+
 
 
 print('\nRun feature iterator? Hit ENTER for yes')
@@ -79,19 +79,24 @@ for loop in PickeddataframeColumnsList:
             print('best_features:', best_features)
 
 
-        #ToDo save the best score/features into a file of some sort, then upload it and only
-        #ToDo change the file if the accuracy is greater
-
-
-
 print("Total Combinations:", combinations)
 print('Best Score:', best)
 print('Best Features:', best_features)
 
-current_best_score = 0.8313653113470161
-current_best_features = ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'famrel', 'Dalc', 'health', 'G1', 'G2']
 
-functions.text_file_appender('Best Data', [best, best_features])
+#ToDo fix this bug, its reading in, so the len function won't work
+# read in the current best file
+print("best_data's Best Score:")
+text_best_score = functions.text_file_reader('best_data', 13, 31)
+
+
+# write to the file
+if float(text_best_score) < best:
+    text_data_list = ['\n\nBest Score:', str(best), '\nBest Features:',  str(best_features),
+    '\nRunthroughs:', str(run_throughs), '\nTime to Run:', str(time.time()-start_time), 'seconds',
+    '\nDate Ran:', str(time.asctime())]
+    string_data_list = (', '.join(text_data_list))
+    functions.text_file_appender('best_data', string_data_list )
 
 
 

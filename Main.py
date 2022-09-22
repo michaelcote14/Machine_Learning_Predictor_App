@@ -6,6 +6,10 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 import pickle
+import time
+
+start_time = time.time()
+
 
 
 RunEvalution = 'Yes'
@@ -190,10 +194,9 @@ else:
 # labelencoder = LabelEncoder()
 # X[:, 3] = labelencoder.fit_transform(X[:, 3])
 #
-# ToDo find out why every time I run the current model, the score changes
+
 # onehotencoder = OneHotEncoder(categorical_features = [3])
 # X = onehotencoder.fit_transform(X).toarray()
 # print(X)
-# ToDo install black on laptop
 
-
+print('Runtime:', (time.time() - start_time), 'seconds')
