@@ -1,0 +1,55 @@
+Best Score:, 0.9826169794040865,
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 1000000, 
+Time to Run:, 954.5292673110962, seconds, 
+Date Ran:, Fri Sep 23 00:42:14 2022
+
+Best Score:, 0.9868552499299557, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 10000000, 
+Time to Run:, 9337.292670965195, seconds, 
+Date Ran:, Fri Sep 23 03:56:35 2022
+
+Best Score:, 0.9831511695210426, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 1000000, 
+Time to Run:, 949.1640951633453, seconds, 
+Date Ran:, Fri Sep 23 10:32:09 2022
+
+Best Score:, 0.9830801585230894, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 10000000, 
+Time to Run:, 9912.73656463623, seconds, 
+Date Ran:, Fri Sep 23 13:24:19 2022
+
+Best Score:, 0.9846122469919634, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 10000000, 
+Time to Run:, 9962.543380737305, seconds, 
+Date Ran:, Sat Sep 24 06:59:00 2022
+
+Best Score:, 0.9853597208773717, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 10000000, 
+Time to Run:, 9440.18752026558, seconds, 
+Date Ran:, Sun Sep 25 19:06:23 2022
+
+Best Score:, 0.9836752346213102, 
+Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
+       'G3'],
+      dtype='object'), 
+Runthroughs:, 10000000, 
+Time to Run:, 9456.266201972961, seconds, 
+Date Ran:, Sun Sep 25 22:36:02 2022

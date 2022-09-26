@@ -10,43 +10,37 @@ import time
 
 start_time = time.time()
 
-
+#ToDo fix input problems
 
 RunEvalution = 'Yes'
 
 dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
-data = dataframe[['Medu', 'Fedu', 'G1', 'G2', 'studytime', 'famrel', 'G3']]
+data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
 print('All Correlations:\n', dataframe.corr()['G3'], '\n')  # showsthecorrelationsofalldata
 
 target_variable = 'G3'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
-print("X shape:", X.shape)
-print("y shape:", y.shape)
-
-
-PredictorInputData = [4, 4, 4, 4, 4, 4]
+PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
 PicklePredictorInputData = [4, 4, 4, 4, 4, 4]
 
 ##this puts the data into 4 different arrays: x train, x test, y train, and
 # y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
-    X, y, test_size=0.1, random_state=0
+    X, y, test_size=0.1
 )  # add in randomstate= a # to stop randomly changing your arrays
 
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
 
+#ToDo put correlations and coefficients in side by side columns
 
+print('Feature'.center(20, '-'), '  [Current Coefficients Value]') #*The Coefficient below is the correlators '
+    #'of your current data picks, while the corr method above is the correlators of the entire data set',
 
-print(
-    '(Feature)',
-    '[Current Coefficients Value] *The Coefficient below is the correlators '
-    'of your current data picks, while the corr method above is the correlators of the entire data set',
-)
 for index, feature in enumerate(data):
     try:
-        print('(', feature, ')', '[', MyLinearRegression.coef_[index], ']')
+        print(feature.ljust(22), '[', MyLinearRegression.coef_[index], ']')
     except:
       pass
 print('\n')
@@ -64,7 +58,7 @@ try:
     )  # this will predict a G3 based on the inputed G1, G2, studytime, failures, and absences
     CurrentModelAccuracy = MyLinearRegression.score(X_test, y_test)
     print(
-        'Current Models Input Prediction:',
+        'Current Models Input Prediction:', target_variable, ':',
         CurrentModelsInputPrediction,
         '\nScore:',
         CurrentModelAccuracy,
@@ -129,57 +123,61 @@ except Exception as e:
 
 
 #table
-print(':       Statistic       :    Current Model    :       Pickle Model       :')
-nested_list = [['Input Prediction', CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Score', CurrentModelAccuracy, PickleModelAccuracy],
-               ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
-                metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions)], ['R2 Score', r2_score(y_test, CurrentModelsPredictions),
-                r2_score(y_test, PickledRegressionLinePredictions)], ['Range', CurrentModelsInputPrediction
-        - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
-        '-',
-        CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
-        + CurrentModelsInputPrediction,  PickleModelsInputPrediction
-        - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
-        '-',
-        PickleModelsInputPrediction
-        + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction]]
-for item in nested_list:
-    print(':', item[0], ' '*(20-len(item[0])), ':', item[1],  ' '*(18-len(str(item[1]))),
-          ':', item[2],  ' '*(20-len(str(item[2]))))
+try:
+    print(':       Statistic       :    Current Model    :       Pickle Model       :')
+    nested_list = [['Input Prediction', CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Score', CurrentModelAccuracy, PickleModelAccuracy],
+                   ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
+                    metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions)], ['R2 Score', r2_score(y_test, CurrentModelsPredictions),
+                    r2_score(y_test, PickledRegressionLinePredictions)], ['Range', CurrentModelsInputPrediction
+            - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
+            '-',
+            CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
+            + CurrentModelsInputPrediction,  PickleModelsInputPrediction
+            - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
+            '-',
+            PickleModelsInputPrediction
+            + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction]]
+    for item in nested_list:
+        print(':', item[0], ' '*(20-len(item[0])), ':', item[1],  ' '*(18-len(str(item[1]))),
+              ':', item[2],  ' '*(20-len(str(item[2]))))
+except Exception as e:
+    print('\nTable failed because of pickle or current model.')
+    print(e, '\n')
 
 
 
 
-
-Sum, Max = 0, 0
-if RunEvalution == 'Yes':
-    print('Predicted         [Actual Data]  Actual Score       Difference')
-    for x in range(len(CurrentModelsPredictions)):
-        print(
-            CurrentModelsPredictions[x],
-            ',',
-            X_test[x],
-            ',',
-            y_test[x],
-            ',' '            Difference:',
-            y_test[x] - CurrentModelsPredictions[x],
-        )
-        IndividualDifference = abs(y_test[x] - CurrentModelsPredictions[x])
-        Sum = Sum + IndividualDifference
-        if IndividualDifference > Max:
-            Max = IndividualDifference
-    print(
-        '\nCurrent Models Average Difference On All Data:',
-        Sum / len(CurrentModelsPredictions),
-    )
-    print(
-        'Current Models Max Difference On All Data:', Max)
-    print('Current Models Range', CurrentModelsInputPrediction
-        - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
-        '-',
-        CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
-        + CurrentModelsInputPrediction)
-else:
-    pass
+#
+# Sum, Max = 0, 0
+# if RunEvalution == 'Yes':
+#     print('Predicted         [Actual Data]  Actual Score       Difference')
+#     for x in range(len(CurrentModelsPredictions)):
+#         print(
+#             CurrentModelsPredictions[x],
+#             ',',
+#             X_test[x],
+#             ',',
+#             y_test[x],
+#             ',' '            Difference:',
+#             y_test[x] - CurrentModelsPredictions[x],
+#         )
+#         IndividualDifference = abs(y_test[x] - CurrentModelsPredictions[x])
+#         Sum = Sum + IndividualDifference
+#         if IndividualDifference > Max:
+#             Max = IndividualDifference
+#     print(
+#         '\nCurrent Models Average Difference On All Data:',
+#         Sum / len(CurrentModelsPredictions),
+#     )
+#     print(
+#         'Current Models Max Difference On All Data:', Max)
+#     print('Current Models Range', CurrentModelsInputPrediction
+#         - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
+#         '-',
+#         CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
+#         + CurrentModelsInputPrediction)
+# else:
+#     pass
 
 
 # #this section scales the data to be more equal
