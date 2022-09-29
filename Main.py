@@ -16,14 +16,14 @@ RunEvalution = 'Yes'
 
 dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
 data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
-print('All Correlations:\n', dataframe.corr()['G3'], '\n')  # showsthecorrelationsofalldata
+print('All Correlations:\n', dataframe.corr(numeric_only='yes')['G3'], '\n')  # showsthecorrelationsofalldata
 
 target_variable = 'G3'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
 PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
-PicklePredictorInputData = [4, 4, 4, 4, 4, 4]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
 
 ##this puts the data into 4 different arrays: x train, x test, y train, and
 # y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
@@ -33,7 +33,6 @@ X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
 
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
 
-#ToDo put correlations and coefficients in side by side columns
 
 print('Feature'.center(20, '-'), '  [Current Coefficients Value]') #*The Coefficient below is the correlators '
     #'of your current data picks, while the corr method above is the correlators of the entire data set',
@@ -47,7 +46,7 @@ print('\n')
 
 CurrentModelsPredictions = MyLinearRegression.predict(
 X_test
-)  # predicts all the outputs for the x variables in the x_test DataFrame
+)
 
 
 
@@ -55,7 +54,7 @@ try:
     PredictorInputDataHolder = [PredictorInputData]
     CurrentModelsInputPrediction = MyLinearRegression.predict(
         [PredictorInputData]
-    )  # this will predict a G3 based on the inputed G1, G2, studytime, failures, and absences
+    )
     CurrentModelAccuracy = MyLinearRegression.score(X_test, y_test)
     print(
         'Current Models Input Prediction:', target_variable, ':',
@@ -72,7 +71,7 @@ try:
         '-',
         CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
         + CurrentModelsInputPrediction
-    )  # for R2 score, higher is better
+    )
 except ValueError as e:
     print('Error in current model predictor: '
           'Features input are not equal to features in data file')
@@ -88,38 +87,38 @@ except Exception as e:
 
 
 
-try:
-    PickledRegressionLine = pickle.load(
-        open('Data/studentmodel.pickle', 'rb')
-    )  # loads the prediction model into the variable 'linear'
-    PickledRegressionLinePredictions = PickledRegressionLine.predict(X_test)
-    PickleModelsInputPrediction = PickledRegressionLine.predict(
-        [PicklePredictorInputData])
-    PickleModelAccuracy = PickledRegressionLine.score(X_test, y_test)
-    print(
-        '\nPickle Models Input Prediction:',
-        PickleModelsInputPrediction,
-        '\nScore:',
-        PickleModelAccuracy,
-        '\nMean Absolute Error:',
-        metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions),
-        '\nR2 Score:',
-        r2_score(y_test, PickledRegressionLinePredictions),
-        '\nRange:',
-        PickleModelsInputPrediction
-        - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
-        '-',
-        PickleModelsInputPrediction
-        + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
-    )
-except ValueError as e:
-    print('\nError in pickle model predictor: '
-          'Pickle input features are not equal to features in data file')
-    print(e)
-    pass
-except Exception as e:
-    print('Other error in pickle model predictor:')
-    print(e)
+#try:
+PickledRegressionLine = pickle.load(
+    open('Data/studentmodel.pickle', 'rb')
+)  # loads the prediction model into the variable 'linear'
+PickledRegressionLinePredictions = PickledRegressionLine.predict(X_test)
+PickleModelsInputPrediction = PickledRegressionLine.predict(
+    [PicklePredictorInputData]) # this is the line that is wrong
+PickleModelAccuracy = PickledRegressionLine.score(X_test, y_test)
+print(
+    '\nPickle Models Input Prediction:',
+    PickleModelsInputPrediction,
+    '\nScore:',
+    PickleModelAccuracy,
+    '\nMean Absolute Error:',
+    metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions),
+    '\nR2 Score:',
+    r2_score(y_test, PickledRegressionLinePredictions),
+    '\nRange:',
+    PickleModelsInputPrediction
+    - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
+    '-',
+    PickleModelsInputPrediction
+    + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction, '\n'
+)
+# except ValueError as e:
+#     print('\nError in pickle model predictor: '
+#           'Pickle input features are not equal to features in data file')
+#     print(e)
+#     pass
+# except Exception as e:
+#     print('Other error in pickle model predictor:')
+#     print(e)
 
 
 #table
@@ -147,37 +146,30 @@ except Exception as e:
 
 
 
-#
-# Sum, Max = 0, 0
-# if RunEvalution == 'Yes':
-#     print('Predicted         [Actual Data]  Actual Score       Difference')
-#     for x in range(len(CurrentModelsPredictions)):
-#         print(
-#             CurrentModelsPredictions[x],
-#             ',',
-#             X_test[x],
-#             ',',
-#             y_test[x],
-#             ',' '            Difference:',
-#             y_test[x] - CurrentModelsPredictions[x],
-#         )
-#         IndividualDifference = abs(y_test[x] - CurrentModelsPredictions[x])
-#         Sum = Sum + IndividualDifference
-#         if IndividualDifference > Max:
-#             Max = IndividualDifference
-#     print(
-#         '\nCurrent Models Average Difference On All Data:',
-#         Sum / len(CurrentModelsPredictions),
-#     )
-#     print(
-#         'Current Models Max Difference On All Data:', Max)
-#     print('Current Models Range', CurrentModelsInputPrediction
-#         - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
-#         '-',
-#         CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
-#         + CurrentModelsInputPrediction)
-# else:
-#     pass
+
+Sum, Max = 0, 0
+if RunEvalution == 'Yes':
+    print('Predicted         [Actual Data]  Actual Score', 'Difference'.rjust(70))
+    for x in range(len(CurrentModelsPredictions)):
+        print(CurrentModelsPredictions[x],X_test[x], y_test[x],'Difference:'.center(80), #y test x is what is wrong
+        y_test[x] - CurrentModelsPredictions[x])
+        IndividualDifference = abs(y_test[x] - CurrentModelsPredictions[x])
+        Sum = Sum + IndividualDifference
+        if IndividualDifference > Max:
+            Max = IndividualDifference
+    print(
+        '\nCurrent Models Average Difference On All Data:',
+        Sum / len(CurrentModelsPredictions),
+    )
+    print(
+        'Current Models Max Difference On All Data:', Max)
+    print('Current Models Range', CurrentModelsInputPrediction
+        - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
+        '-',
+        CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
+        + CurrentModelsInputPrediction)
+else:
+    pass
 
 
 # #this section scales the data to be more equal
@@ -188,13 +180,6 @@ except Exception as e:
 
 # ToDo make it to where you can use regression on variables that aren't in number format,
 #  code for doing this is below
-# from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-# labelencoder = LabelEncoder()
-# X[:, 3] = labelencoder.fit_transform(X[:, 3])
-#
 
-# onehotencoder = OneHotEncoder(categorical_features = [3])
-# X = onehotencoder.fit_transform(X).toarray()
-# print(X)
 
 print('Runtime:', (time.time() - start_time), 'seconds')

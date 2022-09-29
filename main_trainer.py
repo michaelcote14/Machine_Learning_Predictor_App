@@ -21,7 +21,7 @@ X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable]) #
 
 
-runtimes = 10000000
+runtimes = 100
 functions.trainer_runtime_predictor(runtimes)
 print('Run Trainer? Hit ENTER for yes')
 user_input = input()

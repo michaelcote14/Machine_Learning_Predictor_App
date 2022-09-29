@@ -1,43 +1,45 @@
-import random
-import pandas as pd #this is to read in data sheets
-import numpy as np #this is for doing interesting things wtih numbers
-import sklearn #this is the machine learning module
+import pandas as pd
+import sklearn
 from sklearn import linear_model
-from sklearn.utils import shuffle
-import matplotlib.pyplot as pyplot #this allows you to make graphs
-import pickle #this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
-from matplotlib import style #this changes the style of your plot's grid
+import numpy as np
+from sklearn import metrics
+import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
+import pickle
+import time
 
-UploadFile = "student-mat(Numerical Only).csv"
-Dataframe = pd.read_csv(UploadFile, sep=',')
-print("Dataframe Columns:", Dataframe.columns)
-DataColumns = Dataframe.columns
-DataFeatures = DataColumns.drop("G3")
-print("DataFeatures:", DataFeatures)
-#need to change DataFeatures somehow in order to shorten run time
-print("type:", type(DataFeatures))
-print(DataFeatures.index.tolist())
-print(DataFeatures)
+start_time = time.time()
 
-for i in range(50):
-    SampledNumber = random.sample(range(3), 1) #((random range of numbers)), how many numbers in list)
-    TestList = DataColumns
-    print("Test List:", TestList)
-    SampledList = random.sample(TestList, SampledNumber[0]+1)
+#ToDo fix input problems
 
-    print(SampledNumber)
-    print(SampledList)
+RunEvalution = 'Yes'
 
-# sampled_list = random.sample(TestList, random.sample(range(5), 1))
-# print(sampled_list)
+dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
+data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
+print('All Correlations:\n', dataframe.corr()['G3'], '\n')  # showsthecorrelationsofalldata
 
-CombinationCount = 0
-# for k in TestList:
-#     print("k:", k)
-#     for j in TestList:
-#         print("j:", j)
-#         if j != k:
-#             print("working")
-#             print("k, j:", k,j)
-#         CombinationCount = CombinationCount + 1
-#         print("Combination Count:",CombinationCount)
+target_variable = 'G3'
+X = np.array(data.drop([target_variable], axis=1))
+y = np.array(data[target_variable])
+
+PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4]
+
+##this puts the data into 4 different arrays: x train, x test, y train, and
+# y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
+X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
+    X, y, test_size=0.1
+)  # add in randomstate= a # to stop randomly changing your arrays
+
+MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+data = ['apple', 'banana', 'orange', 'grapes']
+# need:
+for index, feature in enumerate(data):
+    try:
+        print(feature.ljust(22), '[', MyLinearRegression.coef_[index], ']', dataframe.corr([index])['G3'])
+        print('index:', index)
+        print('feature:', feature)
+    except:
+        print('did not work')
+        pass
+print('\n')
