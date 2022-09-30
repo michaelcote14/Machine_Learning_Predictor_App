@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas_tutorital as pd
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
 

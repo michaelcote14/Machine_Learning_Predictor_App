@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import pandas_tutorital as pd
 
 def rmse(targets, predictions):
     return np.sqrt(np.mean(np.square(targets - predictions)))

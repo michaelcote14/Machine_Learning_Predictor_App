@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas_tutorital as pd
 from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler
 scale = StandardScaler()

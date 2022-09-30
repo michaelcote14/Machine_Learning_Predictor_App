@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas_tutorital as pd
 import sklearn
 from sklearn import linear_model
 import numpy as np

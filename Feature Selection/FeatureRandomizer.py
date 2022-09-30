@@ -1,5 +1,5 @@
 import random
-import pandas as pd #this is to read in data sheets
+import pandas_tutorital as pd #this is to read in data sheets
 import numpy as np #this is for doing interesting things wtih numbers
 import sklearn #this is the machine learning module
 from sklearn import linear_model
