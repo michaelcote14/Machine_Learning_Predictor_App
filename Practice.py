@@ -1,45 +1,50 @@
-import pandas_tutorital as pd
-import sklearn
-from sklearn import linear_model
-import numpy as np
-from sklearn import metrics
-import matplotlib.pyplot as plt
-from sklearn.metrics import r2_score
-import pickle
-import time
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
 
-start_time = time.time()
+pd.options.display.width = 500
+pd.set_option('display.max_columns', 500)
+data = pd.read_csv("data/student-mat.csv")
 
-#ToDo fix input problems
 
-RunEvalution = 'Yes'
+for column in data:
+    print('column:\n',column)
+    if data[column].dtypes == 'object':
+        try:
+            print('not an integer\n')
 
-dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
-data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
-print('All Correlations:\n', dataframe.corr()['G3'], '\n')  # showsthecorrelationsofalldata
+            series_to_transform = data[[column]]
+            print('chosen_data:\n', series_to_transform)
 
-target_variable = 'G3'
-X = np.array(data.drop([target_variable], axis=1))
-y = np.array(data[target_variable])
+            transformer_function = make_column_transformer((OneHotEncoder(), [column]), remainder='passthrough')
+            print('transformer:\n', transformer_function)
 
-PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
-PicklePredictorInputData = [4, 4, 4, 4, 4, 4]
+            transformed_series = transformer_function.fit_transform(series_to_transform)
+            transformed_dataframe = pd.DataFrame(transformed_series, columns=transformer_function.get_feature_names_out()) #problem line for data with more than 2 answers
+            # transformed_df.rename(columns={''})
+            print('transformed_df.head:\n', transformed_dataframe.head)
 
-##this puts the data into 4 different arrays: x train, x test, y train, and
-# y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
-X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
-    X, y, test_size=0.1
-)  # add in randomstate= a # to stop randomly changing your arrays
+            column_to_drop = transformed_dataframe.columns[0]
+            print('column to drop:\n', column_to_drop)
 
-MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-data = ['apple', 'banana', 'orange', 'grapes']
-# need:
-for index, feature in enumerate(data):
-    try:
-        print(feature.ljust(22), '[', MyLinearRegression.coef_[index], ']', dataframe.corr([index])['G3'])
-        print('index:', index)
-        print('feature:', feature)
-    except:
-        print('did not work')
-        pass
-print('\n')
+            series_after_drop = transformed_dataframe.drop(columns=str(column_to_drop))
+            print('series after drop:\n', series_after_drop)
+
+            #ToDo append the above dataframe with the newly made dataframe each time
+
+
+
+
+        except Exception as e:
+            print('Error:', e)
+            print('got error on loop')
+
+
+
+
+
+
+    else:
+        print('integer\n')
+
+
