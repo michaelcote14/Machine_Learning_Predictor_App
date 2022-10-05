@@ -6,28 +6,32 @@ from sklearn.compose import make_column_transformer
 pd.options.display.width = 500
 pd.set_option('display.max_columns', 500)
 dataframe = pd.read_csv("data/student-mat.csv")
-print(dataframe.head)
-
-# gets the data for only categorical series
-new_dataframe = dataframe.select_dtypes(include='O')
-print(new_dataframe)
-
-# prints the number of unique categories for each series
-for x in new_dataframe.columns:
-    print(x, ':', len(new_dataframe[x].unique()))
-
-# finds the top 20 most common categories for each series
-print(new_dataframe.Mjob.value_counts().sort_values(ascending=False).head(20))
-
-# make list with top 10 variables
-top_10 = [x for x in new_dataframe.value_counts().sort_values(ascending=False).head(10).index]
-print('top_10:\n', top_10)
-
-# make the top 10 variables binary
-for label in top_10:
-    new_dataframe[label] = np.where(new_dataframe['Mjob']==label,1,0)
-    # new_dataframe[['Mjob'] +top_10] # problem
-    print(new_dataframe)
+print('\n', dataframe.head(), '\n')
 
 
+# find the unique values in each column
+print('Unique Values:')
+for x in dataframe.columns:
+    print(x, ':', len(dataframe[x].unique()))
+
+# gets the 10 most frequent categories
+print('\n', 'Top 10 Value Counts for Mjob:\n', dataframe.Mjob.value_counts().sort_values(ascending=False).head(10))
+
+print(dataframe['Mjob'])
+
+ohe = OneHotEncoder()
+encoded_array = ohe.fit_transform(dataframe[['Mjob']]).toarray()
+print('encoded array:\n', encoded_array)
+
+print('ohe.categories:', ohe.categories_)
+feature_labels = ohe.categories_
+
+print('np.array:\n', np.array(feature_labels).ravel())
+feature_labels = np.array(feature_labels).ravel()
+
+fully_encoded_array = pd.DataFrame(encoded_array, columns= feature_labels)
+print(fully_encoded_array)
+
+# ToDo make this variable replaceable
+# ToDo this for loop friendly
 # ToDo make this work.
