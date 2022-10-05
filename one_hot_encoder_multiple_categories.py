@@ -3,24 +3,33 @@ import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
 
-from one_hot_encoder import *
+from one_hot_encoder import * # this is running the one_hot_encoder program
 
 pd.options.display.width = 500
 pd.set_option('display.max_columns', 500)
 original_dataframe = pd.read_csv("data/student-mat.csv")
-print(original_dataframe)
+
+# drop the encoded dataframes from the original dataframe # maybe use merge?
+# step one: get both programs' encoded dataframes together-done
+# step two: combine two_program dataframe with original dataframe without the columns that were encoded
+    # step 2a: drop the columns that are getting encoded from the original dataframe
+        # step 2aa: drop the columns of the multiple category encoder
+        # step 2ab: drop the columns of the single one hot encoder
+
 
 all_dataframes_after_drops = pd.DataFrame()
 for column in original_dataframe.columns:
     unique_value_amount = len(original_dataframe[column].unique())
     print('\nColumn:', column)
     print('Unique Value Amount:', unique_value_amount)
-    if original_dataframe[column].dtypes != 'object':
-        original_dataframe.drop(column, axis=1, inplace=True)
-        print('first original dataframe:\n', original_dataframe)
-        # ToDo make it to where dropping this column doesn't ruin the next if loop
+
 
     if unique_value_amount > 2 and original_dataframe[column].dtypes == 'object':
+
+        # spot to drop these columns from the original dataframe
+        original_dataframe.drop([column], axis=1, inplace=True)
+        print('original dataframe right after if block:\n', original_dataframe.head)
+        # this ruins the below pieces
 
         ohe = OneHotEncoder(handle_unknown='ignore')
 
@@ -48,11 +57,13 @@ for column in original_dataframe.columns:
         all_dataframes_after_drops = pd.concat([all_dataframes_after_drops, new_single_dataframe_after_drop], axis=1)
         print('all_dataframes_after_drops\n', all_dataframes_after_drops)
 
-        original_dataframe.drop(column, axis=1, inplace=True)
-        print('original_dataframe(loop):\n', original_dataframe)
 
     else:
         print('did not work on this column')
+        # this is where i need to drop the columns from the original dataframe #have not tested the below yet
+        print('pre-original_dataframe(else)\n', original_dataframe)
+        original_dataframe.drop([column], axis=1, inplace=True)
+        print('original_dataframe(else):\n', original_dataframe)
         continue
 
 
