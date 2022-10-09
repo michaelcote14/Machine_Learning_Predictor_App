@@ -6,8 +6,11 @@ import itertools
 from runtime_calculator import iterator_runtime_predictor
 import functions
 import time
+from one_hot_encoder_multiple_categories import last_dataframe
+from functions import seconds_formatter
 
 dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/student-mat(Numerical Only).csv', sep=',')
+dataframe = last_dataframe
 print("All dataframe Columns:", dataframe.columns)
 AllDataColumns = dataframe.columns
 AlldataframesColumnsList = AllDataColumns.tolist()
@@ -24,8 +27,20 @@ runtimes = 1
 iterator_runtime_predictor(runtimes)
 start_time = time.time()
 
+# ToDo make predictor dependent on how many columns are in a dataframe
+# formula: (regular time^number of columns) *runtimes
+# ToDo change name for best_data to something more descriptive
+# ToDo make progress tracker by tracking loops compared to the length of the dataframe
 
-
+data_length = len(dataframe.columns)
+print('data_length:', data_length, 'columns')
+combination_max = (1.915202908 ** len(dataframe.columns)) * runtimes
+print('Combination Max:', combination_max)
+time_per_combination = 46.27005124092102/32767
+print('Time Per Combination:', time_per_combination)
+runtime_new_predictor = time_per_combination * combination_max
+print('runtime new predictor:', runtime_new_predictor)
+seconds_formatter(runtime_new_predictor)
 
 print('\nRun feature iterator? Hit ENTER for yes')
 user_input = input()
@@ -42,6 +57,7 @@ for loop in PickeddataframeColumnsList:
         print("item:", list(item))
         for i in range(runtimes):
             combinations = combinations + 1
+            print('Loop Combinations:', combinations)
 
             newdata = list(item)
 
@@ -94,3 +110,4 @@ elapsed_time = time.time() - start_time
 if elapsed_time > 3:
     functions.email_or_text_alert('Trainer is done',
     'elapsed time:' + str(elapsed_time) + ' seconds', '4052198820@mms.att.net')
+    print('elapsed_time:', elapsed_time)

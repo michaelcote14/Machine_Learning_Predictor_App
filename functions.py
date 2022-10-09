@@ -34,7 +34,7 @@ def seconds_formatter(elapsed_time):
     days = seconds // seconds_in_day
     hours = (seconds - (days * seconds_in_day)) // seconds_in_hour
     minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
-    print('\nElapsed Time:', days, "days", hours, "hours", minutes, "minutes")
+    print('Time:', days, "days", hours, "hours", minutes, "minutes")
 
 
 #adds text to a file

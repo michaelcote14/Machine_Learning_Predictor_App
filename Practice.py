@@ -1,74 +1,107 @@
+import random
+import math
+import time
+from numba import jit
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import make_column_transformer
-from one_hot_encoder import final_dataframe_single_encoder
+import functions
+import pickle
+import pandas as pd #this is to read in data sheets
+import numpy as np #this is for doing interesting things wtih numbers
+import sklearn #this is the machine learning module
+from sklearn import linear_model
+from sklearn.utils import shuffle
+import matplotlib.pyplot as pyplot #this allows you to make graphs
+import pickle #this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
+from matplotlib import style #this changes the style of your plot's grid
+import time
+import functions
+from numba import jit
 
-pd.options.display.width = 500
-pd.set_option('display.max_columns', 500)
-original_dataframe = pd.read_csv("data/student-mat.csv")
-print(original_dataframe)
+def main():
+    import cProfile
+    import pstats
+    with cProfile.Profile() as pr:
+        trainer()
 
-all_dataframes_after_drops = pd.DataFrame()
-for column in original_dataframe.columns:
-    unique_value_amount = len(original_dataframe[column].unique())
-    print('\nColumn:', column)
-    print('Unique Value Amount:', unique_value_amount)
-    if unique_value_amount > 2 and original_dataframe[column].dtypes == 'object':
-
-        ohe = OneHotEncoder(handle_unknown='ignore')
-
-        series_to_encode = ohe.fit_transform(original_dataframe[[column]]).toarray()
-        print('series_to_encode:\n', series_to_encode)
-
-        categories_getting_encoded = ohe.categories_
-
-        categories_getting_encoded = np.array(categories_getting_encoded).ravel()
-        print('columns getting encoded:\n', np.array(categories_getting_encoded).ravel())
-
-        encoded_series = pd.DataFrame(series_to_encode, columns= categories_getting_encoded)
-        print('encoded_series:\n', encoded_series)
-
-        column_to_drop = encoded_series.columns[0]
-        print('column_to_drop:\n', column_to_drop)
-
-        single_dataframe_after_drop = encoded_series.drop(columns=(str(column_to_drop)))
-        print('single_dataframe_after_drop:\n', single_dataframe_after_drop)
-        # make the drops here
-        new_single_dataframe_after_drop = single_dataframe_after_drop.add_prefix(column + '_')
-        print('single_dataframe_after_drop*renamed:\n', single_dataframe_after_drop)
+    stats = pstats.Stats(pr)
+    stats.sort_stats(pstats.SortKey.TIME)
+    stats.print_stats()
 
 
-        all_dataframes_after_drops = pd.concat([all_dataframes_after_drops, new_single_dataframe_after_drop], axis=1)
-        print('all_dataframes_after_drops\n', all_dataframes_after_drops)
+def trainer():
+    start_time = time.time()
 
-        original_dataframe.drop(column, axis=1, inplace=True)
-        print('original_dataframe:\n', original_dataframe)
+    dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
 
+    data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
+
+    target_variable = 'G3'
+
+    X = np.array(data.drop([target_variable], axis=1))
+    y = np.array(data[target_variable])  #
+
+    runtimes = 10000
+    functions.trainer_runtime_predictor(runtimes)
+    print('Run Trainer? Hit ENTER for yes')
+    user_input = input()
+    if user_input == '':
+        print('Running...')
+        pass
     else:
-        print('did not work on this column')
-        continue
+        quit()
 
-print('original_dataframe:\n', original_dataframe)
-print('All Dataframes After Drops:\n', all_dataframes_after_drops)
+    PickleBest, best, TotalAccuracy = 0, 0, 0
+    for _ in range(runtimes):
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-two_program_dataframe = pd.concat([final_dataframe_single_encoder, all_dataframes_after_drops], axis=1)
-print('two_program_dataframe:\n', two_program_dataframe)
+        linear = linear_model.LinearRegression()
 
-final_dataframe = pd.concat([original_dataframe, two_program_dataframe], axis=1)
-print('final dataframe:\n', final_dataframe)
+        linear.fit(X_train, y_train)
+        accuracy = linear.score(X_test, y_test)
+        # print('Accuracy:',accuracy)
+        TotalAccuracy += accuracy
+        if accuracy > best:
+            best = accuracy
+            with open('Data/studentmodel.pickle', 'wb') as f:
+                pickle.dump(linear, f)
+            filename = 'Data/finalized_model.sav'
+            pickle.dump(linear, open(filename, 'wb'))
 
-df2 = final_dataframe.columns.drop_duplicates()
-print(final_dataframe)
-print('duplicated\n', final_dataframe.duplicated())
+    PickledRegressionLine = pickle.load(open('Data/studentmodel.pickle', 'rb'))
+    PickleModelAccuracy = PickledRegressionLine.score(X_test, y_test)
+    print('Current Pickle Model Accuracy:', PickleModelAccuracy)
 
-final_dataframe = final_dataframe.loc[:, ~final_dataframe.columns.duplicated()].copy()
-print(final_dataframe)
+    TotalPickleModelAccuracy = 0
+    for _ in range(runtimes):
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-final_dataframe.drop('Unnamed: 33', axis=1, inplace=True)
+        pickle_in = open('Data/studentmodel.pickle', 'rb')
+        CurrentPickleModel = pickle.load(pickle_in)
+        PickleModelAccuracy = CurrentPickleModel.score(X_test, y_test)
+        TotalPickleModelAccuracy += PickleModelAccuracy
+        # print('Current Pickle Model Accuracy:', PickleModelAccuracy)
 
-final_dataframe = final_dataframe.sort_index(axis=1)
-print(final_dataframe)
+    print('\nCurrent Model Average Accuracy:', TotalAccuracy / runtimes)
+    print("Stored Pickle File's Average Accuracy:", TotalPickleModelAccuracy / runtimes)
 
+    print("best_data's Best Score:")
+    text_best_score = functions.text_file_reader('trainer_data.txt', 13, 31)
 
+    # write to the file
+    if float(text_best_score) < best:
+        text_data_list = ['\n\nBest Score:', str(best), '\nFeatures Used:', str(data.columns),
+                          '\nRunthroughs:', str(runtimes), '\nTime to Run:', str(time.time() - start_time), 'seconds',
+                          '\nDate Ran:', str(time.asctime())]
+        string_data_list = (', '.join(text_data_list))
+        functions.text_file_appender('trainer_data.txt', string_data_list)
 
+    elapsed_time = time.time() - start_time
+    functions.seconds_formatter(elapsed_time)
+    print('O', elapsed_time, 'seconds')
+
+    if elapsed_time > 30:
+        functions.email_or_text_alert('Trainer', 'Accuracy:' + str(best), '4052198820@mms.att.net')
+
+if __name__ == '__main__':
+    main()

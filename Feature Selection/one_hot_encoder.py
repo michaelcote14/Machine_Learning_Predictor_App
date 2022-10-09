@@ -4,8 +4,8 @@ from sklearn.compose import make_column_transformer
 
 pd.options.display.width = 500
 pd.set_option('display.max_columns', 500)
-original_dataframe = pd.read_csv("data/student-mat.csv")
-print('original_dataframe.head\n', original_dataframe.head)
+original_dataframe = pd.read_csv("../Data/student-mat.csv")
+print('original_dataframe.head:\n', original_dataframe.head())
 
 all_dataframes_after_drops_single = pd.DataFrame()
 for column in original_dataframe:
@@ -58,11 +58,6 @@ print('all_dataframes_after_drops:\n', all_dataframes_after_drops_single)
 final_dataframe_single_encoder = pd.concat([original_dataframe, all_dataframes_after_drops_single], axis=1)
 print('final dataframe:\n', final_dataframe_single_encoder)
 
-
-
-
-def two_program_concatenator(dataframe1, dataframe2):
-    two_program_dataframe = pd.concat([dataframe1, dataframe2])
 
 
 

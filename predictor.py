@@ -1,4 +1,4 @@
-import pandas_tutorital as pd
+import pandas as pd
 import sklearn
 from sklearn import linear_model
 import numpy as np
@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 import pickle
 import time
+
 
 start_time = time.time()
 
