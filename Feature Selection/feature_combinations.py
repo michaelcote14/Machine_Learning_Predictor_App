@@ -23,7 +23,7 @@ TargetVariable = "G3"
 
 best = 0
 combinations = 0
-runtimes = 1
+runtimes = 10
 iterator_runtime_predictor(runtimes)
 start_time = time.time()
 
@@ -34,7 +34,7 @@ start_time = time.time()
 
 data_length = len(dataframe.columns)
 print('data_length:', data_length, 'columns')
-combination_max = (1.915202908 ** len(dataframe.columns)) * runtimes
+combination_max = (1.915202908 ** len(dataframe.columns)) * runtimes # 23 is max amount of columns to reasonably take
 print('Combination Max:', combination_max)
 time_per_combination = 46.27005124092102/32767
 print('Time Per Combination:', time_per_combination)
