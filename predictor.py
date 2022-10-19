@@ -8,15 +8,12 @@ from sklearn.metrics import r2_score
 import pickle
 import time
 import one_hot_encoder_multiple_categories
+from cross_validation import crosser
 
 start_time = time.time()
 
-#ToDo fix input problems
-
 RunEvalution = 'Yes'
 dataframe = one_hot_encoder_multiple_categories.encoded_df
-print('---------------------dataframe--------------------', dataframe)
-
 data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
 
 target_variable = 'G3'
@@ -26,14 +23,18 @@ y = np.array(data[target_variable])
 PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
 PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
 
-X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
-    X, y, test_size=0.2
-)  # add in randomstate= a # to stop randomly changing your arrays
+# ToDo make all scores the cross value score, because the cross value is more accurate
 
+X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2, random_state=0)
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
 
+best_cross_amount, my_cross_val_score_best = crosser(MyLinearRegression, 10)
+print('\nbest cross amount:', best_cross_amount)
+print('my_cross_val_score_best:', my_cross_val_score_best, '\n')
 
-print('Feature'.center(20, '-'), '  [Current Coefficients Value]') #*The Coefficient below is the correlators '
+
+
+print('Feature'.center(20, '-'), '  [Current Coefficient Value]') #*The Coefficient below is the correlators '
     #'of your current data picks, while the corr method above is the correlators of the entire data set',
 
 for index, feature in enumerate(data):
@@ -43,34 +44,26 @@ for index, feature in enumerate(data):
       pass
 print('\n')
 
-CurrentModelsPredictions = MyLinearRegression.predict(
-X_test
-)
-
-
-
+# ToDo make this program use the scaler score
+CurrentModelsPredictions = MyLinearRegression.predict(X_test)
+print('Current Models Predictions:', CurrentModelsPredictions)
 try:
     PredictorInputDataHolder = [PredictorInputData]
-    CurrentModelsInputPrediction = MyLinearRegression.predict(
-        [PredictorInputData]
-    )
+    print('Predictor Input Data Holder:', PredictorInputDataHolder)
+    CurrentModelsInputPrediction = MyLinearRegression.predict([PredictorInputData])
+    print('Current Models Input Prediction:', CurrentModelsInputPrediction)
     CurrentModelAccuracy = MyLinearRegression.score(X_test, y_test)
-    print(
-        'Current Models Input Prediction:', target_variable, ':',
-        CurrentModelsInputPrediction,
-        '\nScore:',
-        CurrentModelAccuracy,
-        '\nMean Absolute Error:',
-        metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
-        '\nR2 Score:',
-        r2_score(y_test, CurrentModelsPredictions),
-        '\nRange:',
-        CurrentModelsInputPrediction
-        - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
-        '-',
-        CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
-        + CurrentModelsInputPrediction
-    )
+    print('Current Model Accuracy:', CurrentModelAccuracy)
+
+
+
+
+
+    print('Current Models Input Prediction for', target_variable, ':',CurrentModelsInputPrediction,
+    '\nScore:', CurrentModelAccuracy, '\nMean Absolute Error:',metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
+    '\nR2 Score:', r2_score(y_test, CurrentModelsPredictions), '\nRange:',CurrentModelsInputPrediction
+    - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction, '-', CurrentModelAccuracy * 0.01
+    * CurrentModelsInputPrediction + CurrentModelsInputPrediction)
 except ValueError as e:
     print('Error in current model predictor: '
           'Features input are not equal to features in data file')

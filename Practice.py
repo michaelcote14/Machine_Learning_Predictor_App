@@ -1,107 +1,167 @@
-import random
-import math
-import time
-from numba import jit
 import pandas as pd
-import numpy as np
-import functions
-import pickle
-import pandas as pd #this is to read in data sheets
-import numpy as np #this is for doing interesting things wtih numbers
-import sklearn #this is the machine learning module
+import sklearn
 from sklearn import linear_model
-from sklearn.utils import shuffle
-import matplotlib.pyplot as pyplot #this allows you to make graphs
-import pickle #this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
-from matplotlib import style #this changes the style of your plot's grid
+import numpy as np
+from sklearn import metrics
+import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
+import pickle
 import time
-import functions
-from numba import jit
+import one_hot_encoder_multiple_categories
+from cross_validation import crosser
 
-def main():
-    import cProfile
-    import pstats
-    with cProfile.Profile() as pr:
-        trainer()
+start_time = time.time()
 
-    stats = pstats.Stats(pr)
-    stats.sort_stats(pstats.SortKey.TIME)
-    stats.print_stats()
+RunEvalution = 'Yes'
+dataframe = one_hot_encoder_multiple_categories.encoded_df
+data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
+
+target_variable = 'G3'
+X = np.array(data.drop([target_variable], axis=1))
+y = np.array(data[target_variable])
+
+PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
+
+# ToDo make all scores the cross value score, because the cross value is more accurate
+
+X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2, random_state=0)
+MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+
+best_cross_amount, my_cross_val_score_best = crosser(10)
+print('\nbest cross amount:', best_cross_amount)
+print('my_cross_val_score_best:', my_cross_val_score_best, '\n')
 
 
-def trainer():
-    start_time = time.time()
 
-    dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
+print('Feature'.center(20, '-'), '  [Current Coefficient Value]') #*The Coefficient below is the correlators '
+    #'of your current data picks, while the corr method above is the correlators of the entire data set',
 
-    data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
+for index, feature in enumerate(data):
+    try:
+        print(feature.ljust(22), '[', MyLinearRegression.coef_[index], ']')
+    except:
+      pass
+print('\n')
 
-    target_variable = 'G3'
+# ToDo make this program use the scaler score
+CurrentModelsPredictions = MyLinearRegression.predict(X_test)
+print('Current Models Predictions:', CurrentModelsPredictions)
+try:
+    PredictorInputDataHolder = [PredictorInputData]
+    print('Predictor Input Data Holder:', PredictorInputDataHolder)
+    CurrentModelsInputPrediction = MyLinearRegression.predict([PredictorInputData])
+    print('Current Models Input Prediction:', CurrentModelsInputPrediction)
+    CurrentModelAccuracy = MyLinearRegression.score(X_test, y_test)
+    print('Current Model Accuracy:', CurrentModelAccuracy)
 
-    X = np.array(data.drop([target_variable], axis=1))
-    y = np.array(data[target_variable])  #
 
-    runtimes = 10000
-    functions.trainer_runtime_predictor(runtimes)
-    print('Run Trainer? Hit ENTER for yes')
-    user_input = input()
-    if user_input == '':
-        print('Running...')
-        pass
-    else:
-        quit()
 
-    PickleBest, best, TotalAccuracy = 0, 0, 0
-    for _ in range(runtimes):
-        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-        linear = linear_model.LinearRegression()
 
-        linear.fit(X_train, y_train)
-        accuracy = linear.score(X_test, y_test)
-        # print('Accuracy:',accuracy)
-        TotalAccuracy += accuracy
-        if accuracy > best:
-            best = accuracy
-            with open('Data/studentmodel.pickle', 'wb') as f:
-                pickle.dump(linear, f)
-            filename = 'Data/finalized_model.sav'
-            pickle.dump(linear, open(filename, 'wb'))
+    print('Current Models Input Prediction for', target_variable, ':',CurrentModelsInputPrediction,
+    '\nScore:', CurrentModelAccuracy, '\nMean Absolute Error:',metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
+    '\nR2 Score:', r2_score(y_test, CurrentModelsPredictions), '\nRange:',CurrentModelsInputPrediction
+    - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction, '-', CurrentModelAccuracy * 0.01
+    * CurrentModelsInputPrediction + CurrentModelsInputPrediction)
+except ValueError as e:
+    print('Error in current model predictor: '
+          'Features input are not equal to features in data file')
+    print(e)
+    pass
+except Exception as e:
+    print('Other error in current model predictor:')
+    print(e)
 
-    PickledRegressionLine = pickle.load(open('Data/studentmodel.pickle', 'rb'))
-    PickleModelAccuracy = PickledRegressionLine.score(X_test, y_test)
-    print('Current Pickle Model Accuracy:', PickleModelAccuracy)
 
-    TotalPickleModelAccuracy = 0
-    for _ in range(runtimes):
-        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)
 
-        pickle_in = open('Data/studentmodel.pickle', 'rb')
-        CurrentPickleModel = pickle.load(pickle_in)
-        PickleModelAccuracy = CurrentPickleModel.score(X_test, y_test)
-        TotalPickleModelAccuracy += PickleModelAccuracy
-        # print('Current Pickle Model Accuracy:', PickleModelAccuracy)
 
-    print('\nCurrent Model Average Accuracy:', TotalAccuracy / runtimes)
-    print("Stored Pickle File's Average Accuracy:", TotalPickleModelAccuracy / runtimes)
 
-    print("feature_combinations_data's Best Score:")
-    text_best_score = functions.text_file_reader('trainer_data.txt', 13, 31)
 
-    # write to the file
-    if float(text_best_score) < best:
-        text_data_list = ['\n\nBest Score:', str(best), '\nFeatures Used:', str(data.columns),
-                          '\nRunthroughs:', str(runtimes), '\nTime to Run:', str(time.time() - start_time), 'seconds',
-                          '\nDate Ran:', str(time.asctime())]
-        string_data_list = (', '.join(text_data_list))
-        functions.text_file_appender('trainer_data.txt', string_data_list)
 
-    elapsed_time = time.time() - start_time
-    functions.seconds_formatter(elapsed_time)
-    print('O', elapsed_time, 'seconds')
+#try:
+PickledRegressionLine = pickle.load(
+    open('Data/studentmodel.pickle', 'rb')
+)  # loads the prediction model into the variable 'linear'
+PickledRegressionLinePredictions = PickledRegressionLine.predict(X_test)
+PickleModelsInputPrediction = PickledRegressionLine.predict(
+    [PicklePredictorInputData]) # this is the line that is wrong
+PickleModelAccuracy = PickledRegressionLine.score(X_test, y_test)
+print(
+    '\nPickle Models Input Prediction:',
+    PickleModelsInputPrediction,
+    '\nScore:',
+    PickleModelAccuracy,
+    '\nMean Absolute Error:',
+    metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions),
+    '\nR2 Score:',
+    r2_score(y_test, PickledRegressionLinePredictions),
+    '\nRange:',
+    PickleModelsInputPrediction
+    - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
+    '-',
+    PickleModelsInputPrediction
+    + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction, '\n'
+)
+# except ValueError as e:
+#     print('\nError in pickle model predictor: '
+#           'Pickle input features are not equal to features in data file')
+#     print(e)
+#     pass
+# except Exception as e:
+#     print('Other error in pickle model predictor:')
+#     print(e)
 
-    if elapsed_time > 30:
-        functions.email_or_text_alert('Trainer', 'Accuracy:' + str(best), '4052198820@mms.att.net')
 
-if __name__ == '__main__':
-    main()
+# mean absolute error is best metric to use
+try:
+    print(':       Statistic       :    Current Model    :       Pickle Model       :')
+    nested_list = [['Input Prediction', CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Score', CurrentModelAccuracy, PickleModelAccuracy],
+                   ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
+                    metrics.mean_absolute_error(y_test, PickledRegressionLinePredictions)], ['R2 Score', r2_score(y_test, CurrentModelsPredictions),
+                    r2_score(y_test, PickledRegressionLinePredictions)], ['Range', CurrentModelsInputPrediction
+            - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
+            '-',
+            CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
+            + CurrentModelsInputPrediction,  PickleModelsInputPrediction
+            - PickleModelAccuracy * 0.01 * PickleModelsInputPrediction,
+            '-',
+            PickleModelsInputPrediction
+            + PickleModelAccuracy * 0.01 * PickleModelsInputPrediction]]
+    for item in nested_list:
+        print(':', item[0], ' '*(20-len(item[0])), ':', item[1],  ' '*(18-len(str(item[1]))),
+              ':', item[2],  ' '*(20-len(str(item[2]))))
+except Exception as e:
+    print('\nTable failed because of pickle or current model.')
+    print(e, '\n')
+
+
+
+
+
+Sum, Max = 0, 0
+if RunEvalution == 'Yes':
+    print('Predicted         [Actual Data]  Actual Score', 'Difference'.rjust(70))
+    for x in range(len(CurrentModelsPredictions)):
+        print(CurrentModelsPredictions[x],X_test[x], y_test[x],'Difference:'.center(80), #y test x is what is wrong
+        y_test[x] - CurrentModelsPredictions[x])
+        IndividualDifference = abs(y_test[x] - CurrentModelsPredictions[x])
+        Sum = Sum + IndividualDifference
+        if IndividualDifference > Max:
+            Max = IndividualDifference
+    print(
+        '\nCurrent Models Average Difference On All Data:',
+        Sum / len(CurrentModelsPredictions),
+    )
+    print(
+        'Current Models Max Difference On All Data:', Max)
+    print('Current Models Range', CurrentModelsInputPrediction
+        - CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction,
+        '-',
+        CurrentModelAccuracy * 0.01 * CurrentModelsInputPrediction
+        + CurrentModelsInputPrediction)
+else:
+    pass
+
+
+print('Runtime:', (time.time() - start_time), 'seconds')

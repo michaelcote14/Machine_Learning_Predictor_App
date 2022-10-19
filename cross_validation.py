@@ -16,7 +16,11 @@ y = np.array(data[target_variable])
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 my_linear_regression = linear_model.LinearRegression().fit(X_train, y_train)
 
-y_pred = my_linear_regression.predict(X_test)
-print('Mean Absolute Error:', mean_absolute_error(y_test, y_pred))
-for i in range(20):
-    print('Cross Val Score:', cross_val_score(my_linear_regression, X, y, cv=i+2).mean())
+def crosser(regression_line_to_scale, splits_to_make=20):
+    my_cross_val_score_best = 0
+    for cross_count in range(splits_to_make):
+        my_cross_val_score = cross_val_score(regression_line_to_scale, X, y, cv=cross_count+2).mean()
+        if my_cross_val_score > my_cross_val_score_best:
+            best_cross_count = cross_count
+            my_cross_val_score_best = my_cross_val_score
+    return best_cross_count, my_cross_val_score_best
