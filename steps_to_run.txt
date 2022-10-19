@@ -1,0 +1,8 @@
+1. Encode all categorical data using one_hot_encoder and one_hot_encoder_multiple
+2. Scale data
+3. Find which features have the abs(highest value) using correlator
+4. Plug these into feature_combinations to get best features
+5. Plug these into main_trainer to train your pickle model
+6. Run your predictions through Predictor
+# When should I scale data?
+# When should I visualize data?

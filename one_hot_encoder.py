@@ -4,7 +4,7 @@ from sklearn.compose import make_column_transformer
 
 pd.options.display.width = 500
 pd.set_option('display.max_columns', 500)
-original_dataframe = pd.read_csv("../Data/student-mat.csv")
+original_dataframe = pd.read_csv("Data/student-mat.csv")
 print('original_dataframe.head:\n', original_dataframe.head())
 
 all_dataframes_after_drops_single = pd.DataFrame()

@@ -1,20 +1,12 @@
+
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 
 from one_hot_encoder import all_dataframes_after_drops_single
-
 pd.options.display.width = 500
 pd.set_option('display.max_columns', 500)
-original_dataframe = pd.read_csv("../Data/student-mat.csv")
-
-# what we need: keep every category except those encoded
-# step one: drop the columns used on the multiple category encoder
-# step two: drop the columns used on the single category encoder-done
-# step three: combine the encoded dataframe with the dropped dataframe on each program
-
-
-
+original_dataframe = pd.read_csv("Data/student-mat.csv")
 
 all_dataframes_after_drops = pd.DataFrame()
 for column in original_dataframe.columns:
@@ -70,18 +62,19 @@ end_dataframe = pd.concat([all_dataframes_after_drops, original_dataframe], axis
 print('end:\n',end_dataframe)
 
 
-last_dataframe = pd.concat([end_dataframe, all_dataframes_after_drops_single], axis=1)
-print('last_dataframe1:\n', last_dataframe)
+encoded_df = pd.concat([end_dataframe, all_dataframes_after_drops_single], axis=1)
+print('last_dataframe1:\n', encoded_df)
 
-last_dataframe.sort_index(axis=1, inplace=True)
-print('last_dataframe2:\n', last_dataframe)
+encoded_df.sort_index(axis=1, inplace=True)
+print('last_dataframe2:\n', encoded_df)
 
-for column in last_dataframe.columns:
+for column in encoded_df.columns:
     if column.startswith('Unnamed'):
-        last_dataframe.drop([column], axis=1, inplace=True)
-print(last_dataframe)
+        encoded_df.drop([column], axis=1, inplace=True)
+print('last:\n', encoded_df)
 
-
+# if __name__ == '__main__':
+#     main()
 
 
 

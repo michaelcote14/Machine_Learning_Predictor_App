@@ -7,29 +7,27 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 import pickle
 import time
-
+import one_hot_encoder_multiple_categories
 
 start_time = time.time()
 
 #ToDo fix input problems
 
 RunEvalution = 'Yes'
+dataframe = one_hot_encoder_multiple_categories.encoded_df
+print('---------------------dataframe--------------------', dataframe)
 
-dataframe = pd.read_csv('Data/student-mat.csv', sep=',')
-data = dataframe[['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2', 'G3']]
-print('All Correlations:\n', dataframe.corr(numeric_only='yes')['G3'], '\n')  # showsthecorrelationsofalldata
+data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
 
 target_variable = 'G3'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
-PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
-PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4]
+PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
 
-##this puts the data into 4 different arrays: x train, x test, y train, and
-# y test, the random_state parameter chooses how to randomly split the data. not specifying changes it each time.
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
-    X, y, test_size=0.1
+    X, y, test_size=0.2
 )  # add in randomstate= a # to stop randomly changing your arrays
 
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
@@ -122,7 +120,7 @@ print(
 #     print(e)
 
 
-#table
+# mean absolute error is best metric to use
 try:
     print(':       Statistic       :    Current Model    :       Pickle Model       :')
     nested_list = [['Input Prediction', CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Score', CurrentModelAccuracy, PickleModelAccuracy],

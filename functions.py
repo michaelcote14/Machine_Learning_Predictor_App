@@ -11,9 +11,7 @@ def feature_runtime_predictor(runtimes):
     minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
     print('Runtime Predictor:', days, "days", hours, "hours", minutes, "minutes")
 
-def trainer_runtime_predictor(runtimes):
-    predicted_time = (1.0000000501**runtimes)
-
+def trainer_runtime_predictor(predicted_time):
     seconds_in_day = 60 * 60 * 24
     seconds_in_hour = 60 * 60
     seconds_in_minute = 60
@@ -22,7 +20,7 @@ def trainer_runtime_predictor(runtimes):
     days = seconds // seconds_in_day
     hours = (seconds - (days * seconds_in_day)) // seconds_in_hour
     minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
-    print('Runtime Predictor:', days, "days", hours, "hours", minutes, "minutes")
+    print('Time:', days, "days", hours, "hours", minutes, "minutes")
 
 def seconds_formatter(elapsed_time):
 

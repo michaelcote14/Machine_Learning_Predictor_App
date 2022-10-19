@@ -1,4 +1,4 @@
-Best Score:, 0.9826169794040865,
+Best Score:, 0.00026169794040865,
 Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
        'G3'],
       dtype='object'), 
@@ -6,50 +6,116 @@ Runthroughs:, 1000000,
 Time to Run:, 954.5292673110962, seconds, 
 Date Ran:, Fri Sep 23 00:42:14 2022
 
-Best Score:, 0.9868552499299557, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
-Runthroughs:, 10000000, 
-Time to Run:, 9337.292670965195, seconds, 
-Date Ran:, Fri Sep 23 03:56:35 2022
 
-Best Score:, 0.9831511695210426, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
+
+Best Score:, 0.32451403183109195, 
+Pickle Model Average Accuracy:, 0.06445569505375719, 
+Features Used:, ['Fjob_other', 'Mjob_health', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.49769902229309, seconds, 
+Date Completed:, Mon Oct 17 19:58:23 2022
+
+Best Score:, 0.36852147992605866, 
+Pickle Model Average Accuracy:, 0.06536336886542522, 
+Features Used:, ['Fjob_other', 'Mjob_health', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100000, 
+Time to Run:, 104.33227801322937, seconds, 
+Date Completed:, Mon Oct 17 20:00:26 2022
+
+Best Score:, 0.33526124171857186, 
+Pickle Model Average Accuracy:, 0.06375390886913194, 
+Features Used:, ['Fjob_other', 'Mjob_health', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100000, 
+Time to Run:, 104.69624042510986, seconds, 
+Date Completed:, Mon Oct 17 20:02:31 2022
+
+Best Score:, 0.40062225532719997, 
+Pickle Model Average Accuracy:, 0.0643801831961016, 
+Features Used:, ['Fjob_other', 'Mjob_health', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
 Runthroughs:, 1000000, 
-Time to Run:, 949.1640951633453, seconds, 
-Date Ran:, Fri Sep 23 10:32:09 2022
+Time to Run:, 1011.9117228984833, seconds, 
+Date Completed:, Mon Oct 17 20:20:18 2022
 
-Best Score:, 0.9830801585230894, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
-Runthroughs:, 10000000, 
-Time to Run:, 9912.73656463623, seconds, 
-Date Ran:, Fri Sep 23 13:24:19 2022
+Best Score:, 0.427041402436348, 
+Pickle Model Average Accuracy:, 0.06433233598278795, 
+Features Used:, ['Fjob_other', 'Mjob_health', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 2900000, 
+Time to Run:, 2972.694792985916, seconds, 
+Date Completed:, Mon Oct 17 21:11:02 2022
 
-Best Score:, 0.9846122469919634, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
-Runthroughs:, 10000000, 
-Time to Run:, 9962.543380737305, seconds, 
-Date Ran:, Sat Sep 24 06:59:00 2022
+Best Score:, 0.9762563349798479, 
+Pickle Model Average Accuracy:, 0.8238610206971537, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100000, 
+Time to Run:, 101.6654589176178, seconds, 
+Date Completed:, Mon Oct 17 21:21:43 2022
 
-Best Score:, 0.9853597208773717, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
-Runthroughs:, 10000000, 
-Time to Run:, 9440.18752026558, seconds, 
-Date Ran:, Sun Sep 25 19:06:23 2022
+Best Score:, 0.9791216945585659, 
+Pickle Model Average Accuracy:, 0.8237499482686335, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 1000000, 
+Time to Run:, 1026.2815771102905, seconds, 
+Date Completed:, Mon Oct 17 22:18:36 2022
 
-Best Score:, 0.9836752346213102, 
-Features Used:, Index(['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2',
-       'G3'],
-      dtype='object'), 
-Runthroughs:, 10000000, 
-Time to Run:, 9456.266201972961, seconds, 
-Date Ran:, Sun Sep 25 22:36:02 2022
+Best Score:, 0.959335533817077, 
+Pickle Model Average Accuracy:, 0.8244693744948121, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 1000000, 
+Time to Run:, 1004.3684189319611, seconds, 
+Date Completed:, Mon Oct 17 22:38:03 2022
+
+Best Score:, 0.9410655793174572, 
+Pickle Model Average Accuracy:, 0.8245010567755784, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.417381763458252, seconds, 
+Date Completed:, Mon Oct 17 22:58:33 2022
+
+Best Score:, 0.9464678638356359, 
+Pickle Model Average Accuracy:, 0.8247956582715525, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.889122009277344, seconds, 
+Date Completed:, Mon Oct 17 23:01:30 2022
+
+Best Score:, 0.9367394261240712, 
+Pickle Model Average Accuracy:, 0.8246822796966659, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.905029058456421, seconds, 
+Date Completed:, Mon Oct 17 23:01:56 2022
+
+Best Score:, 0.9410841886419968, 
+Pickle Model Average Accuracy:, 0.825760765131564, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.090460300445557, seconds, 
+Date Completed:, Mon Oct 17 23:03:55 2022
+
+Best Score:, 0.9503304186556644, 
+Pickle Model Average Accuracy:, 0.8252873377768678, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.27815580368042, seconds, 
+Date Completed:, Mon Oct 17 23:30:08 2022
+
+Best Score:, 0.9461539276305189, 
+Pickle Model Average Accuracy:, 0.8255975157977582, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.31056833267212, seconds, 
+Date Completed:, Mon Oct 17 23:38:56 2022
+
+Best Score:, 0.949349438734609, 
+Pickle Model Average Accuracy:, 0.8244410039324295, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.2821786403656, seconds, 
+Date Completed:, Mon Oct 17 23:39:47 2022
+
+Best Score:, 0.9583967994031994, 
+Pickle Model Average Accuracy:, 0.8253375615396938, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100000, 
+Time to Run:, 99.58309054374695, seconds, 
+Date Completed:, Mon Oct 17 23:44:01 2022

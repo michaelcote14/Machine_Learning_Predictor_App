@@ -1,0 +1,13 @@
+Best Score:, 0.0807738129898034,
+Best Features:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 200, 
+Time to Run:, 8184.631422758102, seconds, 
+Date Ran:, Thu Sep 22 17:37:22 2022
+
+
+
+Best Score:, 0.985955942128315, 
+Best Features:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 5, 
+Time to Run:, 29529.910895347595, seconds, 
+Date Ran:, Mon Oct 17 10:41:18 2022

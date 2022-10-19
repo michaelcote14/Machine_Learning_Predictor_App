@@ -85,7 +85,7 @@ def trainer():
     print('\nCurrent Model Average Accuracy:', TotalAccuracy / runtimes)
     print("Stored Pickle File's Average Accuracy:", TotalPickleModelAccuracy / runtimes)
 
-    print("best_data's Best Score:")
+    print("feature_combinations_data's Best Score:")
     text_best_score = functions.text_file_reader('trainer_data.txt', 13, 31)
 
     # write to the file

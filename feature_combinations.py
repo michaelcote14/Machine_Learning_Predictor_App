@@ -1,16 +1,20 @@
+
 import pandas as pd  # this is to read in data sheets
 import numpy as np  # this is for doing interesting things with numbers
 import sklearn  # this is the machine learning module
 from sklearn import linear_model
 import itertools
-from runtime_calculator import iterator_runtime_predictor
 import functions
 import time
-from one_hot_encoder_multiple_categories import last_dataframe
+import math
+from one_hot_encoder_multiple_categories import encoded_df
 from functions import seconds_formatter
+from correlator import top_correlators
 
-dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/student-mat(Numerical Only).csv', sep=',')
-dataframe = last_dataframe
+
+dataframe = pd.read_csv('/Data/student-mat(Numerical Only).csv', sep=',')
+# dataframe = last_dataframe
+dataframe = encoded_df[top_correlators]
 print("All dataframe Columns:", dataframe.columns)
 AllDataColumns = dataframe.columns
 AlldataframesColumnsList = AllDataColumns.tolist()
@@ -23,24 +27,18 @@ TargetVariable = "G3"
 
 best = 0
 combinations = 0
-runtimes = 10
-iterator_runtime_predictor(runtimes)
+runtimes = 5 # default should be 5
 start_time = time.time()
 
-# ToDo make predictor dependent on how many columns are in a dataframe
-# formula: (regular time^number of columns) *runtimes
-# ToDo change name for best_data to something more descriptive
-# ToDo make progress tracker by tracking loops compared to the length of the dataframe
+print('factorial:', (math.factorial(len(dataframe.columns)-3)+7)*runtimes)
+print('data_length:', len(dataframe.columns)-1, 'columns')
 
-data_length = len(dataframe.columns)
-print('data_length:', data_length, 'columns')
-combination_max = (1.915202908 ** len(dataframe.columns)) * runtimes # 23 is max amount of columns to reasonably take
+combination_max = (((2**(len(dataframe.columns)-1))*runtimes)-runtimes) # 22 is max amount of columns to reasonably take
 print('Combination Max:', combination_max)
-time_per_combination = 46.27005124092102/32767
-print('Time Per Combination:', time_per_combination)
-runtime_new_predictor = time_per_combination * combination_max
-print('runtime new predictor:', runtime_new_predictor)
-seconds_formatter(runtime_new_predictor)
+time_per_1combination = 0.0013378042273516
+runtime_predictor = time_per_1combination * combination_max
+print('Time Until Completion:', runtime_predictor, 'seconds')
+seconds_formatter(runtime_predictor)
 
 print('\nRun feature iterator? Hit ENTER for yes')
 user_input = input()
@@ -57,7 +55,8 @@ for loop in PickeddataframeColumnsList:
         print("item:", list(item))
         for i in range(runtimes):
             combinations = combinations + 1
-            print('Loop Combinations:', combinations)
+            print('combinations:', combinations)
+            print('Percent Complete:', str((combinations/combination_max)*100)[0:4], '%')
 
             newdata = list(item)
 
@@ -65,7 +64,7 @@ for loop in PickeddataframeColumnsList:
             X = np.array(dataframe[newdata])
             y = np.array(dataframe[TargetVariable])
 
-            X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.1)  # add in randomstate= a # to stop randomly changing your arrays
+            X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
 
             MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
             print('Score:', MyLinearRegression.score(X_test, y_test))
@@ -90,24 +89,29 @@ for loop in PickeddataframeColumnsList:
 
 
 print("Total Combinations:", combinations)
+print('Predicted Combinations:', combination_max)
 print('Best Score:', best)
 print('Best Features:', best_features)
 
-print("best_data's Best Score:")
-text_best_score = functions.text_file_reader('best_data', 13, 31)
+print("feature_combinations_data's Best Score:")
+text_best_score = functions.text_file_reader('feature_combinations_data', 13, 31)
 
 
 # write to the file
 if float(text_best_score) < best:
     text_data_list = ['\n\nBest Score:', str(best), '\nBest Features:',  str(best_features),
     '\nRunthroughs:', str(runtimes), '\nTime to Run:', str(time.time()-start_time), 'seconds',
-    '\nDate Ran:', str(time.asctime())]
+    '\nDate Completed:', str(time.asctime())]
     string_data_list = (', '.join(text_data_list))
-    functions.text_file_appender('best_data', string_data_list )
+    functions.text_file_appender('feature_combinations_data', string_data_list)
 
 elapsed_time = time.time() - start_time
 
 if elapsed_time > 3:
     functions.email_or_text_alert('Trainer is done',
     'elapsed time:' + str(elapsed_time) + ' seconds', '4052198820@mms.att.net')
-    print('elapsed_time:', elapsed_time)
+    print('elapsed_time:', elapsed_time, 'seconds')
+    print('predicted_time:', runtime_predictor, 'seconds')
+
+# if __name__ == '__main__':
+#     main()

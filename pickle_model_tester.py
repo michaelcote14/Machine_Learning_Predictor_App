@@ -17,10 +17,10 @@ def main():
     target_variable = 'G3'
 
     X = np.array(data.drop([target_variable], axis=1))
-    y = np.array(data[target_variable])
+    y = np.array(data[target_variable]) #
 
 
-    runtimes = 10000
+    runtimes = 100000
     predicted_time = 0.0011102628707885742 * runtimes
     print('Predicted Time:', predicted_time, 'seconds')
     functions.trainer_runtime_predictor(predicted_time)
@@ -48,10 +48,11 @@ def main():
         TotalAccuracy += accuracy
         if accuracy > best:
             best = accuracy
-            with open('Data/studentmodel.pickle', 'wb') as f:
-                pickle.dump(linear, f)
+
             filename = 'Data/finalized_model.sav'
             pickle.dump(linear, open(filename, 'wb'))
+
+
         combinations_linear_model = combinations_linear_model + 1
         print('Percent Complete:', str(((combinations_linear_model/runtimes)*100)/2)[0:5], '%')
 
@@ -74,6 +75,12 @@ def main():
     print('v--Text Best Score--v')
     text_best_score = functions.text_file_reader('trainer_data.txt', 13, 31)
 
+    # add to pickle if current model is better than previous pickle model
+    print('best', best)
+
+
+
+
     # write to the file
     if float(text_best_score) < best:
         text_data_list = ['\n\nBest Score:', str(best),'\nPickle Model Average Accuracy:', str(TotalPickleModelAccuracy/runtimes),
@@ -88,11 +95,24 @@ def main():
     print('Actual Time:', elapsed_time, 'seconds')
     functions.seconds_formatter(elapsed_time), print('^--Actual Time--^')
 
-    print('\nCurrent Model Average Accuracy:', TotalAccuracy/runtimes)
-    print("Stored Pickle File's Average Accuracy:", TotalPickleModelAccuracy/runtimes)
+    current_model_average_accuracy = TotalAccuracy/runtimes
+    print('\nCurrent Model Average Accuracy:', current_model_average_accuracy)
+    pickle_model_average_accuracy = TotalPickleModelAccuracy / runtimes
+    print("Stored Pickle File's Average Accuracy:", pickle_model_average_accuracy)
+
+
+    if current_model_average_accuracy > pickle_model_average_accuracy:
+        filename = 'Data/finalized_model.sav'
+        pickle.dump(linear, open(filename, 'wb'))
+        print('transferred to pickle model')
 
     if elapsed_time > 30:
         functions.email_or_text_alert('Trainer', 'Accuracy:' + str(best),  '4052198820@mms.att.net')
 
 if __name__ == '__main__':
     main()
+
+# ToDo fix the pickle model saving method. Currently the model changes too often
+# ToDo problem: if I change the data now, the model will not save unless the new data is better
+# ToDo possible solution: run current stored pickle model through the test data the same amount of times as
+# the current pickle model(or current model)
