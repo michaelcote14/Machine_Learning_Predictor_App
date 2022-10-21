@@ -4,7 +4,7 @@ from sklearn import linear_model
 import pickle #this saves your model for the machine and keeps you from having to retrain plus it saves your most accurate model
 import time
 import functions
-import one_hot_encoder_multiple_categories
+import multiple_hot_encoder
 
 
 def main():

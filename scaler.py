@@ -2,14 +2,14 @@ import pandas as pd
 from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler
 import sklearn
-import one_hot_encoder_multiple_categories
+import multiple_hot_encoder
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import time
 
 start_time = time.time()
 
-dataframe = one_hot_encoder_multiple_categories.encoded_df
+dataframe = multiple_hot_encoder.multiple_encoder()
 target_variable = 'G3'
 print('data:\n', dataframe)
 features = dataframe.drop([target_variable], axis=1)
