@@ -1,4 +1,4 @@
-def feature_combiner():
+def feature_combiner(columns_to_combine=0):
     import numpy as np  # this is for doing interesting things with numbers
     import sklearn  # this is the machine learning module
     from sklearn import linear_model
@@ -8,11 +8,10 @@ def feature_combiner():
     import math
     import multiple_hot_encoder
     from functions import seconds_formatter
-    from correlations import correlator
-    from permutation_feature_importance import feature_importer
 
     encoded_df = multiple_hot_encoder.multiple_encoder()
-    most_important_features = feature_importer()
+    most_important_features = ['G3', 'G2', 'absences', 'age', 'famrel', 'studytime', 'health', 'reason_home', 'G1', 'activities_yes', 'traveltime', 'Medu', 'Pstatus_T',
+    'failures', 'Mjob_health', 'famsup_yes', 'schoolsup_yes', 'internet_yes', 'sex_M', 'higher_yes', 'Mjob_teacher', 'guardian_other', 'Fjob_teacher', 'guardian_mother']
     dataframe = encoded_df[most_important_features]
     print("All dataframe Columns:", dataframe.columns)
     AllDataColumns = dataframe.columns

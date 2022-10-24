@@ -5,9 +5,9 @@ def multiple_encoder():
     import pandas as pd
     import numpy as np
     from sklearn.preprocessing import OneHotEncoder
-    import single_one_hot_encoder
+    import single_hot_encoder
 
-    single_encoded_df = single_one_hot_encoder.single_encoder()
+    single_encoded_df = single_hot_encoder.single_encoder()
     pd.options.display.width = 500
     pd.set_option('display.max_columns', 500)
     original_dataframe = pd.read_csv("Data/student-mat.csv")
@@ -66,9 +66,9 @@ def multiple_encoder_printer():
     import pandas as pd
     import numpy as np
     from sklearn.preprocessing import OneHotEncoder
-    import single_one_hot_encoder
+    import single_hot_encoder
 
-    single_encoded_df = single_one_hot_encoder.single_encoder()
+    single_encoded_df = single_hot_encoder.single_encoder()
     pd.options.display.width = 500
     pd.set_option('display.max_columns', 500)
     original_dataframe = pd.read_csv("Data/student-mat.csv")
