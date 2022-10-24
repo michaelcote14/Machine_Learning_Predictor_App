@@ -11,3 +11,14 @@ Best Features:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid
 Runthroughs:, 5, 
 Time to Run:, 29529.910895347595, seconds, 
 Date Ran:, Mon Oct 17 10:41:18 2022
+
+Best Score:, 0.9644822610460908, 
+Best Features:,['G2', 'age', 'school_MS', 'famsup_yes', 'failures', 'health', 'Fjob_other', 'paid_yes', 'higher_yes', 'Medu', 'G1', 'studytime', 'Mjob_services', 'Mjob_other', 'Mjob_teacher', 'Fjob_teacher'],
+Runthroughs:, 1,
+Time to Run:, 12171.678073883057, seconds, 
+Date Completed:, Mon Oct 24 05:04:05 2022
+
+# techwith tim current: .8206, pickle: .8278
+# bottom current: .806 pickle: .8255
+# middle current: .814 pickle: .824
+# top current: .814 pickle: .8221

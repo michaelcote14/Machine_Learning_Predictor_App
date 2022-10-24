@@ -1,9 +1,10 @@
 def correlator():
-    from scaler import main #problem line below has something to do with these two lines
+    from scaler import main
     dataframe = main()
     print('dataframe:\n', dataframe)
 
     correlation_dataframe = dataframe.corr()
+    print('correlation dataframe:', correlation_dataframe)
     target_feature = 'G3'
     target_index = correlation_dataframe.columns.get_loc(target_feature)
     correlation_dictionary = {}

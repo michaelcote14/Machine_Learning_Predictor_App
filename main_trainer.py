@@ -9,10 +9,10 @@ import multiple_hot_encoder
 
 def main():
 
-    dataframe = one_hot_encoder_multiple_categories.encoded_df
+    dataframe = multiple_hot_encoder.multiple_encoder()
     print('---------------------dataframe--------------------', dataframe)
 
-    data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
+    data = dataframe[['G3', 'Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2']]
 
     target_variable = 'G3'
 
@@ -62,7 +62,7 @@ def main():
 
     TotalPickleModelAccuracy = 0
     for _ in range(runtimes):
-        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y,test_size=0.2)
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 
         pickle_in = open('Data/studentmodel.pickle', 'rb')
         CurrentPickleModel = pickle.load(pickle_in)

@@ -119,3 +119,185 @@ Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid
 Runthroughs:, 100000, 
 Time to Run:, 99.58309054374695, seconds, 
 Date Completed:, Mon Oct 17 23:44:01 2022
+
+Best Score:, 0.8966317275217368, 
+Pickle Model Average Accuracy:, 0.8221769756725452, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10, 
+Time to Run:, 0.031580209732055664, seconds, 
+Date Completed:, Sun Oct 23 14:05:58 2022
+
+Best Score:, 0.886515114678376, 
+Pickle Model Average Accuracy:, 0.8383147158826765, 
+Features Used:, ['G2', 'absences', 'reason_home', 'schoolsup_yes', 'failures', 'guardian_mother', 'guardian_other', 'Mjob_other', 'Mjob_teacher', 'sex_M', 'traveltime', 'age', 'higher_yes'], 
+Runthroughs:, 10, 
+Time to Run:, 0.01562976837158203, seconds, 
+Date Completed:, Sun Oct 23 14:06:25 2022
+
+Best Score:, 0.9065008277719221, 
+Pickle Model Average Accuracy:, 0.8287406074946725, 
+Features Used:, ['G2', 'absences', 'reason_home', 'schoolsup_yes', 'failures', 'guardian_mother', 'guardian_other', 'Mjob_other', 'Mjob_teacher', 'sex_M', 'traveltime', 'age', 'higher_yes'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10955619812011719, seconds, 
+Date Completed:, Sun Oct 23 14:06:44 2022
+
+Best Score:, 0.9190547328448853, 
+Pickle Model Average Accuracy:, 0.8341922480751458, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10976696014404297, seconds, 
+Date Completed:, Sun Oct 23 14:07:02 2022
+
+Best Score:, 0.9183088641944079, 
+Pickle Model Average Accuracy:, 0.823958714720992, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 100, 
+Time to Run:, 0.1199338436126709, seconds, 
+Date Completed:, Sun Oct 23 14:11:15 2022
+
+Best Score:, 0.9155359939625212, 
+Pickle Model Average Accuracy:, 0.8380054776390476, 
+Features Used:, ['G2', 'absences', 'age', 'activities_yes', 'reason_home', 'freetime', 'studytime', 'G1', 'paid_yes', 'famrel'], 
+Runthroughs:, 100, 
+Time to Run:, 0.11327576637268066, seconds, 
+Date Completed:, Sun Oct 23 14:12:00 2022
+
+Best Score:, 0.9172957017608823, 
+Pickle Model Average Accuracy:, 0.8349844387915196, 
+Features Used:, ['G2', 'absences', 'age', 'activities_yes', 'reason_home', 'freetime', 'studytime', 'G1', 'paid_yes', 'famrel'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10957527160644531, seconds, 
+Date Completed:, Sun Oct 23 14:12:08 2022
+
+Best Score:, 0.9159423425486027, 
+Pickle Model Average Accuracy:, 0.8324612348945828, 
+Features Used:, ['G2', 'absences', 'age', 'activities_yes', 'reason_home', 'freetime', 'studytime', 'G1', 'paid_yes', 'famrel'], 
+Runthroughs:, 100, 
+Time to Run:, 0.11002993583679199, seconds, 
+Date Completed:, Mon Oct 24 01:14:06 2022
+
+Best Score:, 0.8910864371661508, 
+Pickle Model Average Accuracy:, 0.8206699153269446, 
+Features Used:, ['G2', 'absences', 'age', 'studytime', 'Mjob_teacher', 'nursery_yes'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10975790023803711, seconds, 
+Date Completed:, Mon Oct 24 01:15:06 2022
+
+Best Score:, 0.9039726249755693, 
+Pickle Model Average Accuracy:, 0.8182796089506462, 
+Features Used:, ['G2', 'absences', 'age', 'studytime', 'Mjob_teacher', 'nursery_yes'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10960817337036133, seconds, 
+Date Completed:, Mon Oct 24 01:15:14 2022
+
+Best Score:, 0.9185377448559637, 
+Pickle Model Average Accuracy:, 0.8334803317821183, 
+Features Used:, ['G2', 'absences', 'studytime', 'famrel', 'reason_home', 'G1', 'Fjob_other', 'school_MS', 'Mjob_teacher', 'Fedu', 'freetime', 'traveltime', 'guardian_other', 'nursery_yes', 'health', 'guardian_mother', 'Mjob_services', 'reason_reputation', 'Pstatus_T', 'higher_yes', 'reason_other', 'Mjob_health', 'Fjob_health'], 
+Runthroughs:, 100, 
+Time to Run:, 0.1258392333984375, seconds, 
+Date Completed:, Mon Oct 24 01:33:40 2022
+
+Best Score:, 0.9093746001413366, 
+Pickle Model Average Accuracy:, 0.823516206890876, 
+Features Used:, ['G2', 'absences', 'studytime', 'famrel', 'reason_home', 'G1', 'Fjob_other', 'school_MS', 'Mjob_teacher', 'Fedu', 'freetime', 'traveltime', 'guardian_other', 'nursery_yes', 'health', 'guardian_mother', 'Mjob_services', 'reason_reputation', 'Pstatus_T', 'higher_yes', 'reason_other', 'Mjob_health', 'Fjob_health'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10962557792663574, seconds, 
+Date Completed:, Mon Oct 24 01:33:51 2022
+
+Best Score:, 0.8956339293420905, 
+Pickle Model Average Accuracy:, 0.8250074101488825, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 100, 
+Time to Run:, 0.10992693901062012, seconds, 
+Date Completed:, Mon Oct 24 13:55:16 2022
+
+Best Score:, 0.947082025561213, 
+Pickle Model Average Accuracy:, 0.82228381441896, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.910703420639038, seconds, 
+Date Completed:, Mon Oct 24 13:55:55 2022
+
+Best Score:, 0.9412870128059997, 
+Pickle Model Average Accuracy:, 0.8244702614896574, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 11.132811069488525, seconds, 
+Date Completed:, Mon Oct 24 13:57:07 2022
+
+Best Score:, 0.9447705551004492, 
+Pickle Model Average Accuracy:, 0.825556360472483, 
+Features Used:, ['G2', 'age', 'school_MS', 'famsup_yes', 'failures', 'health', 'Fjob_other', 'paid_yes', 'higher_yes', 'Medu', 'G1', 'studytime', 'Mjob_services', 'Mjob_other', 'Mjob_teacher', 'Fjob_teacher'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.953536748886108, seconds, 
+Date Completed:, Mon Oct 24 13:58:38 2022
+
+Best Score:, 0.9344034890181239, 
+Pickle Model Average Accuracy:, 0.8251360838083832, 
+Features Used:, ['G2', 'age', 'school_MS', 'famsup_yes', 'failures', 'health', 'Fjob_other', 'paid_yes', 'higher_yes', 'Medu', 'G1', 'studytime', 'Mjob_services', 'Mjob_other', 'Mjob_teacher', 'Fjob_teacher'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.92157506942749, seconds, 
+Date Completed:, Mon Oct 24 14:00:26 2022
+
+Best Score:, 0.9421058184860723, 
+Pickle Model Average Accuracy:, 0.8240597696658227, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.113362789154053, seconds, 
+Date Completed:, Mon Oct 24 14:01:06 2022
+
+Best Score:, 0.9458774463379446, 
+Pickle Model Average Accuracy:, 0.8223779045155628, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.8511381149292, seconds, 
+Date Completed:, Mon Oct 24 14:01:46 2022
+
+Best Score:, 0.9428214029744586, 
+Pickle Model Average Accuracy:, 0.8223815415073595, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.750824928283691, seconds, 
+Date Completed:, Mon Oct 24 14:02:53 2022
+
+Best Score:, 0.937999553295552, 
+Pickle Model Average Accuracy:, 0.8251132710376418, 
+Features Used:, ['G2', 'age', 'school_MS', 'famsup_yes', 'failures', 'health', 'Fjob_other', 'paid_yes', 'higher_yes', 'Medu', 'G1', 'studytime', 'Mjob_services', 'Mjob_other', 'Mjob_teacher', 'Fjob_teacher'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.853002071380615, seconds, 
+Date Completed:, Mon Oct 24 14:03:27 2022
+
+Best Score:, 0.9385194513100702, 
+Pickle Model Average Accuracy:, 0.8278134640090906, 
+Features Used:, ['G2', 'G1', 'studytime', 'failures', 'absences'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.613348484039307, seconds, 
+Date Completed:, Mon Oct 24 14:15:56 2022
+
+Best Score:, 0.9445391227578881, 
+Pickle Model Average Accuracy:, 0.8255791505538002, 
+Features Used:, ['G2', 'age', 'school_MS', 'famsup_yes', 'failures', 'health', 'Fjob_other', 'paid_yes', 'higher_yes', 'Medu', 'G1', 'studytime', 'Mjob_services', 'Mjob_other', 'Mjob_teacher', 'Fjob_teacher'], 
+Runthroughs:, 10000, 
+Time to Run:, 11.412609815597534, seconds, 
+Date Completed:, Mon Oct 24 14:19:03 2022
+
+Best Score:, 0.9414641148779195, 
+Pickle Model Average Accuracy:, 0.8244516706025564, 
+Features Used:, ['G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.063288450241089, seconds, 
+Date Completed:, Mon Oct 24 14:20:55 2022
+
+Best Score:, 0.9517535010349684, 
+Pickle Model Average Accuracy:, 0.8221018926507286, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 10000, 
+Time to Run:, 10.17794132232666, seconds, 
+Date Completed:, Mon Oct 24 14:22:06 2022
+
+Best Score:, 0.9433346821608352, 
+Pickle Model Average Accuracy:, 0.8232426326451038, 
+Features Used:, ['Fedu', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'G1', 'G2'], 
+Runthroughs:, 10000, 
+Time to Run:, 9.847416162490845, seconds, 
+Date Completed:, Mon Oct 24 14:22:56 2022

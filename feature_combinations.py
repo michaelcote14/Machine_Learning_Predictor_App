@@ -9,10 +9,11 @@ def feature_combiner():
     import multiple_hot_encoder
     from functions import seconds_formatter
     from correlations import correlator
+    from permutation_feature_importance import feature_importer
 
     encoded_df = multiple_hot_encoder.multiple_encoder()
-    top_correlators = correlator()
-    dataframe = encoded_df[top_correlators]
+    most_important_features = feature_importer()
+    dataframe = encoded_df[most_important_features]
     print("All dataframe Columns:", dataframe.columns)
     AllDataColumns = dataframe.columns
     AlldataframesColumnsList = AllDataColumns.tolist()
@@ -25,7 +26,7 @@ def feature_combiner():
 
     best = 0
     combinations = 0
-    runtimes = 1 # default should be 5
+    runtimes = 5 # default should be 5
     start_time = time.time()
 
     print('factorial:', (math.factorial(len(dataframe.columns)-3)+7)*runtimes)
@@ -91,7 +92,6 @@ def feature_combiner():
     print('Best Score:', best)
     print('Best Features:', best_features)
 
-    print("feature_combinations_data's Best Score:")
     text_best_score = functions.text_file_reader('feature_combinations_data', 13, 31)
 
 

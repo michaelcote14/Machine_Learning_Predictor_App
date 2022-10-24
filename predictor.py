@@ -19,8 +19,8 @@ target_variable = 'G3'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
-PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
-PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4]
+PredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+PicklePredictorInputData = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
 
 
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
@@ -45,18 +45,15 @@ except Exception as e:
     print(e)
 
 
-
-PickledRegressionLine = pickle.load(
-    open('Data/studentmodel.pickle', 'rb')
-)  # loads the prediction model into the variable 'linear'
-PickledRegressionLinePredictions = PickledRegressionLine.predict(X_test)
-PickleModelsInputPrediction = PickledRegressionLine.predict(
-    [PicklePredictorInputData]) # this is the line that is wrong
-pickle_model_accuracy = cross_val_score(PickledRegressionLine, X, y, cv=10).mean()
-
-
-# mean absolute error is best metric to use
 try:
+    PickledRegressionLine = pickle.load(
+        open('Data/studentmodel.pickle', 'rb')
+    )  # loads the prediction model into the variable 'linear'
+    PickledRegressionLinePredictions = PickledRegressionLine.predict(X_test)
+    PickleModelsInputPrediction = PickledRegressionLine.predict(
+        [PicklePredictorInputData]) # this is the line that is wrong
+    pickle_model_accuracy = cross_val_score(PickledRegressionLine, X, y, cv=10).mean()
+    # mean absolute error is best metric to use
     print(':       Statistic       :               Current Model               :     Pickle Model       ')
     nested_list = [['Target Prediction', CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Accuracy', current_model_accuracy, pickle_model_accuracy],
                    ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions),
@@ -118,6 +115,3 @@ if RunEvalution == 'Yes':
 else:
     pass
 
-
-
-print('\nRuntime:', (time.time() - start_time), 'seconds')
