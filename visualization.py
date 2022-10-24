@@ -10,6 +10,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from permutation_feature_importance import importance_plotter
 
+
+# show all the unique values in a column
+original_df = pd.read_csv("Data/student-mat.csv")
+for column in original_df:
+    unique_vals = np.unique(original_df[column])
+    nr_values = len(unique_vals)
+    if nr_values < 10:
+        print('Values for', column.rjust(10), ':', nr_values, '--', unique_vals)
+    else:
+        print('Values for', column.rjust(10), ':', nr_values)
+
 importance_plotter()
+
+
 
 
