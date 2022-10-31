@@ -6,13 +6,14 @@ def feature_combiner(columns_to_combine=0):
     import functions
     import time
     import math
-    import multiple_hot_encoder
     from functions import seconds_formatter
+    from importance_finder import feature_importer
+    import pandas as pd
 
-    encoded_df = multiple_hot_encoder.multiple_encoder()
-    most_important_features = ['G3', 'G2', 'absences', 'age', 'famrel', 'studytime', 'health', 'reason_home', 'G1', 'activities_yes', 'traveltime', 'Medu', 'Pstatus_T',
-    'failures', 'Mjob_health', 'famsup_yes', 'schoolsup_yes', 'internet_yes', 'sex_M', 'higher_yes', 'Mjob_teacher', 'guardian_other', 'Fjob_teacher', 'guardian_mother']
-    dataframe = encoded_df[most_important_features]
+
+    df = pd.read_csv("scaled_dataframe.csv")
+    most_important_features = feature_importer(5)
+    dataframe = df[most_important_features]
     print("All dataframe Columns:", dataframe.columns)
     AllDataColumns = dataframe.columns
     AlldataframesColumnsList = AllDataColumns.tolist()
@@ -23,8 +24,7 @@ def feature_combiner(columns_to_combine=0):
 
     TargetVariable = "G3"
 
-    best = 0
-    combinations = 0
+
     runtimes = 5 # default should be 5
     start_time = time.time()
 
@@ -45,7 +45,8 @@ def feature_combiner(columns_to_combine=0):
     else:
         quit()
 
-
+    best = 0
+    combinations = 0
     total_score = 0
     for loop in PickeddataframeColumnsList:
         result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop)+1)
@@ -69,12 +70,7 @@ def feature_combiner(columns_to_combine=0):
                 # make this add up 5 times first one should equal 0.184
                 total_score = total_score + MyLinearRegression.score(X_test, y_test)
                 my_linear_regression_score = MyLinearRegression.score(X_test, y_test)
-
-                if my_linear_regression_score > best:
-                    best = my_linear_regression_score
-                    print('newdata', newdata)
-                    best_features = newdata
-                    print('best_features', best_features)
+                #ToDo fix trainer by making average score the only score measured instead of best score
 
             average_score = total_score/runtimes
             print('Average Score:', average_score, '\n')

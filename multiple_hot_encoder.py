@@ -57,9 +57,6 @@ def multiple_encoder():
 
     encoded_df.sort_index(axis=1, inplace=True)
 
-    for column in encoded_df.columns:
-        if column.startswith('Unnamed'):
-            encoded_df.drop([column], axis=1, inplace=True)
     return encoded_df
 
 def multiple_encoder_printer():
@@ -133,9 +130,6 @@ def multiple_encoder_printer():
     encoded_df.sort_index(axis=1, inplace=True)
     print('last_dataframe2:\n', encoded_df)
 
-    for column in encoded_df.columns:
-        if column.startswith('Unnamed'):
-            encoded_df.drop([column], axis=1, inplace=True)
     print('last:\n', encoded_df)
     return encoded_df
 

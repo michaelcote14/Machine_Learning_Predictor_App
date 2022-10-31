@@ -2,11 +2,10 @@ def feature_importer(feature_length_wanted=23):
     import rfpimp
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.model_selection import train_test_split
-    import multiple_hot_encoder
-
+    import pandas as pd
     ######################################## Data preparation #########################################
 
-    df = multiple_hot_encoder.multiple_encoder()
+    df = pd.read_csv('scaled_dataframe.csv')
     target_variable = 'G3'
     features = df.columns.tolist()
 
@@ -52,23 +51,19 @@ def importance_plotter():
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.model_selection import train_test_split
     import matplotlib.pyplot as plt
-    import multiple_hot_encoder
+    from multiple_hot_encoder import multiple_encoder
 
     ######################################## Data preparation #########################################
 
-    df = multiple_hot_encoder.multiple_encoder()
+    df = multiple_encoder()
     target_variable = 'G3'
     features = df.columns.tolist()
-    print('Features:\n', features)
 
     ######################################## Train/test split #########################################
 
     df_train, df_test = train_test_split(df, test_size=0.20, random_state=0)
     df_train = df_train[features]
-    print('df train:\n', df_train)
-    print('df:\n', df)
     df_test = df_test[features]
-    print('df test:\n', df_test)
 
     X_train, y_train = df_train.drop(target_variable, axis=1), df_train[target_variable]  # problem line
     X_test, y_test = df_test.drop(target_variable, axis=1), df_test[target_variable]
@@ -93,11 +88,54 @@ def importance_plotter():
     ax.text(0.8, 0.15, 'aegis4048.github.io', fontsize=12, ha='center', va='center',
             transform=ax.transAxes, color='grey', alpha=0.5)
     plt.gca().invert_yaxis()
-    # ToDo put line below in guides
     plt.get_current_fig_manager().window.state('zoomed')
     fig.tight_layout()
     plt.show()
 
+def feature_importer(feature_length_wanted=23):
+    import rfpimp
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.model_selection import train_test_split
+    import pandas as pd
+    ######################################## Data preparation #########################################
+
+    df = pd.read_csv('scaled_dataframe.csv')
+    target_variable = 'G3'
+    features = df.columns.tolist()
+
+    ######################################## Train/test split #########################################
+
+    df_train, df_test = train_test_split(df, test_size=0.20, random_state=0)
+    df_train = df_train[features]
+    df_test = df_test[features]
+
+    X_train, y_train = df_train.drop(target_variable, axis=1), df_train[target_variable]  # problem line
+    X_test, y_test = df_test.drop(target_variable, axis=1), df_test[target_variable]
+
+    # ################################################ Train #############################################
+    #
+    rf = RandomForestRegressor(n_estimators=1000, n_jobs=-1)
+    rf.fit(X_train, y_train)
+    #
+    # ############################### Permutation feature importance #####################################
+    #
+    imp = rfpimp.importances(rf, X_test, y_test)
+
+    importance_list = imp.index.tolist()
+    importance_dictionary = {}
+    loop_number = 0
+    for i in importance_list:
+        importance_dictionary[i] = imp['Importance'][loop_number]
+        loop_number = loop_number + 1
+
+    sorted_dict = dict(sorted(importance_dictionary.items(), key=lambda x: x[1], reverse=True))  # problem line
+    most_important_features = []
+    for n in range(feature_length_wanted):
+        new_corr_list = list(sorted_dict)
+        most_important_features.append(new_corr_list[n])
+    most_important_features.insert(0, target_variable)
+    return most_important_features
+
 if __name__ == '__main__':
-    feature_importer()
+    feature_importer(22)
     # importance_plotter()

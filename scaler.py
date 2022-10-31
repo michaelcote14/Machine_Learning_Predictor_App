@@ -2,22 +2,21 @@ import pandas as pd
 from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler
 import sklearn
-import multiple_hot_encoder
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import time
+from data_cleaner import full_cleaner
 
 start_time = time.time()
 
-dataframe = multiple_hot_encoder.multiple_encoder()
+dataframe = full_cleaner()
 target_variable = 'G3'
 print('data:\n', dataframe)
 features = dataframe.drop([target_variable], axis=1)
 print('features:\n', features)
 X = np.array(features)
 y = np.array(dataframe[target_variable])
-runtimes = 10
-
+runtimes = 1000
 
 # target features do not need to be scaled generally
 def standardizer():
@@ -73,7 +72,7 @@ def raw():
     print('Raw Average Accuracy:', raw_average_accuracy)
     return raw_average_accuracy
 
-def main():
+def main_scaler():
     raw_accuracy = raw()
     standardized_accuracy, standardized_df = standardizer()
     normalized_accuracy, normalized_df = normalizer()
@@ -95,14 +94,29 @@ def main():
     time_elapsed = time.time() - start_time
     print('Time Elapsed:', time_elapsed, 'seconds')
     scaled_df = pd.concat([dataframe[target_variable], scaled_df], axis=1)
+    scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
     return scaled_df
 
+def main_non_printing_scaler():
+    raw_accuracy = raw()
+    standardized_accuracy, standardized_df = standardizer()
+    normalized_accuracy, normalized_df = normalizer()
+
+    if normalized_accuracy > standardized_accuracy and normalized_accuracy > raw_accuracy:
+        winner = 'normalizer'
+        scaled_df = normalized_df
+    if standardized_accuracy > normalized_accuracy and standardized_accuracy > raw_accuracy:
+        winner = 'standardizer'
+        scaled_df = standardized_df
+    if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
+        winner = 'raw'
+        scaled_df = dataframe
+    time_elapsed = time.time() - start_time
+    scaled_df = pd.concat([dataframe[target_variable], scaled_df], axis=1)
+    scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
+    return scaled_df
+
+
 if __name__ == '__main__':
-    main()
+    main_scaler()
 
-# 10,000 runs = 19 secs
-# 100,000 runs = 191 secs
-
-# normalized: 7
-# standardized: 31
-# raw: 27
