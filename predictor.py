@@ -9,15 +9,13 @@ from sklearn.model_selection import cross_val_score
 import scaler
 
 start_time = time.time()
-#ToDo make this easier to understand and try to make it to where you only have to put one input
-# you might be able to do this by using means of data
-known_data = {'G3': 7, 'G2': 8, 'age': 16}
+# ToDo fix the predictor :bool object has no attribute 'any'
 
 RunEvalution = 'No'
 dataframe = scaler.main_scaler()
 data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
-
-target_variable = 'G3'
+print('data columns:', type(data.columns))
+target_variable = 'traveltime'
 X = np.array(data.drop([target_variable], axis=1))
 y = np.array(data[target_variable])
 
@@ -30,46 +28,35 @@ for i in data_to_loc:
     predictor_list.append(data_to_loc[runner])
     runner = runner + 1
 del predictor_list[0]
+print('float tester:', float(5))
+lst_of_values = [5, 7, 3]
+new_lst = float(lst_of_values)
+for value in lst_of_values:
+    float(value)
 def predictor():
     # this makes it to where you can predict only off of the data you have, the rest is the mean of the data
-    data_we_have = {'age': 16, 'G2': 10, 'goout': 50}
+    data_we_have = {'age': 16, 'G2': 10, 'goout': 50, 'internet_yes': 100}
     key_lst = list(data_we_have.keys())
     value_lst = list(data_we_have.values())
     index_lst = []
     for index in range(len(key_lst)):
-        indexes_to_get = data.columns.get_loc(key_lst[index])
+        indexes_to_get = data.columns.get_loc(key_lst[index]) #either this line
         index_lst.append(indexes_to_get)
-    print('index list', index_lst)
     #gets the means for all columns
     predictor_lst = []
-    for index, column in enumerate(data.columns):
+    for index, column in enumerate(data.columns): #this line
         #makes a list with all the means
-        predictor_lst.append(data[column].mean())
-    print(predictor_lst)
-    #replace the age mean with 16
+        predictor_lst.append(data[column].mean()) #this line
     for count, index in enumerate(index_lst):
-        print('index', index)
-        print('count:', count)
         for value in value_lst:
-            print('value', value)
-            predictor_lst[index] = value_lst[count] #this replaces both columns with 10
+            predictor_lst[index] = value_lst[count]
     del predictor_lst[0]
-    print(predictor_lst)
-    print(data.columns[1:100].tolist())
+    predictor_lst = predictor_lst
+    print('predictor lst:', predictor_lst)
     CurrentModelsPredictions = MyLinearRegression.predict(X_test)
-    CurrentModelsInputPrediction = MyLinearRegression.predict([predictor_lst]) #problem line
+    CurrentModelsInputPrediction = np.array(MyLinearRegression.predict([predictor_lst]), dtype='object') #problem line
     current_cross_val_score = cross_val_score(MyLinearRegression, X, y, cv=10).mean()
     current_normal_score = MyLinearRegression.score(X_test, y_test)
-    print(CurrentModelsInputPrediction)
-
-    # except ValueError as e:
-    #     print('Error in current model predictor: '
-    #           'Features input are not equal to features in data file')
-    #     print(e)
-    #     pass
-    # except Exception as e:
-    #     print('Other error in current model predictor:')
-    #     print(e)
 
 
     try:
@@ -88,16 +75,15 @@ def predictor():
         Pickle_Mean_Absolute_Error, Pickle_R2_Score, pickle_normal_score = 0, 0, 0
 
 
-    print(':       Statistic       :               Current Model               :     Pickle Model       ')
+    print(':             Statistic                :              Current Model                :        Pickle Model       ')
     nested_list = [[('Target Prediction: ' + target_variable), CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Accuracy', current_cross_val_score, pickle_cross_val_score],
                    ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions), Pickle_Mean_Absolute_Error], ['R2 Score', r2_score(y_test, CurrentModelsPredictions),
                     Pickle_R2_Score]]
-
-# ToDo make this accept larger named targets for the table target prediction
+# ToDo get only a certain amount of decimals for range and cross vall difference
     for item in nested_list:
-        print(':', item[0], ' '*(20-len(item[0])), ':', item[1],  ' '*(40-len(str(item[1]))),
+        print(':', item[0], ' '*(35-len(item[0])), ':', item[1],  ' '*(40-len(str(item[1]))),
               ':', item[2],  ' '*(20-len(str(item[2]))))
-    print(': Range                 :', CurrentModelsInputPrediction
+    print(': Range                                :', CurrentModelsInputPrediction
           - current_cross_val_score * 0.01 * CurrentModelsInputPrediction,
           '-',
           current_cross_val_score * 0.01 * CurrentModelsInputPrediction
@@ -107,7 +93,7 @@ def predictor():
           PickleModelsInputPrediction
           + pickle_cross_val_score * 0.01 * PickleModelsInputPrediction)
 
-    print(': Cross-Val Difference  :', current_cross_val_score - current_normal_score, '                     :',
+    print(': Cross-Val Difference                 :', format(current_cross_val_score - current_normal_score, '.17f'), '                     :',
       pickle_cross_val_score - pickle_normal_score)
     print('Positive number above means cross val score was higher, which means your model is overfitting')
 
