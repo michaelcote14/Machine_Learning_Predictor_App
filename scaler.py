@@ -97,7 +97,7 @@ def main_scaler():
     scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
     return scaled_df
 
-def main_non_printing_scaler():
+def main_scaler_non_printing():
     raw_accuracy = raw()
     standardized_accuracy, standardized_df = standardizer()
     normalized_accuracy, normalized_df = normalizer()

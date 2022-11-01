@@ -1,100 +1,137 @@
-def feature_combiner(columns_to_combine=0):
-    import numpy as np  # this is for doing interesting things with numbers
-    import sklearn  # this is the machine learning module
-    from sklearn import linear_model
-    import itertools
-    import functions
-    import time
-    from functions import seconds_formatter
-    from importance_finder import feature_importer
-    import pandas as pd
+import pandas as pd
+from sklearn import linear_model
+from sklearn.preprocessing import StandardScaler
+import sklearn
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+import time
+from data_cleaner import full_cleaner
 
-    df = pd.read_csv("scaled_dataframe.csv")
-    most_important_features = feature_importer(22)
-    dataframe = df[['G3', 'G2', 'age']]
-    AllDataColumns = dataframe.columns
-    AlldataframesColumnsList = AllDataColumns.tolist()
-    DataPicks = dataframe[AlldataframesColumnsList]
-    PickeddataframeColumns = AllDataColumns.drop("G3")
-    PickeddataframeColumnsList = PickeddataframeColumns.tolist()
-    newdata = dataframe[PickeddataframeColumnsList]
+start_time = time.time()
 
-    TargetVariable = "G3"
+dataframe = full_cleaner()
+target_variable = 'G3'
+# adds the predicted values into the original dataframe
+pred_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]}
+pred_df = pd.DataFrame(pred_dict)
+print(pred_df)
+dataframe = pd.concat([dataframe, pred_df])
+print('new dataframe:\n', dataframe)
+dataframe.fillna(dataframe.mean(), inplace=True)
+print('new dataframe:\n', dataframe)
+dataframe.reset_index(inplace=True)
+print(dataframe)
+dataframe.drop(dataframe.columns[[0]], axis=1, inplace=True)
+print(dataframe)
 
-    runtimes = 5  # default should be 5
-    start_time = time.time()
+features = dataframe.drop([target_variable], axis=1)
+print('features:\n', features)
+X = np.array(features)
+y = np.array(dataframe[target_variable])
+runtimes = 100
 
-    print('data_length:', len(dataframe.columns) - 1, 'columns')
+# target features do not need to be scaled generally
+def standardizer():
+    total_accuracy = 0
+    scaler = sklearn.preprocessing.StandardScaler()
+    standardized_array = scaler.fit_transform(X)
+    standardized_df = pd.DataFrame(standardized_array, columns= features.columns) # problem line
+    standardized_X = np.array(standardized_df)
 
-    combination_max = (((2 ** (
-                len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
-    print('Combination Max:', combination_max)
-    time_per_1combination = 0.0013378042273516
-    runtime_predictor = time_per_1combination * combination_max
-    print('Time Until Completion:', runtime_predictor, 'seconds')
-    seconds_formatter(runtime_predictor)
+    for i in range(runtimes):
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
+            standardized_X, y, test_size=0.2)
+        linear = linear_model.LinearRegression()
 
-    print('\nRun feature combiner? Hit ENTER for yes')
-    user_input = input()
-    if user_input == '':
-        pass
-    else:
-        quit()
+        linear.fit(X_train, y_train)
+        accuracy = linear.score(X_test, y_test)
+        total_accuracy += accuracy
+    standardizer_average_accuracy = total_accuracy / runtimes
+    print('Standardizer Average Accuracy:', standardizer_average_accuracy)
+    return standardizer_average_accuracy, standardized_df
 
-    best_average_score = 0
-    combinations = 0
-    total_score = 0
-    for loop in PickeddataframeColumnsList:
-        result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop) + 1)
-        for features_being_looped in result:
-            print("Features Being Looped:", list(features_being_looped))
-            for i in range(runtimes):
 
-                X = np.array(dataframe[list(features_being_looped)])
-                y = np.array(dataframe[TargetVariable])
+def normalizer():
+    total_accuracy = 0
+    scaler = MinMaxScaler()
+    normalized_array = scaler.fit_transform(X)
+    normalized_df = pd.DataFrame(normalized_array, columns=features.columns)
+    normalized_X = np.array(normalized_df)
 
-                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y,
-                                                                                            test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
+    for i in range(runtimes):
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
+            normalized_X, y, test_size=0.2)
+        linear = linear_model.LinearRegression()
 
-                MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-                print('Score:', MyLinearRegression.score(X_test, y_test))
-                # make this add up 5 times first one should equal 0.184
-                total_score = total_score + MyLinearRegression.score(X_test, y_test)
+        linear.fit(X_train, y_train)
+        accuracy = linear.score(X_test, y_test)
+        total_accuracy += accuracy
+    normalizer_average_accuracy = total_accuracy/runtimes
+    print('Normalizer Average Accuracy:', normalizer_average_accuracy)
+    return normalizer_average_accuracy, normalized_df
 
-            current_average_score = total_score / runtimes
-            print('Current Average Score:', current_average_score, '\n')
-            total_score = 0
-            if current_average_score > best_average_score:
-                best_average_score = current_average_score
-                best_features = features_being_looped
-                print('New Best Features:', best_features)
+def raw():
+    total_accuracy = 0
+    for i in range(runtimes):
+        X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(
+            X, y, test_size=0.2)
+        linear = linear_model.LinearRegression()
 
-            combinations = combinations + 1
-            print('Percent Complete:', str((combinations / combination_max) * 100)[0:4], '%')
+        linear.fit(X_train, y_train)
+        accuracy = linear.score(X_test, y_test)
+        total_accuracy += accuracy
+    raw_average_accuracy = total_accuracy / runtimes
+    print('Raw Average Accuracy:', raw_average_accuracy)
+    return raw_average_accuracy
 
-    print("Total Combinations:", combinations)
-    print('Predicted Combinations:', combination_max)
-    print('Best Average Score:', best_average_score)
-    print('Best Features:', best_features)
+def main_scaler():
+    raw_accuracy = raw()
+    standardized_accuracy, standardized_df = standardizer()
+    normalized_accuracy, normalized_df = normalizer()
+    print('\nNormalizer Average Accuracy: ', normalized_accuracy)
+    print('Standardizer Average Accuracy', standardized_accuracy)
+    print('Raw Average Accuracy         ', raw_accuracy)
 
-    text_best_score = functions.text_file_reader('feature_combinations_data', 13, 31)
 
-    # write to the file
-    if float(text_best_score) < best_average_score:
-        text_data_list = ['\n\nBest Score:', str(best_average_score), '\nBest Features:', str(best_features),
-                          '\nRunthroughs:', str(runtimes), '\nTime to Run:', str(time.time() - start_time), 'seconds',
-                          '\nDate Completed:', str(time.asctime())]
-        string_data_list = (', '.join(text_data_list))
-        functions.text_file_appender('feature_combinations_data', string_data_list)
+    if normalized_accuracy > standardized_accuracy and normalized_accuracy > raw_accuracy:
+        winner = 'normalizer'
+        scaled_df = normalized_df
+    if standardized_accuracy > normalized_accuracy and standardized_accuracy > raw_accuracy:
+        winner = 'standardizer'
+        scaled_df = standardized_df
+    if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
+        winner = 'raw'
+        scaled_df = dataframe
+    print('Winner is', winner)
+    time_elapsed = time.time() - start_time
+    print('Time Elapsed:', time_elapsed, 'seconds')
+    scaled_df = pd.concat([dataframe[target_variable], scaled_df], axis=1)
+    scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
+    return scaled_df
 
-    elapsed_time = time.time() - start_time
+def main_scaler_non_printing():
+    raw_accuracy = raw()
+    standardized_accuracy, standardized_df = standardizer()
+    normalized_accuracy, normalized_df = normalizer()
 
-    if elapsed_time > 3:
-        functions.email_or_text_alert('Trainer is done',
-                                      'elapsed time:' + str(elapsed_time) + ' seconds', '4052198820@mms.att.net')
-        print('elapsed_time:', elapsed_time, 'seconds')
-        print('predicted_time:', runtime_predictor, 'seconds')
+    if normalized_accuracy > standardized_accuracy and normalized_accuracy > raw_accuracy:
+        winner = 'normalizer'
+        scaled_df = normalized_df
+    if standardized_accuracy > normalized_accuracy and standardized_accuracy > raw_accuracy:
+        winner = 'standardizer'
+        scaled_df = standardized_df
+    if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
+        winner = 'raw'
+        scaled_df = dataframe
+    time_elapsed = time.time() - start_time
+    scaled_df = pd.concat([dataframe[target_variable], scaled_df], axis=1)
+    scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
+    return scaled_df
 
 
 if __name__ == '__main__':
-    feature_combiner()
+    print(main_scaler())
+
+
+
+#ToDo steal the last row because its your predictor row

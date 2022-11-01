@@ -7,37 +7,32 @@ import pickle
 import time
 from sklearn.model_selection import cross_val_score
 import scaler
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 start_time = time.time()
 # ToDo fix the predictor :bool object has no attribute 'any'
 
 RunEvalution = 'No'
-dataframe = scaler.main_scaler()
+dataframe = scaler.main_scaler_non_printing()
 data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
-print('data columns:', type(data.columns))
+print('data\n', data)
 target_variable = 'traveltime'
-X = np.array(data.drop([target_variable], axis=1))
-y = np.array(data[target_variable])
+X = np.array(data.drop([target_variable], axis=1), dtype='object')
+y = np.array(data[target_variable], dtype='object')
 
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-data_to_loc = data.iloc[0]
-runner = 0
-predictor_list = []
-for i in data_to_loc:
-    predictor_list.append(data_to_loc[runner])
-    runner = runner + 1
-del predictor_list[0]
-print('float tester:', float(5))
-lst_of_values = [5, 7, 3]
-new_lst = float(lst_of_values)
-for value in lst_of_values:
-    float(value)
+
 def predictor():
+    # ToDo scaled data is not accurate to prediction data
+    # steps: 1. put prediction data into scaler row?
     # this makes it to where you can predict only off of the data you have, the rest is the mean of the data
-    data_we_have = {'age': 16, 'G2': 10, 'goout': 50, 'internet_yes': 100}
+    data_we_have = {'age': 16.0, 'G2': 10.0, 'goout': 50, 'internet_yes': 100}
     key_lst = list(data_we_have.keys())
     value_lst = list(data_we_have.values())
+    # for values in value_lst:
+
     index_lst = []
     for index in range(len(key_lst)):
         indexes_to_get = data.columns.get_loc(key_lst[index]) #either this line
@@ -51,10 +46,10 @@ def predictor():
         for value in value_lst:
             predictor_lst[index] = value_lst[count]
     del predictor_lst[0]
-    predictor_lst = predictor_lst
     print('predictor lst:', predictor_lst)
+    #ToDo put predictor list in scaler dataframe
     CurrentModelsPredictions = MyLinearRegression.predict(X_test)
-    CurrentModelsInputPrediction = np.array(MyLinearRegression.predict([predictor_lst]), dtype='object') #problem line
+    CurrentModelsInputPrediction = MyLinearRegression.predict([predictor_lst])#problem line
     current_cross_val_score = cross_val_score(MyLinearRegression, X, y, cv=10).mean()
     current_normal_score = MyLinearRegression.score(X_test, y_test)
 
@@ -79,7 +74,6 @@ def predictor():
     nested_list = [[('Target Prediction: ' + target_variable), CurrentModelsInputPrediction, PickleModelsInputPrediction], ['Accuracy', current_cross_val_score, pickle_cross_val_score],
                    ['Mean Absolute Error',  metrics.mean_absolute_error(y_test, CurrentModelsPredictions), Pickle_Mean_Absolute_Error], ['R2 Score', r2_score(y_test, CurrentModelsPredictions),
                     Pickle_R2_Score]]
-# ToDo get only a certain amount of decimals for range and cross vall difference
     for item in nested_list:
         print(':', item[0], ' '*(35-len(item[0])), ':', item[1],  ' '*(40-len(str(item[1]))),
               ':', item[2],  ' '*(20-len(str(item[2]))))
@@ -120,6 +114,19 @@ def predictor():
 
     else:
         pass
+    #plotter
+    plt.figure(figsize=(15, 10))
+    print('y_test:', y_test.size)
+    print('Current Models Predictions:', CurrentModelsPredictions.size)
+    plt.scatter(y_test, CurrentModelsPredictions, c='blue') #problem line
+    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', c='red', lw=3)
+    plt.xlabel('Actual Values')
+    plt.ylabel('Predicted Values')
+    plt.title('Actual Vs Predicted Values')
+    plt.get_current_fig_manager().window.state('zoomed')
+    plt.show()
+
+
 
 if __name__ == '__main__':
     predictor()
