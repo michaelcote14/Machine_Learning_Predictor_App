@@ -84,3 +84,6 @@ Date Ran:, Fri Sep 23 00:42:14 2022
 
  Pickle Average Accuracy:, 0.8386519151393947, 
  Date:, Sun Oct 30 21:42:18 2022, Time to Run:, None, Features Used:, ['G2', 'G1', 'reason_home', 'nursery_yes', 'health', 'failures', 'school_MS', 'Pstatus_T', 'reason_reputation', 'Mjob_services', 'famrel', 'reason_other']
+
+ Pickle Average Accuracy:, 0.8407169108929132, 
+ Date:, Tue Nov  1 22:32:59 2022, Time to Run:, None, Features Used:, ['G2', 'G1', 'reason_home', 'nursery_yes', 'health', 'failures', 'school_MS', 'Pstatus_T', 'reason_reputation', 'Mjob_services', 'famrel', 'reason_other']

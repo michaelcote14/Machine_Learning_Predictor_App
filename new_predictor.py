@@ -47,7 +47,7 @@ def predictor():
             print('value', value)
             predictor_lst[index] = value_lst[count] #this replaces both columns with 10
     del predictor_lst[0]
-    print(predictor_lst)
+    print('predictor list:', predictor_lst)
     print(data.columns[1:100].tolist())
 
     CurrentModelsPredictions = MyLinearRegression.predict(X_test)

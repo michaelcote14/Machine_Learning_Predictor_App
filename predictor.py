@@ -9,12 +9,12 @@ from sklearn.model_selection import cross_val_score
 import scaler
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 start_time = time.time()
 # ToDo fix the predictor :bool object has no attribute 'any'
-
-RunEvalution = 'No'
-dataframe = scaler.main_scaler_non_printing()
+RunEvalution = 'no'
+dataframe = pd.read_csv('scaled_dataframe.csv')
 data = dataframe[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
 print('data\n', data)
 target_variable = 'traveltime'
@@ -23,33 +23,36 @@ y = np.array(data[target_variable], dtype='object')
 
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+data_we_have = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]}
+scaled_predictor_df = pd.read_csv('scaled_predictor_df.csv')
+scaled_predictor_list = scaled_predictor_df.loc[0].tolist()
+print('scaled predictor lst:', scaled_predictor_list)
 
+# ToDo test whether the predicted output needs to be scaled or not
 def predictor():
-    # ToDo scaled data is not accurate to prediction data
-    # steps: 1. put prediction data into scaler row?
-    # this makes it to where you can predict only off of the data you have, the rest is the mean of the data
-    data_we_have = {'age': 16.0, 'G2': 10.0, 'goout': 50, 'internet_yes': 100}
     key_lst = list(data_we_have.keys())
-    value_lst = list(data_we_have.values())
+    value_lst = scaled_predictor_list
+    print('value lst:', value_lst)
     # for values in value_lst:
-
     index_lst = []
     for index in range(len(key_lst)):
-        indexes_to_get = data.columns.get_loc(key_lst[index]) #either this line
+        indexes_to_get = data.columns.get_loc(key_lst[index])
         index_lst.append(indexes_to_get)
-    #gets the means for all columns
+    print('index list', index_lst)
+    # gets the means for all columns
     predictor_lst = []
-    for index, column in enumerate(data.columns): #this line
-        #makes a list with all the means
-        predictor_lst.append(data[column].mean()) #this line
+    for index, column in enumerate(data.columns):
+        # makes a list with all the means
+        predictor_lst.append(data[column].mean())
+    # replace the age mean with 16
     for count, index in enumerate(index_lst):
         for value in value_lst:
-            predictor_lst[index] = value_lst[count]
+            predictor_lst[index] = value_lst[count]  # this replaces both columns with 10
     del predictor_lst[0]
-    print('predictor lst:', predictor_lst)
-    #ToDo put predictor list in scaler dataframe
+    print('predictor list:', predictor_lst)
+
     CurrentModelsPredictions = MyLinearRegression.predict(X_test)
-    CurrentModelsInputPrediction = MyLinearRegression.predict([predictor_lst])#problem line
+    CurrentModelsInputPrediction = MyLinearRegression.predict([predictor_lst])#problem line #array format
     current_cross_val_score = cross_val_score(MyLinearRegression, X, y, cv=10).mean()
     current_normal_score = MyLinearRegression.score(X_test, y_test)
 
@@ -94,7 +97,7 @@ def predictor():
 
 
     Sum, Max = 0, 0
-    if RunEvalution == 'Yes':
+    if RunEvalution.lower() == 'yes':
         print('    Predicted                        [Actual Data]                         Actual Score', 'Difference'.rjust(21))
         for x in range(len(CurrentModelsPredictions)):
             print(str(CurrentModelsPredictions[x]).ljust(23),X_test[x], str(y_test[x]).rjust(20),
@@ -116,8 +119,6 @@ def predictor():
         pass
     #plotter
     plt.figure(figsize=(15, 10))
-    print('y_test:', y_test.size)
-    print('Current Models Predictions:', CurrentModelsPredictions.size)
     plt.scatter(y_test, CurrentModelsPredictions, c='blue') #problem line
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', c='red', lw=3)
     plt.xlabel('Actual Values')

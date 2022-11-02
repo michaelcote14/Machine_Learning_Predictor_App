@@ -21,8 +21,7 @@ def main_trainer():
     print('Predicted Time:', predicted_time, 'seconds')
     functions.trainer_runtime_predictor(predicted_time)
 
-    print('Run Trainer? Hit ENTER for yes')
-    user_input = input()
+    user_input = input('Run Trainer? Hit ENTER for yes ')
     if user_input == '':
         pass
     else:
