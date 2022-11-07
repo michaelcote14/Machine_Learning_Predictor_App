@@ -115,3 +115,57 @@ Best Features:, ('G2',),
 Runthroughs:, 5, 
 Time to Run:, 3.765204429626465, seconds, 
 Date Completed:, Sun Oct 30 22:04:05 2022
+
+Best Score:, 0.8465971733484698, 
+Best Features:, ['G2'], 
+Runthroughs:, 5, 
+Time to Run:, 4.3022589683532715, seconds, 
+Date Completed:, Thu Nov  3 19:52:23 2022
+
+Best Score:, 0.8543829262156086, 
+Best Features:, ['G2'], 
+Runthroughs:, 5, 
+Time to Run:, 3.396724224090576, seconds, 
+Date Completed:, Thu Nov  3 19:54:13 2022
+
+Best Score:, 0.839802621098572, 
+Best Features:, ['G2', 'G1', 'studytime'], 
+Runthroughs:, 5, 
+Time to Run:, 3.691925048828125, seconds, 
+Date Completed:, Thu Nov  3 19:55:11 2022
+
+Best Score:, 0.8722895621741182, 
+Best Features:, ['G2', 'absences', 'G1', 'studytime'], 
+Runthroughs:, 5, 
+Time to Run:, 12.407854557037354, seconds, 
+Date Completed:, Thu Nov  3 20:08:45 2022
+
+Best Score:, 0.8317212058040777, 
+Best Features:, ['G2', 'absences', 'studytime', 'G1'], 
+Runthroughs:, 5, 
+Time to Run:, 23.371617555618286, seconds, 
+Date Completed:, Thu Nov  3 20:26:00 2022
+
+Best Score:, 0.8745116249986511, 
+Best Features:, ['G2', 'absences', 'age', 'G1'], 
+Runthroughs:, 5, 
+Time to Run:, 0.2292931079864502, seconds, 
+Date Completed:, Fri Nov  4 14:23:13 2022
+
+Best Score:, 0.8676101146546886, 
+Best Features:, ['G2', 'absences'], 
+Runthroughs:, 5, 
+Time to Run:, 0.23530030250549316, seconds, 
+Date Completed:, Fri Nov  4 14:23:13 2022
+
+Best Score:, 0.8525996946813408, 
+Best Features:, ['G2', 'activities_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 0.2353050708770752, seconds, 
+Date Completed:, Fri Nov  4 14:23:13 2022
+
+Best Score:, 0.8478728510759341, 
+Best Features:, ['G2', 'absences', 'G1', 'age', 'studytime'], 
+Runthroughs:, 5, 
+Time to Run:, 0.23531031608581543, seconds, 
+Date Completed:, Fri Nov  4 14:23:13 2022

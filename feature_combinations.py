@@ -1,26 +1,24 @@
-def feature_combiner(columns_to_combine=0):
-    import numpy as np  # this is for doing interesting things with numbers
-    import sklearn  # this is the machine learning module
-    from sklearn import linear_model
-    import itertools
-    import functions
-    import time
-    import math
-    from functions import seconds_formatter
-    from importance_finder import feature_importer
-    import pandas as pd
+import numpy as np 
+import sklearn  
+from sklearn import linear_model
+import itertools
+import functions
+import time
+from functions import time_formatter
+from importance_finder import feature_importer
+import pandas as pd
 
+# ToDo make this doable by a multiprocessor
+def feature_combiner(columns_to_combine=0):
 
     df = pd.read_csv("scaled_dataframe.csv")
     most_important_features = feature_importer(5)
     dataframe = df[most_important_features]
-    print("All dataframe Columns:", dataframe.columns)
-    AllDataColumns = dataframe.columns
-    AlldataframesColumnsList = AllDataColumns.tolist()
-    DataPicks = dataframe[AlldataframesColumnsList]
-    PickeddataframeColumns = AllDataColumns.drop("G3")
-    PickeddataframeColumnsList = PickeddataframeColumns.tolist()
-    newdata = dataframe[PickeddataframeColumnsList]
+    print("All Dataframe Columns:", dataframe.columns.tolist())
+    all_data_columns = dataframe.columns
+    picked_dataframe_columns = all_data_columns.drop("G3")
+    picked_dataframe_columns_list = picked_dataframe_columns.tolist()
+    newdata = dataframe[picked_dataframe_columns_list]
 
     TargetVariable = "G3"
 
@@ -28,18 +26,14 @@ def feature_combiner(columns_to_combine=0):
     runtimes = 5 # default should be 5
     start_time = time.time()
 
-    print('factorial:', (math.factorial(len(dataframe.columns)-3)+7)*runtimes)
-    print('data_length:', len(dataframe.columns)-1, 'columns')
+    print('Data Length:', len(dataframe.columns)-1, 'columns')
 
     combination_max = (((2**(len(dataframe.columns)-1))*runtimes)-runtimes) # 22 is max amount of columns to reasonably take
-    print('Combination Max:', combination_max)
     time_per_1combination = 0.0013378042273516
     runtime_predictor = time_per_1combination * combination_max
-    print('Time Until Completion:', runtime_predictor, 'seconds')
-    seconds_formatter(runtime_predictor)
+    print('Predicted Time to Run:', time_formatter(runtime_predictor))
 
-    print('\nRun feature iterator? Hit ENTER for yes')
-    user_input = input()
+    user_input = input('Run Feature Iterator? Hit ENTER for yes: ')
     if user_input == '':
         pass
     else:
@@ -48,8 +42,8 @@ def feature_combiner(columns_to_combine=0):
     best = 0
     combinations = 0
     total_score = 0
-    for loop in PickeddataframeColumnsList:
-        result = itertools.combinations(PickeddataframeColumnsList, PickeddataframeColumnsList.index(loop)+1)
+    for loop in picked_dataframe_columns_list:
+        result = itertools.combinations(picked_dataframe_columns_list, picked_dataframe_columns_list.index(loop)+1)
         for item in result:
             print("item:", list(item))
             for i in range(runtimes):
@@ -69,7 +63,6 @@ def feature_combiner(columns_to_combine=0):
                 print('Score:', MyLinearRegression.score(X_test, y_test))
                 # make this add up 5 times first one should equal 0.184
                 total_score = total_score + MyLinearRegression.score(X_test, y_test)
-                my_linear_regression_score = MyLinearRegression.score(X_test, y_test)
                 #ToDo fix trainer by making average score the only score measured instead of best score
 
             average_score = total_score/runtimes
