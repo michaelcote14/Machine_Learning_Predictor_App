@@ -30,8 +30,8 @@ def main_trainer(runtimes):
             current_model_regression_line.fit(X_train, y_train)
             current_model_accuracy = current_model_regression_line.score(X_test, y_test)
             current_model_total_accuracy = current_model_total_accuracy + current_model_accuracy
-
-            old_pickled_regression_line = pickle.load(open('Data/studentmodel.pickle', 'rb'))
+            with open(('Data/studentmodel.pickle', 'rb')) as f:
+                old_pickled_regression_line = pickle.load(f)
             old_pickle_model_accuracy = old_pickled_regression_line.score(X_test, y_test)
             old_pickle_model_total_accuracy += old_pickle_model_accuracy
 

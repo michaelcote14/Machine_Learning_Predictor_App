@@ -135,7 +135,7 @@ def multiple_encoder_printer():
 
 
 if __name__ == '__main__':
-    multiple_encoder()
+    print(multiple_encoder())
 
 
 

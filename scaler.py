@@ -157,7 +157,7 @@ def main_scaler_non_printing(unscaled_predictor_array):
 
 if __name__ == '__main__':
     unscaled_predictor_array = get_predictor_array(predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]})
-    print(unscaled_predictor_array)
+    print(main_scaler(unscaled_predictor_array))
 
     # # ToDo transfer the above dataframe to the predictor
     # ToDo what we need: an array with all the means and the scaled data

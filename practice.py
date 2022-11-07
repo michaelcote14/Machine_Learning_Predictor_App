@@ -9,31 +9,39 @@ from importance_finder import feature_importer_non_printing
 import pandas as pd
 import concurrent.futures
 import math
+import pickle
+
 
 # ToDo divide most important features by 5 and give them to the microprocessors
+
 amount_of_processors = 5
 pd.set_option('display.max_columns', 85)
 pd.options.display.width = 500
 original_df = pd.read_csv("scaled_dataframe.csv")
 print('Original Df:\n', original_df.head())
 print('Length of Original Dataframe Columns:', len(original_df.columns))
-most_important_features = feature_importer_non_printing(20) # ToDo this keeps changing my most important features
+with open('most_important_features.pickle', 'rb') as f:
+    most_important_features = pickle.load(f)
 print('Most Important Features:', most_important_features)
 most_important_df = original_df[most_important_features]
 print("Most Important DF:\n", most_important_df.head())
 
 TargetVariable = "G3"
-# we need columns 0:5, 5:10, 10:15, 15:20
-iterator = math.ceil(len(most_important_features)/5)
+iterator = math.ceil(len(most_important_features)/amount_of_processors)
 fraction = 0
-print('iterator:', iterator)
-print('length of features:', math.ceil(len(most_important_features)*(1/5)), ':', len(most_important_features))
-for column in range(math.ceil(len(most_important_features)/5)):
+group_dictionary = {}
+print('length of features:', math.ceil(len(most_important_features)*(1/amount_of_processors)), ':', len(most_important_features))
+for columns in range(math.ceil(len(most_important_features)/amount_of_processors)):
     print('columns:', most_important_features[fraction:iterator])
-    print('loop fraction:', fraction)
-    fraction += math.ceil(len(most_important_features)/5)
-    print('loop iterator:', iterator)
-    iterator += math.ceil(len(most_important_features)/5)
+    fraction += math.ceil(len(most_important_features)/amount_of_processors)
+    iterator += math.ceil(len(most_important_features)/amount_of_processors)
+    group1 = most_important_features[fraction:iterator]
+    group_number = 0
+    group_dictionary['jump'] = most_important_features[fraction:iterator]
+    group_number + 1
+print('group dictionary:\n', group_dictionary.items())
+# ToDo save these to individual groups somehow
+# possible solutions:  use a dictionary
 
 
 def feature_combiner(most_important_features):

@@ -1,11 +1,15 @@
+import pickle
 def feature_importer(feature_length_wanted=23):
     import rfpimp
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.model_selection import train_test_split
     import pandas as pd
+
     ######################################## Data preparation #########################################
 
     df = pd.read_csv('scaled_dataframe.csv')
+    pd.set_option('display.max_columns', 85)
+    print('df:', df)
     target_variable = 'G3'
     features = df.columns.tolist()
 
@@ -20,7 +24,7 @@ def feature_importer(feature_length_wanted=23):
 
     # ################################################ Train #############################################
     #
-    rf = RandomForestRegressor(n_estimators=100000, n_jobs=-1)
+    rf = RandomForestRegressor(n_estimators=1000, n_jobs=-1)
     rf.fit(X_train, y_train)
     #
     # ############################### Permutation feature importance #####################################
@@ -36,13 +40,15 @@ def feature_importer(feature_length_wanted=23):
         importance_dictionary[i] = imp['Importance'][loop_number]
         loop_number = loop_number + 1
 
-    sorted_dict = dict(sorted(importance_dictionary.items(), key=lambda x: x[1], reverse=True)) #problem line
+    sorted_dict = dict(sorted(importance_dictionary.items(), key=lambda x: x[1], reverse=True))
     most_important_features = []
     for n in range(feature_length_wanted):
         new_corr_list = list(sorted_dict)
         most_important_features.append(new_corr_list[n])
     most_important_features.insert(0, target_variable)
     print('\nTarget + Top Features:', most_important_features)
+    with open("most_important_features.pickle", "wb") as fp:   #ToDo why am i getting g3.1?
+        pickle.dump(most_important_features, fp)
     return most_important_features
 
 def feature_importer_non_printing(feature_length_wanted=23):
@@ -87,7 +93,7 @@ def feature_importer_non_printing(feature_length_wanted=23):
         new_corr_list = list(sorted_dict)
         most_important_features.append(new_corr_list[n])
     most_important_features.insert(0, target_variable)
-    return most_important_features
+    return most_important_features,
 
 
 def importance_plotter():
@@ -100,6 +106,7 @@ def importance_plotter():
     ######################################## Data preparation #########################################
 
     df = multiple_encoder()
+    print('df:', df)
     target_variable = 'G3'
     features = df.columns.tolist()
 
@@ -139,5 +146,5 @@ def importance_plotter():
 
 
 if __name__ == '__main__':
-    feature_importer(22)
+    print(feature_importer(22))
     # importance_plotter()
