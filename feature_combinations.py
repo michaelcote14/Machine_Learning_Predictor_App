@@ -18,6 +18,7 @@ def feature_combiner(columns_to_combine=0):
     all_data_columns = dataframe.columns
     picked_dataframe_columns = all_data_columns.drop("G3")
     picked_dataframe_columns_list = picked_dataframe_columns.tolist()
+    print('picked data frame columns list:', picked_dataframe_columns_list)
     newdata = dataframe[picked_dataframe_columns_list]
 
     TargetVariable = "G3"
