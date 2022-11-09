@@ -1,9 +1,14 @@
 import pickle
+
+import functions
+
+
 def feature_importer(feature_length_wanted=23):
     import rfpimp
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.model_selection import train_test_split
     import pandas as pd
+    import functions
 
     ######################################## Data preparation #########################################
 
@@ -24,7 +29,7 @@ def feature_importer(feature_length_wanted=23):
 
     # ################################################ Train #############################################
     #
-    rf = RandomForestRegressor(n_estimators=1000, n_jobs=-1)
+    rf = RandomForestRegressor(n_estimators=500000, n_jobs=-1)
     rf.fit(X_train, y_train)
     #
     # ############################### Permutation feature importance #####################################
@@ -47,8 +52,8 @@ def feature_importer(feature_length_wanted=23):
         most_important_features.append(new_corr_list[n])
     most_important_features.insert(0, target_variable)
     print('\nTarget + Top Features:', most_important_features)
-    with open("most_important_features.pickle", "wb") as fp:   #ToDo why am i getting g3.1?
-        pickle.dump(most_important_features, fp)
+    # with open("most_important_features.pickle", "wb") as fp:   #ToDo rerun this to save the best pickle file, then comment this out
+    #     pickle.dump(most_important_features, fp)
     return most_important_features
 
 def feature_importer_non_printing(feature_length_wanted=23):
@@ -121,7 +126,7 @@ def importance_plotter():
 
     # ################################################ Train #############################################
     #
-    rf = RandomForestRegressor(n_estimators=50, n_jobs=-1)
+    rf = RandomForestRegressor(n_estimators=1000, n_jobs=-1)
     rf.fit(X_train, y_train)
     #
     # ############################### Permutation feature importance #####################################
@@ -146,5 +151,19 @@ def importance_plotter():
 
 
 if __name__ == '__main__':
+    import time
+    start_time = time.time()
     print(feature_importer(22))
+    print('Elapsed Time:', time.time() - start_time)
     # importance_plotter()
+    time1 = 4.548666715621948
+    time2 = 4.612252473831177
+    difference = time2 - time1
+    print(difference)
+    # 0.017212629318237305 per n_estimator
+    predicted_time = 0.06358575820922852 * 500000
+    print('Actual Time:', functions.time_formatter(time.time() - start_time))
+    print('Predicted Time:', functions.time_formatter(predicted_time))
+
+# 22 most important features after 500,000 n_estimators:
+# Target + Top Features: ['G3', 'G2', 'absences', 'studytime', 'G1', 'age', 'health', 'reason_home', 'activities_yes', 'traveltime', 'schoolsup_yes', 'paid_yes', 'nursery_yes', 'Fedu', 'Dalc', 'Mjob_teacher', 'Fjob_other', 'sex_M', 'Mjob_health', 'Medu', 'Pstatus_T', 'higher_yes', 'Fjob_teacher']

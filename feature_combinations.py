@@ -7,40 +7,43 @@ import time
 from functions import time_formatter
 from importance_finder import feature_importer
 import pandas as pd
+import concurrent.futures
+import pickle
 
 # ToDo make this doable by a multiprocessor
-def feature_combiner(columns_to_combine=0):
 
-    df = pd.read_csv("scaled_dataframe.csv")
-    most_important_features = feature_importer(5)
-    dataframe = df[most_important_features]
-    print("All Dataframe Columns:", dataframe.columns.tolist())
-    all_data_columns = dataframe.columns
-    picked_dataframe_columns = all_data_columns.drop("G3")
-    picked_dataframe_columns_list = picked_dataframe_columns.tolist()
-    print('picked data frame columns list:', picked_dataframe_columns_list)
-    newdata = dataframe[picked_dataframe_columns_list]
+df = pd.read_csv("scaled_dataframe.csv")
+with open('most_important_features.pickle', 'rb') as f:
+    most_important_features = pickle.load(f)[0:10]
+dataframe = df[most_important_features]
+print("All Dataframe Columns:", dataframe.columns.tolist())
+all_data_columns = dataframe.columns
+picked_dataframe_columns = all_data_columns.drop("G3")
+picked_dataframe_columns_list = picked_dataframe_columns.tolist()
 
-    TargetVariable = "G3"
+TargetVariable = "G3"
+
+runtimes = 5  # default should be 5
+start_time = time.time()
+
+print('Data Length:', len(dataframe.columns) - 1, 'columns')
+
+combination_max = (((2 ** (
+            len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
+time_per_1combination = 0.0013378042273516
+runtime_predictor = time_per_1combination * combination_max
+print('Predicted Time to Run:', time_formatter(runtime_predictor))
+
+user_input = input('Run Feature Iterator? Hit ENTER for yes: ')
+if user_input == '':
+    pass
+else:
+    quit()
+
+def feature_combiner():
 
 
-    runtimes = 5 # default should be 5
-    start_time = time.time()
-
-    print('Data Length:', len(dataframe.columns)-1, 'columns')
-
-    combination_max = (((2**(len(dataframe.columns)-1))*runtimes)-runtimes) # 22 is max amount of columns to reasonably take
-    time_per_1combination = 0.0013378042273516
-    runtime_predictor = time_per_1combination * combination_max
-    print('Predicted Time to Run:', time_formatter(runtime_predictor))
-
-    user_input = input('Run Feature Iterator? Hit ENTER for yes: ')
-    if user_input == '':
-        pass
-    else:
-        quit()
-
-    best = 0
+    best_average_score = 0
     combinations = 0
     total_score = 0
     for loop in picked_dataframe_columns_list:
@@ -69,8 +72,8 @@ def feature_combiner(columns_to_combine=0):
             average_score = total_score/runtimes
             print('Average Score:', average_score, '\n')
             total_score = 0
-            if average_score > best:
-                best = average_score
+            if average_score > best_average_score:
+                best_average_score = average_score
                 best_features = newdata
                 print('newdata:', newdata)
                 print('best_features:', best_features)
@@ -78,15 +81,15 @@ def feature_combiner(columns_to_combine=0):
 
     print("Total Combinations:", combinations)
     print('Predicted Combinations:', combination_max)
-    print('Best Score:', best)
+    print('Best Average Score:', best_average_score)
     print('Best Features:', best_features)
 
     text_best_score = functions.text_file_reader('feature_combinations_data', 13, 31)
 
 
     # write to the file
-    if float(text_best_score) < best:
-        text_data_list = ['\n\nBest Score:', str(best), '\nBest Features:',  str(best_features),
+    if float(text_best_score) < best_average_score:
+        text_data_list = ['\n\nBest Average Score:', str(average_score), '\nBest Features:',  str(best_features),
         '\nRunthroughs:', str(runtimes), '\nTime to Run:', str(time.time()-start_time), 'seconds',
         '\nDate Completed:', str(time.asctime())]
         string_data_list = (', '.join(text_data_list))
@@ -99,8 +102,20 @@ def feature_combiner(columns_to_combine=0):
         'elapsed time:' + str(elapsed_time) + ' seconds', '4052198820@mms.att.net')
         print('elapsed_time:', elapsed_time, 'seconds')
         print('predicted_time:', runtime_predictor, 'seconds')
-
+    return best_features, best_average_score
 
 
 if __name__ == '__main__':
-    feature_combiner()
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        best_average_score1 = executor.submit(feature_combiner)
+        best_average_score2 = executor.submit(feature_combiner)
+        best_average_score3 = executor.submit(feature_combiner)
+        best_average_score4 = executor.submit(feature_combiner)
+        best_average_score5 = executor.submit(feature_combiner)
+
+    print('\033[34m', best_average_score1.result()), print('\033[0m')
+    print('\033[34m', best_average_score2.result()), print('\033[0m')
+    print('\033[34m', best_average_score3.result()), print('\033[0m')
+    print('\033[34m', best_average_score4.result()), print('\033[0m')
+    print('\033[34m', best_average_score5.result()), print('\033[0m')
+
