@@ -65,3 +65,165 @@ Best Features:, ['G2', 'absences', 'studytime', 'G1', 'freetime'],
 Runthroughs:, 5, 
 Time to Run:, 20.9624285697937, seconds, 
 Date Completed:, Wed Nov  9 14:05:42 2022
+
+Best Average Score:, 0.8274336561293166, 
+Best Features:, ['G2', 'G1', 'age', 'reason_home', 'activities_yes', 'nursery_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 4.750786781311035, seconds, 
+Date Completed:, Wed Nov  9 15:06:36 2022
+
+Best Average Score:, 0.8284434884613239, 
+Best Features:, ['G2', 'G1', 'health', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 10.282106876373291, seconds, 
+Date Completed:, Wed Nov  9 15:06:41 2022
+
+Best Average Score:, 0.7895367704684221, 
+Best Features:, ['G2', 'absences', 'G1', 'age', 'health', 'nursery_yes', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 15.410780191421509, seconds, 
+Date Completed:, Wed Nov  9 15:06:46 2022
+
+Best Average Score:, 0.8276803014775128, 
+Best Features:, ['G2', 'age', 'nursery_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 20.514145135879517, seconds, 
+Date Completed:, Wed Nov  9 15:06:52 2022
+
+Best Average Score:, 0.8149586120660228, 
+Best Features:, ['G2', 'G1', 'age', 'activities_yes', 'health', 'nursery_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 25.477970361709595, seconds, 
+Date Completed:, Wed Nov  9 15:06:57 2022
+
+Best Average Score:, 0.8094222121304728, 
+Best Features:, ['G2', 'reason_home', 'activities_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 44.070324659347534, seconds, 
+Date Completed:, Wed Nov  9 15:23:23 2022
+
+Best Average Score:, 0.8142812032034408, 
+Best Features:, ['G2', 'health', 'nursery_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 44.447261810302734, seconds, 
+Date Completed:, Wed Nov  9 15:23:23 2022
+
+Best Average Score:, 0.8381580644617065, 
+Best Features:, ['G2', 'absences', 'G1', 'health', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 44.47349548339844, seconds, 
+Date Completed:, Wed Nov  9 15:23:23 2022
+
+Best Average Score:, 0.7968046069292762, 
+Best Features:, ['G2', 'G1', 'age', 'reason_home'], 
+Runthroughs:, 5, 
+Time to Run:, 44.67035698890686, seconds, 
+Date Completed:, Wed Nov  9 15:23:23 2022
+
+Best Average Score:, 0.8297188624665031, 
+Best Features:, ['G2', 'G1', 'reason_home', 'nursery_yes', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 44.673357248306274, seconds, 
+Date Completed:, Wed Nov  9 15:23:23 2022
+
+Best Average Score:, 0.8475800771946196, 
+Best Features:, ['G2', 'age', 'health'], 
+Runthroughs:, 5, 
+Time to Run:, 33.47958731651306, seconds, 
+Date Completed:, Wed Nov  9 15:25:01 2022
+
+Best Average Score:, 0.786125287576595, 
+Best Features:, ['G2', 'reason_home', 'activities_yes', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 33.560744762420654, seconds, 
+Date Completed:, Wed Nov  9 15:25:01 2022
+
+Best Average Score:, 0.8167610210168584, 
+Best Features:, ['G2', 'absences', 'age', 'reason_home', 'health'], 
+Runthroughs:, 5, 
+Time to Run:, 33.65728712081909, seconds, 
+Date Completed:, Wed Nov  9 15:25:01 2022
+
+Best Average Score:, 0.8167224173258891, 
+Best Features:, ['G2', 'absences', 'G1', 'age', 'activities_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 33.674707651138306, seconds, 
+Date Completed:, Wed Nov  9 15:25:01 2022
+
+Best Average Score:, 0.7997912677169564, 
+Best Features:, ['G2', 'absences'], 
+Runthroughs:, 5, 
+Time to Run:, 33.69438576698303, seconds, 
+Date Completed:, Wed Nov  9 15:25:01 2022
+
+Best Average Score:, 0.8294370036378824, 
+Best Features:, ['G2', 'G1', 'age', 'activities_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 5.531534194946289, seconds, 
+Date Completed:, Wed Nov  9 15:25:42 2022
+
+Best Average Score:, 0.8445366174897024, 
+Best Features:, ['G2', 'G1'], 
+Runthroughs:, 5, 
+Time to Run:, 10.495849370956421, seconds, 
+Date Completed:, Wed Nov  9 15:25:47 2022
+
+Best Average Score:, 0.7916529011530173, 
+Best Features:, ['G2', 'G1', 'health'], 
+Runthroughs:, 5, 
+Time to Run:, 15.399431705474854, seconds, 
+Date Completed:, Wed Nov  9 15:25:52 2022
+
+Best Average Score:, 0.7785879095474904, 
+Best Features:, ['G2', 'health'], 
+Runthroughs:, 5, 
+Time to Run:, 20.49458932876587, seconds, 
+Date Completed:, Wed Nov  9 15:25:57 2022
+
+Best Average Score:, 0.8425827545655968, 
+Best Features:, ['G2', 'absences', 'G1', 'age', 'activities_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 25.79059338569641, seconds, 
+Date Completed:, Wed Nov  9 15:26:03 2022
+
+Best Average Score:, 0.8385333082891598, 
+Best Features:, ['G2', 'G1', 'age', 'health', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 4.623611927032471, seconds, 
+Date Completed:, Wed Nov  9 15:26:42 2022
+
+Best Average Score:, 0.8220305010071668, 
+Best Features:, ['G2', 'absences', 'G1', 'age', 'activities_yes', 'nursery_yes', 'guardian_mother'], 
+Runthroughs:, 5, 
+Time to Run:, 4.186437129974365, seconds, 
+Date Completed:, Wed Nov  9 15:28:01 2022
+
+Best Average Score:, 0.834196392976916, 
+Best Features:, ['G2', 'absences', 'G1', 'reason_home', 'activities_yes', 'health', 'nursery_yes'], 
+Runthroughs:, 5, 
+Time to Run:, 7.358893394470215, seconds, 
+Date Completed:, Wed Nov  9 15:29:00 2022
+
+Best Average Score:, 0.8402916108946797, 
+Best Features:, ['G2', 'absences', 'age', 'activities_yes', 'health', 'Mjob_teacher'], 
+Runthroughs:, 5, 
+Time to Run:, 141.34331679344177, seconds, 
+Date Completed:, Wed Nov  9 15:32:47 2022
+
+Best Average Score:, 0.8139831086999928, 
+Best Features:, ['G2', 'G1', 'health', 'Medu', 'guardian_other', 'Mjob_teacher'], 
+Runthroughs:, 5, 
+Time to Run:, 137.85585284233093, seconds, 
+Date Completed:, Wed Nov  9 15:35:40 2022
+
+Best Average Score:, 0.8583206664894609, 
+Best Features:, ['G2', 'G1', 'age', 'nursery_yes', 'guardian_other'], 
+Runthroughs:, 5, 
+Time to Run:, 140.9990689754486, seconds, 
+Date Completed:, Wed Nov  9 15:38:34 2022
+
+Best Average Score:, 0.834670725253801, 
+Best Features:, ['G2', 'G1', 'activities_yes', 'health', 'nursery_yes', 'studytime', 'Medu'], 
+Runthroughs:, 5, 
+Time to Run:, 139.72503900527954, seconds, 
+Date Completed:, Wed Nov  9 15:41:15 2022

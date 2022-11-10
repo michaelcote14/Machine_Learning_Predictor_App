@@ -14,7 +14,7 @@ import pickle
 
 df = pd.read_csv("scaled_dataframe.csv")
 with open('most_important_features.pickle', 'rb') as f:
-    most_important_features = pickle.load(f)[0:10]
+    most_important_features = pickle.load(f)[0:15]
 dataframe = df[most_important_features]
 print("All Dataframe Columns:", dataframe.columns.tolist())
 all_data_columns = dataframe.columns
@@ -106,16 +106,25 @@ def feature_combiner():
 
 
 if __name__ == '__main__':
+    # feature_combiner()
+    start_time = time.time()
     with concurrent.futures.ProcessPoolExecutor() as executor:
         best_average_score1 = executor.submit(feature_combiner)
-        best_average_score2 = executor.submit(feature_combiner)
-        best_average_score3 = executor.submit(feature_combiner)
-        best_average_score4 = executor.submit(feature_combiner)
-        best_average_score5 = executor.submit(feature_combiner)
+        # best_average_score2 = executor.submit(feature_combiner)
+        # best_average_score3 = executor.submit(feature_combiner)
+        # best_average_score4 = executor.submit(feature_combiner)
+        # best_average_score5 = executor.submit(feature_combiner)
 
     print('\033[34m', best_average_score1.result()), print('\033[0m')
-    print('\033[34m', best_average_score2.result()), print('\033[0m')
-    print('\033[34m', best_average_score3.result()), print('\033[0m')
-    print('\033[34m', best_average_score4.result()), print('\033[0m')
-    print('\033[34m', best_average_score5.result()), print('\033[0m')
+    # print('\033[34m', best_average_score2.result()), print('\033[0m')
+    # print('\033[34m', best_average_score3.result()), print('\033[0m')
+    # print('\033[34m', best_average_score4.result()), print('\033[0m')
+    # print('\033[34m', best_average_score5.result()), print('\033[0m')
 
+    print('Elapsed Time:', time.time() - start_time)
+    #threader time: 35.82 secs
+    #microprocessor time: 31.66
+    # 1 microprocessor time: 143.20
+    # 1 threader time: 138.75
+    # regular time: 142.11
+    # ToDo find out how to use concurrent futures properly

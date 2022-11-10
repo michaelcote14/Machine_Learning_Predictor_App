@@ -29,16 +29,14 @@ def get_predictor_array(predictor_data_dict):
     new_dataframe = new_dataframe.drop([TARGET_VARIABLE], axis=1)
     unscaled_predictor_array = new_dataframe.fillna(dataframe.mean())
     unscaled_predictor_array = np.array(unscaled_predictor_array)
-    #ToDo put predictor data in correct column locations
-    #steps: get original dataframe mean values in a dataframe
     return unscaled_predictor_array # not in order
 
 
 def predictor_data_scaler(predictor_data_dict):
     unscaled_predictor_array = get_predictor_array(predictor_data_dict)
     scaled_df, scaled_predictor_array = main_scaler(unscaled_predictor_array)
-    scaled_predictor_df = pd.DataFrame(scaled_predictor_array, columns=FEATURES.columns) #ToDo this is wrong
-    # data = scaled_df[['G3', 'G2', 'G1', 'age', 'goout', 'romantic_yes', 'traveltime', 'paid_yes', 'internet_yes', 'studytime']]
+    scaled_predictor_df = pd.DataFrame(scaled_predictor_array, columns=FEATURES.columns)
+
     # this creates the dataframe with scaled data from input data only
     key_lst = list(predictor_data_dict.keys())
     value_lst = list(predictor_data_dict.values())
@@ -159,7 +157,4 @@ if __name__ == '__main__':
     unscaled_predictor_array = get_predictor_array(predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]})
     print(main_scaler(unscaled_predictor_array))
 
-    # # ToDo transfer the above dataframe to the predictor
-    # ToDo what we need: an array with all the means and the scaled data
-    # ToDo why are some mean values in the array 0?
 

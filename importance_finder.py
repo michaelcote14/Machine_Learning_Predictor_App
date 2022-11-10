@@ -52,7 +52,7 @@ def feature_importer(feature_length_wanted=23):
         most_important_features.append(new_corr_list[n])
     most_important_features.insert(0, target_variable)
     print('\nTarget + Top Features:', most_important_features)
-    # with open("most_important_features.pickle", "wb") as fp:   #ToDo rerun this to save the best pickle file, then comment this out
+    # with open("most_important_features.pickle", "wb") as fp:   #rerun this to save the best pickle file, then comment this out
     #     pickle.dump(most_important_features, fp)
     return most_important_features
 
