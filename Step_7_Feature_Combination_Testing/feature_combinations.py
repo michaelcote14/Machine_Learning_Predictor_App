@@ -2,18 +2,15 @@ import numpy as np
 import sklearn  
 from sklearn import linear_model
 import itertools
-import functions
+from Extras import functions
 import time
-from functions import time_formatter
-from importance_finder import feature_importer
+from Extras.functions import time_formatter
 import pandas as pd
-import concurrent.futures
 import pickle
+from Step_4_Data_Cleaning.data_cleaner import target_variable
 
-# ToDo make this doable by a multiprocessor
-
-df = pd.read_csv("scaled_dataframe.csv")
-with open('most_important_features.pickle', 'rb') as f:
+df = pd.read_csv("../Step_5_Scaling/scaled_dataframe.csv")
+with open('../Data/most_important_features.pickle', 'rb') as f:
     most_important_features = pickle.load(f)[0:15]
 dataframe = df[most_important_features]
 print("All Dataframe Columns:", dataframe.columns.tolist())
@@ -21,7 +18,6 @@ all_data_columns = dataframe.columns
 picked_dataframe_columns = all_data_columns.drop("G3")
 picked_dataframe_columns_list = picked_dataframe_columns.tolist()
 
-TargetVariable = "G3"
 
 runtimes = 5  # default should be 5
 start_time = time.time()
@@ -59,7 +55,7 @@ def feature_combiner():
 
 
                 X = np.array(dataframe[newdata])
-                y = np.array(dataframe[TargetVariable])
+                y = np.array(dataframe[target_variable])
 
                 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
 
@@ -67,7 +63,6 @@ def feature_combiner():
                 print('Score:', MyLinearRegression.score(X_test, y_test))
                 # make this add up 5 times first one should equal 0.184
                 total_score = total_score + MyLinearRegression.score(X_test, y_test)
-                #ToDo fix trainer by making average score the only score measured instead of best score
 
             average_score = total_score/runtimes
             print('Average Score:', average_score, '\n')
@@ -106,25 +101,8 @@ def feature_combiner():
 
 
 if __name__ == '__main__':
-    # feature_combiner()
     start_time = time.time()
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        best_average_score1 = executor.submit(feature_combiner)
-        # best_average_score2 = executor.submit(feature_combiner)
-        # best_average_score3 = executor.submit(feature_combiner)
-        # best_average_score4 = executor.submit(feature_combiner)
-        # best_average_score5 = executor.submit(feature_combiner)
+    feature_combiner()
 
-    print('\033[34m', best_average_score1.result()), print('\033[0m')
-    # print('\033[34m', best_average_score2.result()), print('\033[0m')
-    # print('\033[34m', best_average_score3.result()), print('\033[0m')
-    # print('\033[34m', best_average_score4.result()), print('\033[0m')
-    # print('\033[34m', best_average_score5.result()), print('\033[0m')
 
     print('Elapsed Time:', time.time() - start_time)
-    #threader time: 35.82 secs
-    #microprocessor time: 31.66
-    # 1 microprocessor time: 143.20
-    # 1 threader time: 138.75
-    # regular time: 142.11
-    # ToDo find out how to use concurrent futures properly

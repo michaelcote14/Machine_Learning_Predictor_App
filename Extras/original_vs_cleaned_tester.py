@@ -8,7 +8,7 @@ import scaler
 from multiple_hot_encoder import multiple_encoder
 
 def encoder_tester(runtimes):
-    df = pd.read_csv('Data/student-mat.csv')
+    df = pd.read_csv('../Data/student-mat.csv')
     data_cleaner.unnamed_column_dropper(df)
     for column in df:
         if df[column].dtypes == 'object':
@@ -98,7 +98,7 @@ def scaler_tester(runtimes):
     print('Scaled - Original Score:', scaled_average_score - original_average_score)
 
 def total_tester(runtimes):
-    df = pd.read_csv('Data/student-mat.csv')
+    df = pd.read_csv('../Data/student-mat.csv')
     data_cleaner.unnamed_column_dropper(df)
     for column in df:
         if df[column].dtypes == 'object':

@@ -1,4 +1,3 @@
-Process the Data:
 1. Visualize the data
 2. Encode all categorical data using single_hot_encoder and multiple_hot_encoder
 3. Get rid of outliers

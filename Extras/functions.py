@@ -1,16 +1,13 @@
-def time_formatter(elapsed_time):
 
-    seconds_in_day = 60 * 60 * 24
-    seconds_in_hour = 60 * 60
-    seconds_in_minute = 60
+def time_formatter(input_time_in_seconds):
+    from datetime import timedelta
+    # create timedelta and convert it into string
+    td_str = str(timedelta(seconds=input_time_in_seconds))
 
-    seconds = int(elapsed_time)
-    days = seconds // seconds_in_day
-    hours = (seconds - (days * seconds_in_day)) // seconds_in_hour
-    minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
-    time_lst = [str(days) + ' Days', str(hours) + ' Hours', str(minutes) + ' Minutes'
-        , str(format(seconds/60, '.1f')) + ' Seconds']
-    time_string = ' '.join(time_lst)
+    # split string into individual component
+    x = td_str.split(':')
+    time_list = [str(x[0]), 'Hours', str(x[1]), 'Minutes', str(x[2]), 'Seconds']
+    time_string = ' '.join(time_list)
     return time_string
 
 
@@ -66,6 +63,5 @@ def email_or_text_alert(subject, body, to):
 if __name__ == "__main__":
     line_checker('test_data', 5)
     time_formatter(9337.2926)
-
 
 

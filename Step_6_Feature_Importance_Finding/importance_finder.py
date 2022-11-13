@@ -1,31 +1,28 @@
-import pickle
-
-import functions
+import matplotlib.pyplot as plt
+import rfpimp
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from Step_5_Scaling.scaler import scaled_df
+from Step_4_Data_Cleaning.data_cleaner import target_variable
 
 
 def feature_importer(feature_length_wanted=23):
-    import rfpimp
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.model_selection import train_test_split
-    import pandas as pd
-    import functions
+
 
     ######################################## Data preparation #########################################
 
-    df = pd.read_csv('scaled_dataframe.csv')
     pd.set_option('display.max_columns', 85)
-    print('df:', df)
-    target_variable = 'G3'
-    features = df.columns.tolist()
+    features = scaled_df.columns.tolist()
 
     ######################################## Train/test split #########################################
 
-    df_train, df_test = train_test_split(df, test_size=0.20, random_state=0)
-    df_train = df_train[features]
-    df_test = df_test[features]
+    scaled_df_train, scaled_df_test = train_test_split(scaled_df, test_size=0.20, random_state=0)
+    scaled_df_train = scaled_df_train[features]
+    scaled_df_test = scaled_df_test[features]
 
-    X_train, y_train = df_train.drop(target_variable, axis=1), df_train[target_variable]
-    X_test, y_test = df_test.drop(target_variable, axis=1), df_test[target_variable]
+    X_train, y_train = scaled_df_train.drop(target_variable, axis=1), scaled_df_train[target_variable]
+    X_test, y_test = scaled_df_test.drop(target_variable, axis=1), scaled_df_test[target_variable]
 
     # ################################################ Train #############################################
     #
@@ -57,24 +54,19 @@ def feature_importer(feature_length_wanted=23):
     return most_important_features
 
 def feature_importer_non_printing(feature_length_wanted=23):
-    import rfpimp
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.model_selection import train_test_split
-    import pandas as pd
+
     ######################################## Data preparation #########################################
 
-    df = pd.read_csv('scaled_dataframe.csv')
-    target_variable = 'G3'
-    features = df.columns.tolist()
+    features = scaled_df.columns.tolist()
 
     ######################################## Train/test split #########################################
 
-    df_train, df_test = train_test_split(df, test_size=0.20, random_state=0)
-    df_train = df_train[features]
-    df_test = df_test[features]
+    scaled_df_train, scaled_df_test = train_test_split(scaled_df, test_size=0.20, random_state=0)
+    scaled_df_train = scaled_df_train[features]
+    scaled_df_test = scaled_df_test[features]
 
-    X_train, y_train = df_train.drop(target_variable, axis=1), df_train[target_variable]
-    X_test, y_test = df_test.drop(target_variable, axis=1), df_test[target_variable]
+    X_train, y_train = scaled_df_train.drop(target_variable, axis=1), scaled_df_train[target_variable]
+    X_test, y_test = scaled_df_test.drop(target_variable, axis=1), scaled_df_test[target_variable]
 
     # ################################################ Train #############################################
     #
@@ -102,27 +94,19 @@ def feature_importer_non_printing(feature_length_wanted=23):
 
 
 def importance_plotter():
-    import rfpimp
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.model_selection import train_test_split
-    import matplotlib.pyplot as plt
-    from multiple_hot_encoder import multiple_encoder
 
     ######################################## Data preparation #########################################
 
-    df = multiple_encoder()
-    print('df:', df)
-    target_variable = 'G3'
-    features = df.columns.tolist()
+    features = scaled_df.columns.tolist()
 
     ######################################## Train/test split #########################################
 
-    df_train, df_test = train_test_split(df, test_size=0.20, random_state=0)
-    df_train = df_train[features]
-    df_test = df_test[features]
+    scaled_df_train, scaled_df_test = train_test_split(scaled_df, test_size=0.20, random_state=0)
+    scaled_df_train = scaled_df_train[features]
+    scaled_df_test = scaled_df_test[features]
 
-    X_train, y_train = df_train.drop(target_variable, axis=1), df_train[target_variable]  # problem line
-    X_test, y_test = df_test.drop(target_variable, axis=1), df_test[target_variable]
+    X_train, y_train = scaled_df_train.drop(target_variable, axis=1), scaled_df_train[target_variable]  # problem line
+    X_test, y_test = scaled_df_test.drop(target_variable, axis=1), scaled_df_test[target_variable]
 
     # ################################################ Train #############################################
     #
@@ -151,19 +135,19 @@ def importance_plotter():
 
 
 if __name__ == '__main__':
-    import time
-    start_time = time.time()
-    print(feature_importer(22))
-    print('Elapsed Time:', time.time() - start_time)
+    # start_time = time.time()
+    # print(feature_importer(22))
+    # print('Elapsed Time:', time.time() - start_time)
     # importance_plotter()
-    time1 = 4.548666715621948
-    time2 = 4.612252473831177
-    difference = time2 - time1
-    print(difference)
-    # 0.017212629318237305 per n_estimator
-    predicted_time = 0.06358575820922852 * 500000
-    print('Actual Time:', functions.time_formatter(time.time() - start_time))
-    print('Predicted Time:', functions.time_formatter(predicted_time))
+    # time1 = 4.548666715621948
+    # time2 = 4.612252473831177
+    # difference = time2 - time1
+    # print(difference)
+    # # 0.017212629318237305 per n_estimator
+    # predicted_time = 0.06358575820922852 * 500000
+    # print('Actual Time:', functions.time_formatter(time.time() - start_time))
+    # print('Predicted Time:', functions.time_formatter(predicted_time))
+    importance_plotter()
 
 # 22 most important features after 500,000 n_estimators:
 # Target + Top Features: ['G3', 'G2', 'absences', 'studytime', 'G1', 'age', 'health', 'reason_home', 'activities_yes', 'traveltime', 'schoolsup_yes', 'paid_yes', 'nursery_yes', 'Fedu', 'Dalc', 'Mjob_teacher', 'Fjob_other', 'sex_M', 'Mjob_health', 'Medu', 'Pstatus_T', 'higher_yes', 'Fjob_teacher']

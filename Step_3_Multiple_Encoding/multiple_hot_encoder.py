@@ -1,27 +1,24 @@
+from Step_1_Visualizing.visualization import original_df
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder
+from Step_2_Single_Encoding.single_hot_encoder import single_encoded_df
 
-
-
+# ToDo fix which dataframes go where
 def multiple_encoder():
-    import pandas as pd
-    import numpy as np
-    from sklearn.preprocessing import OneHotEncoder
-    import single_hot_encoder
-
-    single_encoded_df = single_hot_encoder.single_encoder()
     pd.options.display.width = 500
     pd.set_option('display.max_columns', 500)
-    original_dataframe = pd.read_csv("Data/student-mat.csv")
 
     all_dataframes_after_drops = pd.DataFrame()
-    for column in original_dataframe.columns:
-        unique_value_amount = len(original_dataframe[column].unique())
+    for column in original_df.columns:
+        unique_value_amount = len(original_df[column].unique())
 
 
-        if unique_value_amount > 2 and original_dataframe[column].dtypes == 'object':
+        if unique_value_amount > 2 and original_df[column].dtypes == 'object':
 
             ohe = OneHotEncoder(handle_unknown='ignore')
 
-            series_to_encode = ohe.fit_transform(original_dataframe[[column]]).toarray()
+            series_to_encode = ohe.fit_transform(original_df[[column]]).toarray()
 
             categories_getting_encoded = ohe.categories_
 
@@ -38,19 +35,19 @@ def multiple_encoder():
 
             all_dataframes_after_drops = pd.concat([all_dataframes_after_drops, new_single_dataframe_after_drop], axis=1)
 
-            original_dataframe.drop(column, axis=1, inplace=True)
+            original_df.drop(column, axis=1, inplace=True)
 
 
         else:
-            if original_dataframe[column].dtypes == 'object':
-                original_dataframe.drop(column, axis=1, inplace=True)
+            if original_df[column].dtypes == 'object':
+                original_df.drop(column, axis=1, inplace=True)
             continue
 
 
 
 
 
-    end_dataframe = pd.concat([all_dataframes_after_drops, original_dataframe], axis=1)
+    end_dataframe = pd.concat([all_dataframes_after_drops, original_df], axis=1)
 
 
     encoded_df = pd.concat([end_dataframe, single_encoded_df], axis=1)
@@ -60,28 +57,23 @@ def multiple_encoder():
     return encoded_df
 
 def multiple_encoder_printer():
-    import pandas as pd
-    import numpy as np
-    from sklearn.preprocessing import OneHotEncoder
-    import single_hot_encoder
 
-    single_encoded_df = single_hot_encoder.single_encoder()
+
     pd.options.display.width = 500
     pd.set_option('display.max_columns', 500)
-    original_dataframe = pd.read_csv("Data/student-mat.csv")
 
     all_dataframes_after_drops = pd.DataFrame()
-    for column in original_dataframe.columns:
-        unique_value_amount = len(original_dataframe[column].unique())
+    for column in original_df.columns:
+        unique_value_amount = len(original_df[column].unique())
         print('\nColumn:', column)
         print('Unique Value Amount:', unique_value_amount)
 
 
-        if unique_value_amount > 2 and original_dataframe[column].dtypes == 'object':
+        if unique_value_amount > 2 and original_df[column].dtypes == 'object':
 
             ohe = OneHotEncoder(handle_unknown='ignore')
 
-            series_to_encode = ohe.fit_transform(original_dataframe[[column]]).toarray()
+            series_to_encode = ohe.fit_transform(original_df[[column]]).toarray()
             print('series_to_encode:\n', series_to_encode)
 
             categories_getting_encoded = ohe.categories_
@@ -105,22 +97,22 @@ def multiple_encoder_printer():
             all_dataframes_after_drops = pd.concat([all_dataframes_after_drops, new_single_dataframe_after_drop], axis=1)
             print('all_dataframes_after_drops\n', all_dataframes_after_drops)
 
-            original_dataframe.drop(column, axis=1, inplace=True)
+            original_df.drop(column, axis=1, inplace=True)
 
 
         else:
             print('did not work on this column')
-            if original_dataframe[column].dtypes == 'object':
-                original_dataframe.drop(column, axis=1, inplace=True)
+            if original_df[column].dtypes == 'object':
+                original_df.drop(column, axis=1, inplace=True)
             continue
 
 
 
 
-    print('original_dataframe:\n', original_dataframe)
+    print('original_df:\n', original_df)
     print('All Dataframes After Drops:\n', all_dataframes_after_drops)
 
-    end_dataframe = pd.concat([all_dataframes_after_drops, original_dataframe], axis=1)
+    end_dataframe = pd.concat([all_dataframes_after_drops, original_df], axis=1)
     print('end:\n',end_dataframe)
 
 
@@ -133,9 +125,9 @@ def multiple_encoder_printer():
     print('last:\n', encoded_df)
     return encoded_df
 
-
+multiple_encoded_df = multiple_encoder()
 if __name__ == '__main__':
-    print(multiple_encoder())
+    print('Multiple Encoder:\n', multiple_encoder())
 
 
 

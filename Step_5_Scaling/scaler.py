@@ -5,47 +5,18 @@ import sklearn
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import time
-from data_cleaner import full_cleaner
+from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
+from Step_1_Visualizing.visualization import target_variable
+from Step_9_Predicting.predictor import predictor_data_dict
+# ToDo get the scaled dataframe csv to be the new csv
 
 start_time = time.time()
-
-dataframe = full_cleaner()
-TARGET_VARIABLE = 'G3'
-
-FEATURES = dataframe.drop([TARGET_VARIABLE], axis=1)
+FEATURES = multiple_encoded_df.drop([target_variable], axis=1)
 X = np.array(FEATURES)
-y = np.array(dataframe[TARGET_VARIABLE])
+y = np.array(multiple_encoded_df[target_variable])
 RUNTIMES = 100
 
-def get_predictor_array(predictor_data_dict):
-    data_we_have_dataframe = pd.DataFrame.from_dict(predictor_data_dict)
-    # combines the two dataframes and gives null values the mean
-    new_dataframe = pd.concat([data_we_have_dataframe, dataframe])
-    new_dataframe.fillna(dataframe.mean())
-    # separates the two dataframes again
-    new_dataframe = new_dataframe.iloc[0]
-    new_dataframe = pd.DataFrame(new_dataframe)
-    new_dataframe = new_dataframe.T
-    new_dataframe = new_dataframe.drop([TARGET_VARIABLE], axis=1)
-    unscaled_predictor_array = new_dataframe.fillna(dataframe.mean())
-    unscaled_predictor_array = np.array(unscaled_predictor_array)
-    return unscaled_predictor_array # not in order
 
-
-def predictor_data_scaler(predictor_data_dict):
-    unscaled_predictor_array = get_predictor_array(predictor_data_dict)
-    scaled_df, scaled_predictor_array = main_scaler(unscaled_predictor_array)
-    scaled_predictor_df = pd.DataFrame(scaled_predictor_array, columns=FEATURES.columns)
-
-    # this creates the dataframe with scaled data from input data only
-    key_lst = list(predictor_data_dict.keys())
-    value_lst = list(predictor_data_dict.values())
-    scaled_predictor_df = scaled_predictor_df.loc[:, key_lst]
-    scaled_predictor_df.to_csv('scaled_predictor_df.csv', index=False, encoding='utf-8')
-    return scaled_predictor_array, scaled_predictor_df
-
-
-# target FEATURES do not need to be scaled generally
 def standardizer(unscaled_predictor_array):
     total_accuracy = 0
     scaler = sklearn.preprocessing.StandardScaler()
@@ -119,12 +90,11 @@ def main_scaler(unscaled_predictor_array):
         scaled_predictor_array = standardized_predictor_array
     if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
         winner = 'raw'
-        scaled_df = dataframe
+        scaled_df = multiple_encoded_df
         scaled_predictor_array = unscaled_predictor_array
     print('Winner is', winner)
     time_elapsed = time.time() - start_time
-    print('Time Elapsed:', time_elapsed, 'seconds')
-    scaled_df = pd.concat([dataframe[TARGET_VARIABLE], scaled_df], axis=1)
+    scaled_df = pd.concat([multiple_encoded_df[target_variable], scaled_df], axis=1)
     scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
     return scaled_df, scaled_predictor_array
 
@@ -143,18 +113,13 @@ def main_scaler_non_printing(unscaled_predictor_array):
         scaled_predictor_array = standardized_predictor_array
     if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
         winner = 'raw'
-        scaled_df = dataframe
+        scaled_df = multiple_encoded_df
         scaled_predictor_array = unscaled_predictor_array
     time_elapsed = time.time() - start_time
-    scaled_df = pd.concat([dataframe[TARGET_VARIABLE], scaled_df], axis=1)
+    scaled_df = pd.concat([multiple_encoded_df[target_variable], scaled_df], axis=1)
     scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
     return scaled_df, scaled_predictor_array
 
-
-
-
 if __name__ == '__main__':
-    unscaled_predictor_array = get_predictor_array(predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]})
-    print(main_scaler(unscaled_predictor_array))
-
+    pass
 

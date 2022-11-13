@@ -8,27 +8,31 @@ import time
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 import pandas as pd
-from scaler import predictor_data_scaler
+from Step_1_Visualizing.visualization import target_variable
 
+
+
+predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]}
 
 start_time = time.time()
 run_evaluation = 'yes'
-dataframe = pd.read_csv('scaled_dataframe.csv')
-print('dataframe\n', dataframe)
+scaled_df = pd.read_csv('../Step_5_Scaling/scaled_dataframe.csv')
+with open('../Data/most_important_features.pickle', 'rb') as f:
+    most_important_features = pickle.load(f)[:]
+df = scaled_df[most_important_features]
+print('scaled_df\n', scaled_df)
 
-target_variable = 'G3'
-X = np.array(dataframe.drop([target_variable], axis=1), dtype='object')
-y = np.array(dataframe[target_variable], dtype='object')
+X = np.array(df.drop([target_variable], axis=1), dtype='object')
+y = np.array(df[target_variable], dtype='object')
 
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
 
-predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]}
-
 
 def predictor_scaler():
+    from Step_5_Scaling.scaler import predictor_data_scaler
     scaled_predictor_array, scaled_predictor_df = predictor_data_scaler(predictor_data_dict)
-    mean_dataframe = pd.DataFrame(dataframe.mean())
+    mean_dataframe = pd.DataFrame(df.mean())
     mean_dataframe = mean_dataframe.T
     # plug in our data to the above dataframe
     mean_dataframe.update(scaled_predictor_df)
@@ -47,22 +51,14 @@ def predictor():
     current_normal_score = MyLinearRegression.score(X_test, y_test)
 
 
-    try:
-        pickle_model = pickle.load(
-            open('Data/studentmodel.pickle', 'rb')
-        )  # loads the prediction model into the variable 'linear'
-        all_pickle_model_predictions = pickle_model.predict(X_test)
-        pickle_model_input_prediction = pickle_model.predict(
-            [finalized_predictor_array])
-        pickle_cross_val_score = cross_val_score(pickle_model, X, y, cv=10).mean()
-        pickle_normal_score = pickle_model.score(X_test, y_test)
-        pickle_mean_absolute_error = metrics.mean_absolute_error(y_test, all_pickle_model_predictions)
-        pickle_r2_score = r2_score(y_test, all_pickle_model_predictions)
-
-    except Exception as e:
-        print('\033[34m', 'Pickle Model Failed'), print(e, '\033[0m')
-        all_pickle_model_predictions, pickle_model_input_prediction, pickle_cross_val_score = 0, 0, 0
-        pickle_mean_absolute_error, pickle_r2_score, pickle_normal_score = 0, 0, 0
+    pickle_in = open('../Data/studentmodel.pickle', 'rb')
+    old_pickled_regression_line = pickle.load(pickle_in)
+    all_pickle_model_predictions = old_pickled_regression_line.predict(X_test)
+    pickle_model_input_prediction = old_pickled_regression_line.predict(finalized_predictor_array)
+    pickle_cross_val_score = cross_val_score(old_pickled_regression_line, X, y, cv=10).mean()
+    pickle_normal_score = old_pickled_regression_line.score(X_test, y_test)
+    pickle_mean_absolute_error = metrics.mean_absolute_error(y_test, all_pickle_model_predictions)
+    pickle_r2_score = r2_score(y_test, all_pickle_model_predictions)
 
 
     print(':             Statistic                :              Current Model                :        Pickle Model       ')
@@ -88,13 +84,11 @@ def predictor():
       pickle_cross_val_score - pickle_normal_score)
     print('Positive number above means cross val score was higher, which means your model is overfitting')
 
-
-# ToDo fix the portion below
     Sum, Max = 0, 0
     if run_evaluation.lower() == 'yes':
-        print('    Predicted                        [Actual Data]                         Actual Score', 'Difference'.rjust(21))
+        print('    Predicted             Actual', 'Difference'.rjust(21))
         for x in range(len(all_current_model_predictions)):
-            print(str(all_current_model_predictions[x]).ljust(23),X_test[x], str(y_test[x]).rjust(20),
+            print(str(all_current_model_predictions[x]).ljust(23), str(y_test[x]).rjust(5),
                   str(y_test[x] - all_current_model_predictions[x]).rjust(30))
             IndividualDifference = abs(y_test[x] - all_current_model_predictions[x])
             Sum = Sum + IndividualDifference
@@ -102,12 +96,6 @@ def predictor():
                 Max = IndividualDifference
 
 
-        for index, feature in enumerate(dataframe):
-            try:
-                print(feature.ljust(22), '[', MyLinearRegression.coef_[index], ']')
-            except:
-                pass
-        print('\n')
 
     else:
         pass
@@ -126,9 +114,8 @@ def predictor_plotter(all_current_model_predictions):
 
 
 if __name__ == '__main__':
-    predictor_scaler()
+    from Step_5_Scaling.scaler import scaled_predictor_array, scaled_predictor_df
     all_current_model_predictions, all_pickle_model_predictions = predictor()
     predictor_plotter(all_current_model_predictions)
 
-    # ToDo test whether the predicted output needs to be scaled or not
 

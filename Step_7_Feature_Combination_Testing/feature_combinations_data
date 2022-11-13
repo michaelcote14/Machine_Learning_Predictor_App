@@ -227,3 +227,15 @@ Best Features:, ['G2', 'G1', 'activities_yes', 'health', 'nursery_yes', 'studyti
 Runthroughs:, 5, 
 Time to Run:, 139.72503900527954, seconds, 
 Date Completed:, Wed Nov  9 15:41:15 2022
+
+Best Average Score:, 0.8281885918053111, 
+Best Features:, ['G2', 'G1'], 
+Runthroughs:, 5, 
+Time to Run:, 0.08501195907592773, seconds, 
+Date Completed:, Thu Nov 10 12:39:08 2022
+
+Best Average Score:, 0.8435533198984395, 
+Best Features:, ['G2', 'G1'], 
+Runthroughs:, 5, 
+Time to Run:, 0.08302044868469238, seconds, 
+Date Completed:, Thu Nov 10 12:40:18 2022
