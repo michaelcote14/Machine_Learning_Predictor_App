@@ -7,6 +7,8 @@ from sklearn.preprocessing import MinMaxScaler
 import time
 from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
 from Step_1_Visualizing.visualization import target_variable
+from Step_10_Predicting.predictor import predictor_data_dict
+
 
 start_time = time.time()
 FEATURES = multiple_encoded_df.drop([target_variable], axis=1)
@@ -14,10 +16,40 @@ X = np.array(FEATURES)
 y = np.array(multiple_encoded_df[target_variable])
 RUNTIMES = 100
 
-def standardizer(dataframe):
+def get_predictor_array(predictor_data_dict):
+    data_we_have_dataframe = pd.DataFrame.from_dict(predictor_data_dict)
+    # combines the two dataframes and gives null values the mean
+    new_dataframe = pd.concat([data_we_have_dataframe, multiple_encoded_df])
+    new_dataframe.fillna(multiple_encoded_df.mean())
+    # separates the two dataframes again
+    new_dataframe = new_dataframe.iloc[0]
+    new_dataframe = pd.DataFrame(new_dataframe)
+    new_dataframe = new_dataframe.T
+    new_dataframe = new_dataframe.drop([target_variable], axis=1)
+    unscaled_predictor_array = new_dataframe.fillna(multiple_encoded_df.mean())
+    unscaled_predictor_array = np.array(unscaled_predictor_array)
+    return unscaled_predictor_array # not in order
+
+
+def predictor_data_scaler(predictor_data_dict):
+    unscaled_predictor_array = get_predictor_array(predictor_data_dict)
+    scaled_df, scaled_predictor_array = main_scaler(unscaled_predictor_array)
+    scaled_predictor_df = pd.DataFrame(scaled_predictor_array, columns=FEATURES.columns)
+
+    # this creates the dataframe with scaled data from input data only
+    key_lst = list(predictor_data_dict.keys())
+    value_lst = list(predictor_data_dict.values())
+    scaled_predictor_df = scaled_predictor_df.loc[:, key_lst]
+    scaled_predictor_df.to_csv('scaled_predictor_df.csv', index=False, encoding='utf-8')
+    return scaled_predictor_array, scaled_predictor_df
+
+
+# target FEATURES do not need to be scaled generally
+def standardizer(unscaled_predictor_array):
     total_accuracy = 0
     scaler = sklearn.preprocessing.StandardScaler()
     standardized_array = scaler.fit_transform(X)
+    standardized_predictor_array = scaler.transform(unscaled_predictor_array)
     standardized_df = pd.DataFrame(standardized_array, columns= FEATURES.columns) # problem line
     standardized_X = np.array(standardized_df)
 
@@ -30,14 +62,15 @@ def standardizer(dataframe):
         accuracy = linear.score(X_test, y_test)
         total_accuracy += accuracy
     standardizer_average_accuracy = total_accuracy / RUNTIMES
-    return standardizer_average_accuracy, standardized_df
+    return standardizer_average_accuracy, standardized_df, standardized_predictor_array
 
 
-def normalizer(dataframe):
+def normalizer(unscaled_predictor_array):
     # brings the scaler in and applies it to the original array as well as the predicted array
     total_accuracy = 0
     scaler = MinMaxScaler()
     normalized_array = scaler.fit_transform(X)
+    normalized_predictor_array = scaler.transform(unscaled_predictor_array)
 
     normalized_df = pd.DataFrame(normalized_array, columns=FEATURES.columns)
     normalized_X = np.array(normalized_df)
@@ -51,7 +84,7 @@ def normalizer(dataframe):
         accuracy = linear.score(X_test, y_test)
         total_accuracy += accuracy
     normalizer_average_accuracy = total_accuracy/RUNTIMES
-    return normalizer_average_accuracy, normalized_df
+    return normalizer_average_accuracy, normalized_df, normalized_predictor_array
 
 def raw():
     total_accuracy = 0
@@ -66,10 +99,10 @@ def raw():
     raw_average_accuracy = total_accuracy / RUNTIMES
     return raw_average_accuracy
 
-def main_scaler(dataframe):
+def main_scaler(unscaled_predictor_array):
     raw_accuracy = raw()
-    standardized_accuracy, standardized_df = standardizer(dataframe)
-    normalized_accuracy, normalized_df = normalizer(dataframe)
+    standardized_accuracy, standardized_df, standardized_predictor_array = standardizer(unscaled_predictor_array)
+    normalized_accuracy, normalized_df, normalized_predictor_array = normalizer(unscaled_predictor_array)
     print('\nNormalizer Average Accuracy: ', normalized_accuracy)
     print('Standardizer Average Accuracy', standardized_accuracy)
     print('Raw Average Accuracy         ', raw_accuracy)
@@ -78,45 +111,46 @@ def main_scaler(dataframe):
     if normalized_accuracy > standardized_accuracy and normalized_accuracy > raw_accuracy:
         winner = 'normalizer'
         scaled_df = normalized_df
+        scaled_predictor_array = normalized_predictor_array
     if standardized_accuracy > normalized_accuracy and standardized_accuracy > raw_accuracy:
         winner = 'standardizer'
         scaled_df = standardized_df
+        scaled_predictor_array = standardized_predictor_array
     if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
         winner = 'raw'
         scaled_df = multiple_encoded_df
+        scaled_predictor_array = unscaled_predictor_array
     print('Winner is', winner)
     time_elapsed = time.time() - start_time
     scaled_df = pd.concat([multiple_encoded_df[target_variable], scaled_df], axis=1)
     scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
-    return scaled_df
+    return scaled_df, scaled_predictor_array
 
-def main_scaler_non_printing(dataframe):
+def main_scaler_non_printing(unscaled_predictor_array):
     raw_accuracy = raw()
-    standardized_accuracy, standardized_df = standardizer(dataframe)
-    normalized_accuracy, normalized_df = normalizer(dataframe)
-    print('\nNormalizer Average Accuracy: ', normalized_accuracy)
-    print('Standardizer Average Accuracy', standardized_accuracy)
-    print('Raw Average Accuracy         ', raw_accuracy)
-
+    standardized_accuracy, standardized_df, standardized_predictor_array = standardizer(unscaled_predictor_array)
+    normalized_accuracy, normalized_df, normalized_predictor_array = normalizer(unscaled_predictor_array)
 
     if normalized_accuracy > standardized_accuracy and normalized_accuracy > raw_accuracy:
         winner = 'normalizer'
         scaled_df = normalized_df
+        scaled_predictor_array = normalized_predictor_array
     if standardized_accuracy > normalized_accuracy and standardized_accuracy > raw_accuracy:
         winner = 'standardizer'
         scaled_df = standardized_df
+        scaled_predictor_array = standardized_predictor_array
     if raw_accuracy > normalized_accuracy and raw_accuracy > standardized_accuracy:
         winner = 'raw'
         scaled_df = multiple_encoded_df
-    print('Winner is', winner)
+        scaled_predictor_array = unscaled_predictor_array
     time_elapsed = time.time() - start_time
     scaled_df = pd.concat([multiple_encoded_df[target_variable], scaled_df], axis=1)
     scaled_df.to_csv('scaled_dataframe.csv', index=False, encoding='utf-8')
-    return scaled_df
+    return scaled_df, scaled_predictor_array
 
-
-scaled_df = main_scaler_non_printing(multiple_encoded_df)
+unscaled_predictor_array = get_predictor_array(predictor_data_dict)
+scaled_df, scaled_predictor_array = main_scaler_non_printing(unscaled_predictor_array)
+scaled_predictor_array, scaled_predictor_df = predictor_data_scaler(predictor_data_dict)
 if __name__ == '__main__':
-    print('Scaled Df:\n', scaled_df)
     pass
 

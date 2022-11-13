@@ -4,8 +4,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from Step_5_Scaling.scaler import scaled_df
-from Step_4_Data_Cleaning.data_cleaner import target_variable
+from Step_1_Visualizing.visualization import target_variable
 
+print('Scaled Df:\n', scaled_df)
 
 def feature_importer(feature_length_wanted=23):
 
@@ -26,7 +27,7 @@ def feature_importer(feature_length_wanted=23):
 
     # ################################################ Train #############################################
     #
-    rf = RandomForestRegressor(n_estimators=500000, n_jobs=-1)
+    rf = RandomForestRegressor(n_estimators=1000, n_jobs=-1)
     rf.fit(X_train, y_train)
     #
     # ############################### Permutation feature importance #####################################
@@ -90,15 +91,16 @@ def feature_importer_non_printing(feature_length_wanted=23):
         new_corr_list = list(sorted_dict)
         most_important_features.append(new_corr_list[n])
     most_important_features.insert(0, target_variable)
-    return most_important_features,
+    return most_important_features
 
 
 def importance_plotter():
-
+    # ToDo only plot the top X amount of most important features
     ######################################## Data preparation #########################################
 
     features = scaled_df.columns.tolist()
-
+    features = feature_importer_non_printing(23)
+    print('Features:\n', features)
     ######################################## Train/test split #########################################
 
     scaled_df_train, scaled_df_test = train_test_split(scaled_df, test_size=0.20, random_state=0)
@@ -136,6 +138,7 @@ def importance_plotter():
 
 if __name__ == '__main__':
     # start_time = time.time()
+    print(feature_importer(50))
     # print(feature_importer(22))
     # print('Elapsed Time:', time.time() - start_time)
     # importance_plotter()
@@ -147,7 +150,7 @@ if __name__ == '__main__':
     # predicted_time = 0.06358575820922852 * 500000
     # print('Actual Time:', functions.time_formatter(time.time() - start_time))
     # print('Predicted Time:', functions.time_formatter(predicted_time))
-    importance_plotter()
+    # importance_plotter()
 
 # 22 most important features after 500,000 n_estimators:
 # Target + Top Features: ['G3', 'G2', 'absences', 'studytime', 'G1', 'age', 'health', 'reason_home', 'activities_yes', 'traveltime', 'schoolsup_yes', 'paid_yes', 'nursery_yes', 'Fedu', 'Dalc', 'Mjob_teacher', 'Fjob_other', 'sex_M', 'Mjob_health', 'Medu', 'Pstatus_T', 'higher_yes', 'Fjob_teacher']
