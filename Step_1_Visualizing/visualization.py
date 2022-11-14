@@ -3,7 +3,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-# ToDo move around modules
 original_df = pd.read_csv("../Data/nfl_data.csv")
 target_variable = 'pass_blitzed'
 
