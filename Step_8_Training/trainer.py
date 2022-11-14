@@ -6,7 +6,7 @@ import time
 from Extras import functions
 import pandas as pd
 import concurrent.futures
-from Step_4_Data_Cleaning.data_cleaner import target_variable
+from Step_1_Visualizing.visualization import target_variable
 
 
 scaled_dataframe = pd.read_csv('../Step_5_Scaling/scaled_dataframe.csv')
