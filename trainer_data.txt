@@ -1,0 +1,9 @@
+
+
+Pickle Model Average Accuracy: 0.889643649516618 
+Date Ran: Tue Nov 15 20:02:44 2022 
+Features Used: ['comb_pass_rush_play', 'Humidity', 'pass_hurried', 'offense', 'Over_Under', 'pass_long', 'Opponent_abbrev_BAL', 'Wind_Speed', 'pass_poor_throws', 'rush_long', 'vis_score', 'rush_scrambles', 'home_score', 'rush_att', 'pass_int', 'fumbles_lost', 'pass_rating', 'Surface_grass', 'vis_team_BUF', 'vis_team_DEN', 'total_yards']
+
+Pickle Model Average Accuracy: 0.9102983022317988 
+Date Ran: Tue Nov 15 20:02:51 2022 
+Features Used: ['comb_pass_rush_play', 'Humidity', 'pass_hurried', 'offense', 'Over_Under', 'pass_long', 'Opponent_abbrev_BAL', 'Wind_Speed', 'pass_poor_throws', 'rush_long', 'vis_score', 'rush_scrambles', 'home_score', 'rush_att', 'pass_int', 'fumbles_lost', 'pass_rating', 'Surface_grass', 'vis_team_BUF', 'vis_team_DEN', 'total_yards']

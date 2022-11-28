@@ -1,11 +1,8 @@
-from Step_1_Visualizing.visualization import original_df
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-from Step_2_Single_Encoding.single_hot_encoder import single_encoded_df
 
-# ToDo fix which dataframes go where
-def multiple_encoder():
+def multiple_encoder(original_df, single_encoded_df):
     pd.options.display.width = 500
     pd.set_option('display.max_columns', 500)
 
@@ -56,7 +53,7 @@ def multiple_encoder():
 
     return encoded_df
 
-def multiple_encoder_printer():
+def multiple_encoder_printer(original_df, target_variable):
 
 
     pd.options.display.width = 500
@@ -125,7 +122,6 @@ def multiple_encoder_printer():
     print('last:\n', encoded_df)
     return encoded_df
 
-multiple_encoded_df = multiple_encoder()
 if __name__ == '__main__':
     print('Multiple Encoder:\n', multiple_encoder())
 

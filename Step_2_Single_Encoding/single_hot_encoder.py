@@ -1,10 +1,9 @@
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
-from Step_1_Visualizing.visualization import type_clean_df
 
 
-def single_encoder_printer():
+def single_encoder_printer(type_clean_df):
         pd.options.display.width = 500
         pd.set_option('display.max_columns', 500)
         print('type_clean_df.head:\n', type_clean_df.head())
@@ -71,7 +70,7 @@ def single_encoder_printer():
         return all_dataframes_after_drops_single
 
 
-def single_encoder():
+def single_encoder(type_clean_df):
     all_dataframes_after_drops_single = pd.DataFrame()
     for column in type_clean_df:
         category_count = type_clean_df[column].value_counts()
@@ -115,8 +114,6 @@ def single_encoder():
     return all_dataframes_after_drops_single
 
 
-single_encoded_df = single_encoder()
-print('Single Encoded Df:\n', single_encoded_df)
 
 if __name__ == '__main__':
     pass

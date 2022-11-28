@@ -27,16 +27,11 @@ def text_file_reader(filename, letter_index1, letter_index2):
 
 # reads specific lines of a file, just add another readline statement
 # to get the next line
-def line_checker(filename, line_length):
+# USE THIS FOR EVERTHING!!
+def line_checker(filename, line_to_read, letters_to_read='none'):
     with open (filename, 'r') as file:
-        print(file.readline())
-        line_to_check = (len(file.readline()))
-        print(line_to_check)
-        if line_to_check > 34:
+        print(file.readlines()[1][0:5])
 
-            print('worked')
-
-        file.close()
 
 
 def email_or_text_alert(subject, body, to):

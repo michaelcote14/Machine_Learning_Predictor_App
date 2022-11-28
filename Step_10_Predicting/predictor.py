@@ -8,30 +8,17 @@ import time
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 import pandas as pd
-from Step_1_Visualizing.visualization import target_variable
+import ast
 
-
-
-predictor_data_dict = {'age': [16.0], 'G2': [10.0], 'goout': [3], 'internet_yes': [1]}
 
 start_time = time.time()
 run_evaluation = 'yes'
-scaled_df = pd.read_csv('../Step_5_Scaling/scaled_dataframe.csv')
-with open('../Data/most_important_features.pickle', 'rb') as f:
-    most_important_features = pickle.load(f)[:]
-df = scaled_df[most_important_features]
-print('scaled_df\n', scaled_df)
-
-X = np.array(df.drop([target_variable], axis=1), dtype='object')
-y = np.array(df[target_variable], dtype='object')
-
-X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
-MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
 
 
-def predictor_scaler():
-    from Step_5_Scaling.scaler import predictor_data_scaler
-    scaled_predictor_array, scaled_predictor_df = predictor_data_scaler(predictor_data_dict)
+def predictor_array_cleaner(scaled_df, target_variable, scaled_predictor_df):
+    with open('Step_6_Feature_Importance_Finding/importance_finder_log.txt', 'r') as file:
+        most_important_features = ast.literal_eval(file.readlines()[2][25:-1])
+    df = scaled_df[most_important_features]
     mean_dataframe = pd.DataFrame(df.mean())
     mean_dataframe = mean_dataframe.T
     # plug in our data to the above dataframe
@@ -42,23 +29,44 @@ def predictor_scaler():
     return finalized_predictor_array
 
 
-def predictor():
-    finalized_predictor_array = predictor_scaler()
+def predictor(scaled_df, target_variable, scaled_predictor_df):
+    with open('Step_6_Feature_Importance_Finding/importance_finder_log.txt', 'r') as file:
+        most_important_features = ast.literal_eval(file.readlines()[2][25:-1])
+        print('============\n', most_important_features)
+        print('------------\n', scaled_df)
+    df = scaled_df[most_important_features] # problem line
+    print('scaled_df\n', scaled_df)
 
+    X = np.array(df.drop([target_variable], axis=1), dtype='object')
+    y = np.array(df[target_variable], dtype='object')
+
+    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+    MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+    finalized_predictor_array = predictor_array_cleaner(scaled_df, target_variable, scaled_predictor_df)
     all_current_model_predictions = MyLinearRegression.predict(X_test)
     current_model_input_prediction = MyLinearRegression.predict(finalized_predictor_array)
     current_cross_val_score = cross_val_score(MyLinearRegression, X, y, cv=10).mean()
     current_normal_score = MyLinearRegression.score(X_test, y_test)
 
 
-    pickle_in = open('../Data/studentmodel.pickle', 'rb')
+    pickle_in = open('Data/NFL_pickled_model', 'rb')
     old_pickled_regression_line = pickle.load(pickle_in)
-    all_pickle_model_predictions = old_pickled_regression_line.predict(X_test)
-    pickle_model_input_prediction = old_pickled_regression_line.predict(finalized_predictor_array)
-    pickle_cross_val_score = cross_val_score(old_pickled_regression_line, X, y, cv=10).mean()
-    pickle_normal_score = old_pickled_regression_line.score(X_test, y_test)
-    pickle_mean_absolute_error = metrics.mean_absolute_error(y_test, all_pickle_model_predictions)
-    pickle_r2_score = r2_score(y_test, all_pickle_model_predictions)
+    print('X Test:', X_test.size)
+
+    try:
+        all_pickle_model_predictions = old_pickled_regression_line.predict(X_test) #problem line
+        pickle_model_input_prediction = old_pickled_regression_line.predict(finalized_predictor_array)
+        pickle_cross_val_score = cross_val_score(old_pickled_regression_line, X, y, cv=10).mean()
+        pickle_normal_score = old_pickled_regression_line.score(X_test, y_test)
+        pickle_mean_absolute_error = metrics.mean_absolute_error(y_test, all_pickle_model_predictions)
+        pickle_r2_score = r2_score(y_test, all_pickle_model_predictions)
+    except:
+        all_pickle_model_predictions = 0
+        pickle_model_input_prediction = 0
+        pickle_cross_val_score = 0
+        pickle_normal_score = 0
+        pickle_mean_absolute_error = 0
+        pickle_r2_score = 0
 
 
     print(':             Statistic                :              Current Model                :        Pickle Model       ')
@@ -99,9 +107,12 @@ def predictor():
 
     else:
         pass
+
+    predictor_plotter(all_current_model_predictions, y_test, target_variable)
+
     return all_current_model_predictions, all_pickle_model_predictions
 
-def predictor_plotter(all_current_model_predictions):
+def predictor_plotter(all_current_model_predictions, y_test, target_variable):
     plt.figure(figsize=(15, 10))
     plt.scatter(y_test, all_current_model_predictions, c='blue')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=3)

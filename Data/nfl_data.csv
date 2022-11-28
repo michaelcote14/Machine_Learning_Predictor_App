@@ -1,0 +1,100 @@
+﻿pos,player,team,total_yards,pass_rating,Team_abbrev,Opponent_abbrev,vis_team,home_team,Roof,Surface,Temperature,Humidity,Wind_Speed,Vegas_Line,Vegas_Favorite,Over_Under,game_date
+QB,Aaron Rodgers,GNB,211,91.4,GNB,CHI,GNB,CHI,outdoors,grass,65,69,10,-3.5,CHI,47,9/5/2019
+QB,Mitchell Trubisky,CHI,239,62.1,CHI,GNB,GNB,CHI,outdoors,grass,65,69,10,-3.5,CHI,47,9/5/2019
+QB,Jared Goff,LAR,186,69,LAR,CAR,LAR,CAR,outdoors,grass,87,53,3,-1.5,LAR,49.5,9/8/2019
+QB,Cam Newton,CAR,237,72.1,CAR,LAR,LAR,CAR,outdoors,grass,87,53,3,-1.5,LAR,49.5,9/8/2019
+QB,Marcus Mariota,TEN,272,133.3,TEN,CLE,TEN,CLE,outdoors,grass,71,55,10,-5.5,CLE,44,9/8/2019
+QB,Ryan Tannehill,TEN,-2,0,TEN,CLE,TEN,CLE,outdoors,grass,71,55,10,-5.5,CLE,44,9/8/2019
+QB,Baker Mayfield,CLE,285,64,CLE,TEN,TEN,CLE,outdoors,grass,71,55,10,-5.5,CLE,44,9/8/2019
+QB,Matthew Stafford,DET,407,110,DET,ARI,DET,ARI,retractable roof (closed),grass,72,45,0,-2.5,DET,45.5,9/8/2019
+QB,Kyler Murray,ARI,321,75.2,ARI,DET,DET,ARI,retractable roof (closed),grass,72,45,0,-2.5,DET,45.5,9/8/2019
+QB,Dak Prescott,DAL,417,158.3,DAL,NYG,NYG,DAL,retractable roof (closed),fieldturf,72,45,0,-7,DAL,44,9/8/2019
+QB,Eli Manning,NYG,312,95.5,NYG,DAL,NYG,DAL,retractable roof (closed),fieldturf,72,45,0,-7,DAL,44,9/8/2019
+QB,Daniel Jones,NYG,22,82.3,NYG,DAL,NYG,DAL,retractable roof (closed),fieldturf,72,45,0,-7,DAL,44,9/8/2019
+QB,Patrick Mahomes,KAN,380,143.2,KAN,JAX,KAN,JAX,outdoors,grass,91,54,6,-3.5,KAN,49,9/8/2019
+QB,Matt Moore,KAN,-1,39.6,KAN,JAX,KAN,JAX,outdoors,grass,91,54,6,-3.5,KAN,49,9/8/2019
+QB,Gardner Minshew II,JAX,281,122.5,JAX,KAN,KAN,JAX,outdoors,grass,91,54,6,-3.5,KAN,49,9/8/2019
+QB,Nick Foles ,JAX,75,132.8,JAX,KAN,KAN,JAX,outdoors,grass,91,54,6,-3.5,KAN,49,9/8/2019
+QB,Ryan Fitzpatrick,MIA,193,66,MIA,BAL,BAL,MIA,outdoors,grass,91,56,8,-7,BAL,41,9/8/2019
+QB,Josh Rosen,MIA,5,2.8,MIA,BAL,BAL,MIA,outdoors,grass,91,56,8,-7,BAL,41,9/8/2019
+QB,Lamar Jackson,BAL,330,158.3,BAL,MIA,BAL,MIA,outdoors,grass,91,56,8,-7,BAL,41,9/8/2019
+QB,Robert Griffin III,BAL,64,144.4,BAL,MIA,BAL,MIA,outdoors,grass,91,56,8,-7,BAL,41,9/8/2019
+QB,Matt Ryan,ATL,328,85.8,ATL,MIN,ATL,MIN,dome,sportturf,72,45,0,-3.5,MIN,47,9/8/2019
+QB,Kirk Cousins,MIN,102,140.8,MIN,ATL,ATL,MIN,dome,sportturf,72,45,0,-3.5,MIN,47,9/8/2019
+QB,Ben Roethlisberger,PIT,283,65.6,PIT,NWE,PIT,NWE,outdoors,grass,66,62,2,-5.5,NWE,49,9/8/2019
+QB,Tom Brady,NWE,341,124.9,NWE,PIT,PIT,NWE,outdoors,grass,66,62,2,-5.5,NWE,49,9/8/2019
+QB,Josh Allen,BUF,292,71.2,BUF,NYJ,BUF,NYJ,outdoors,fieldturf ,77,46,6,-2.5,NYJ,41,9/8/2019
+QB,Sam Darnold,NYJ,175,84.9,NYJ,BUF,BUF,NYJ,outdoors,fieldturf ,77,46,6,-2.5,NYJ,41,9/8/2019
+QB,Case Keenum,WAS,380,117.6,WAS,PHI,WAS,PHI,outdoors,grass,79,49,4,-10.5,PHI,44,9/8/2019
+QB,Carson Wentz,PHI,318,121,PHI,WAS,WAS,PHI,outdoors,grass,79,49,4,-10.5,PHI,44,9/8/2019
+QB,Jacoby Brissett,IND,199,120.7,IND,LAC,IND,LAC,outdoors,grass,77,52,10,-6,LAC,44.5,9/8/2019
+QB,Tyrod Taylor,LAC,0,0,LAC,IND,IND,LAC,outdoors,grass,77,52,10,-6,LAC,44.5,9/8/2019
+QB,Philip Rivers,LAC,339,121.3,LAC,IND,IND,LAC,outdoors,grass,77,52,10,-6,LAC,44.5,9/8/2019
+QB,Russell Wilson,SEA,203,134.4,SEA,CIN,CIN,SEA,outdoors,fieldturf,64,82,7,-9.5,SEA,44,9/8/2019
+QB,Andy Dalton,CIN,418,106.5,CIN,SEA,CIN,SEA,outdoors,fieldturf,64,82,7,-9.5,SEA,44,9/8/2019
+QB,Jimmy Garoppolo,SFO,164,80.2,SFO,TAM,SFO,TAM,outdoors,grass,93,52,9,-1,TAM,51,9/8/2019
+QB,Jameis Winston,TAM,207,45.4,TAM,SFO,SFO,TAM,outdoors,grass,93,52,9,-1,TAM,51,9/8/2019
+QB,Deshaun Watson,HOU,308,114.3,HOU,NOR,HOU,NOR,dome,astroturf,72,45,0,-6.5,NOR,52,9/9/2019
+QB,Drew Brees,NOR,370,105.8,NOR,HOU,HOU,NOR,dome,astroturf,72,45,0,-6.5,NOR,52,9/9/2019
+QB,Taysom Hill,NOR,17,0,NOR,HOU,HOU,NOR,dome,astroturf,72,45,0,-6.5,NOR,52,9/9/2019
+QB,Joe Flacco,DEN,269,105.3,DEN,LVR,DEN,LVR,outdoors,grass,68,66,15,-3,DEN,42.5,9/9/2019
+QB,Derek Carr,LVR,261,121,LVR,DEN,DEN,LVR,outdoors,grass,68,66,15,-3,DEN,42.5,9/9/2019
+QB,Jameis Winston,TAM,217,103.4,TAM,CAR,TAM,CAR,outdoors,grass,85,55,3,-6.5,CAR,48,9/12/2019
+QB,Cam Newton,CAR,333,70.1,CAR,TAM,TAM,CAR,outdoors,grass,85,55,3,-6.5,CAR,48,9/12/2019
+QB,Carson Wentz,PHI,234,61.3,PHI,ATL,PHI,ATL,retractable roof (open),fieldturf,72,45,0,-1,PHI,53,9/15/2019
+QB,Josh McCown,PHI,24,72.1,PHI,ATL,PHI,ATL,retractable roof (open),fieldturf,72,45,0,-1,PHI,53,9/15/2019
+QB,Matt Ryan,ATL,323,79.6,ATL,PHI,PHI,ATL,retractable roof (open),fieldturf,72,45,0,-1,PHI,53,9/15/2019
+QB,Jimmy Garoppolo,SFO,304,131,SFO,CIN,SFO,CIN,outdoors,grass,81,45,5,-1,CIN,46,9/15/2019
+QB,Andy Dalton,CIN,313,90.5,CIN,SFO,SFO,CIN,outdoors,grass,81,45,5,-1,CIN,46,9/15/2019
+QB,Mitchell Trubisky,CHI,128,70,CHI,DEN,CHI,DEN,outdoors,grass,87,14,3,-3,CHI,41,9/15/2019
+QB,Joe Flacco,DEN,292,83.1,DEN,CHI,CHI,DEN,outdoors,grass,87,14,3,-3,CHI,41,9/15/2019
+QB,Matthew Stafford,DET,258,91.7,DET,LAC,LAC,DET,dome,fieldturf,72,45,0,-1,LAC,47,9/15/2019
+QB,Philip Rivers,LAC,305,73,LAC,DET,LAC,DET,dome,fieldturf,72,45,0,-1,LAC,47,9/15/2019
+QB,Kirk Cousins,MIN,247,52.9,MIN,GNB,MIN,GNB,outdoors,grass,72,75,5,-3,GNB,43,9/15/2019
+QB,Aaron Rodgers,GNB,209,101.2,GNB,MIN,MIN,GNB,outdoors,grass,72,75,5,-3,GNB,43,9/15/2019
+QB,Deshaun Watson,HOU,164,70.9,HOU,JAX,JAX,HOU,retractable roof (closed),grass,72,45,0,-7.5,HOU,43,9/15/2019
+QB,Gardner Minshew II,JAX,269,97.2,JAX,HOU,JAX,HOU,retractable roof (closed),grass,72,45,0,-7.5,HOU,43,9/15/2019
+QB,Ryan Fitzpatrick,MIA,95,23.8,MIA,NWE,NWE,MIA,outdoors,grass,87,67,4,-18,NWE,48.5,9/15/2019
+QB,Josh Rosen,MIA,97,33.8,MIA,NWE,NWE,MIA,outdoors,grass,87,67,4,-18,NWE,48.5,9/15/2019
+QB,Tom Brady,NWE,265,124.7,NWE,MIA,NWE,MIA,outdoors,grass,87,67,4,-18,NWE,48.5,9/15/2019
+QB,Josh Allen,BUF,274,101.1,BUF,NYG,BUF,NYG,outdoors,fieldturf ,79,48,5,-1,BUF,44.5,9/15/2019
+QB,Eli Manning,NYG,252,62.3,NYG,BUF,BUF,NYG,outdoors,fieldturf ,79,48,5,-1,BUF,44.5,9/15/2019
+QB,Jacoby Brissett,IND,171,95.2,IND,TEN,IND,TEN,outdoors,grass,93,45,1,-3,TEN,43.5,9/15/2019
+QB,Marcus Mariota,TEN,186,93.5,TEN,IND,IND,TEN,outdoors,grass,93,45,1,-3,TEN,43.5,9/15/2019
+QB,Mason Rudolph,PIT,119,92.4,PIT,SEA,SEA,PIT,outdoors,grass,81,51,3,-4,PIT,47,9/15/2019
+QB,Ben Roethlisberger,PIT,75,67.4,PIT,SEA,SEA,PIT,outdoors,grass,81,51,3,-4,PIT,47,9/15/2019
+QB,Russell Wilson,SEA,322,131,SEA,PIT,SEA,PIT,outdoors,grass,81,51,3,-4,PIT,47,9/15/2019
+QB,Patrick Mahomes,KAN,442,131.2,KAN,LVR,KAN,LVR,outdoors,grass,70,61,13,-7,KAN,53.5,9/15/2019
+QB,Derek Carr,LVR,216,61.1,LVR,KAN,KAN,LVR,outdoors,grass,70,61,13,-7,KAN,53.5,9/15/2019
+QB,Taysom Hill,NOR,16,0,NOR,LAR,NOR,LAR,outdoors,grass,85,44,4,-2,LAR,52.5,9/15/2019
+QB,Jared Goff,LAR,281,112.6,LAR,NOR,NOR,LAR,outdoors,grass,85,44,4,-2,LAR,52.5,9/15/2019
+QB,Teddy Bridgewater,NOR,170,72.2,NOR,LAR,NOR,LAR,outdoors,grass,85,44,4,-2,LAR,52.5,9/15/2019
+QB,Drew Brees,NOR,38,44.2,NOR,LAR,NOR,LAR,outdoors,grass,85,44,4,-2,LAR,52.5,9/15/2019
+QB,Kyler Murray,ARI,353,90.5,ARI,BAL,ARI,BAL,outdoors,grass,82,60,8,-13,BAL,46,9/15/2019
+QB,Lamar Jackson,BAL,392,104.8,BAL,ARI,ARI,BAL,outdoors,grass,82,60,8,-13,BAL,46,9/15/2019
+QB,Dak Prescott,DAL,338,123.5,DAL,WAS,DAL,WAS,outdoors,grass,80,46,7,-6,DAL,46.5,9/15/2019
+QB,Case Keenum,WAS,220,103.5,WAS,DAL,DAL,WAS,outdoors,grass,80,46,7,-6,DAL,46.5,9/15/2019
+QB,Baker Mayfield,CLE,325,83.6,CLE,NYJ,CLE,NYJ,outdoors,fieldturf ,72,69,3,-6.5,CLE,45.5,9/16/2019
+QB,Luke Falk,NYJ,198,99.7,NYJ,CLE,CLE,NYJ,outdoors,fieldturf ,72,69,3,-6.5,CLE,45.5,9/16/2019
+QB,Trevor Siemian,NYJ,3,56.2,NYJ,CLE,CLE,NYJ,outdoors,fieldturf ,72,69,3,-6.5,CLE,45.5,9/16/2019
+QB,Gardner Minshew II,JAX,222,108.2,JAX,TEN,TEN,JAX,outdoors,grass,73,87,9,-1.5,TEN,38,9/19/2019
+QB,Marcus Mariota,TEN,338,81.7,TEN,JAX,TEN,JAX,outdoors,grass,73,87,9,-1.5,TEN,38,9/19/2019
+QB,Andy Dalton,CIN,251,63.4,CIN,BUF,CIN,BUF,outdoors,astroturf,83,53,13,-5.5,BUF,43.5,9/22/2019
+QB,Josh Allen,BUF,289,81.1,BUF,CIN,CIN,BUF,outdoors,astroturf,83,53,13,-5.5,BUF,43.5,9/22/2019
+QB,Jared Goff,LAR,282,79.7,LAR,CLE,LAR,CLE,outdoors,grass,83,33,12,-4,LAR,48,9/22/2019
+QB,Baker Mayfield,CLE,194,64,CLE,LAR,LAR,CLE,outdoors,grass,83,33,12,-4,LAR,48,9/22/2019
+QB,Jacoby Brissett,IND,314,118.1,IND,ATL,ATL,IND,retractable roof (closed),fieldturf,72,45,0,-1,IND,48,9/22/2019
+QB,Matt Ryan,ATL,307,121.1,ATL,IND,ATL,IND,retractable roof (closed),fieldturf,72,45,0,-1,IND,48,9/22/2019
+QB,Kyler Murray,ARI,242,73.1,ARI,CAR,CAR,ARI,retractable roof (closed),grass,72,45,0,-2.5,ARI,46,9/22/2019
+QB,Kyle Allen,CAR,260,144.4,CAR,ARI,CAR,ARI,retractable roof (closed),grass,72,45,0,-2.5,ARI,46,9/22/2019
+QB,Josh Rosen,MIA,213,61.9,MIA,DAL,MIA,DAL,retractable roof (closed),fieldturf,72,45,0,-22,DAL,46.5,9/22/2019
+QB,Ryan Fitzpatrick,MIA,29,118.7,MIA,DAL,MIA,DAL,retractable roof (closed),fieldturf,72,45,0,-22,DAL,46.5,9/22/2019
+QB,Dak Prescott,DAL,253,91.4,DAL,MIA,MIA,DAL,retractable roof (closed),fieldturf,72,45,0,-22,DAL,46.5,9/22/2019
+QB,Aaron Rodgers,GNB,234,96.2,GNB,DEN,DEN,GNB,outdoors,grass,69,93,7,-7,GNB,42,9/22/2019
+QB,Joe Flacco,DEN,218,75.8,DEN,GNB,DEN,GNB,outdoors,grass,69,93,7,-7,GNB,42,9/22/2019
+QB,Lamar Jackson,BAL,313,70.6,BAL,KAN,BAL,KAN,outdoors,grass,72,45,0,-4.5,KAN,52,9/22/2019
+QB,Patrick Mahomes,KAN,383,132,KAN,BAL,BAL,KAN,outdoors,grass,72,45,0,-4.5,KAN,52,9/22/2019
+QB,Derek Carr,LVR,242,103.7,LVR,MIN,LVR,MIN,dome,sportturf,72,45,0,-8.5,MIN,43,9/22/2019
+QB,Kirk Cousins,MIN,190,112,MIN,LVR,LVR,MIN,dome,sportturf,72,45,0,-8.5,MIN,43,9/22/2019
+QB,Sean Mannion,MIN,-2,0,MIN,LVR,LVR,MIN,dome,sportturf,72,45,0,-8.5,MIN,43,9/22/2019
+QB,Tom Brady,NWE,305,103.9,NWE,NYJ,NYJ,NWE,outdoors,grass,81,49,10,-20.5,NWE,43,9/22/2019

@@ -1,0 +1,9 @@
+Runthroughs: 1000
+Target Variable: total_yards 
+Most Important Features: ['total_yards', 'pass_rating', 'Temperature', 'Team_abbrev_KAN', 'Humidity', 'Team_abbrev_JAX', 'Wind_Speed', 'team_KAN', 'team_JAX', 'team_MIA', 'game_date_9/22/2019', 'game_date_9/8/2019', 'player_Patrick Mahomes', 'Opponent_abbrev_CAR', 'Opponent_abbrev_DEN', 'game_date_9/15/2019', 'Opponent_abbrev_NWE', 'Team_abbrev_DAL', 'vis_team_NWE', 'Vegas_Favorite_NWE', 'Opponent_abbrev_HOU', 'Over_Under', 'player_Dak Prescott'] 
+Date: Thu Nov 17 01:22:05 2022
+
+Runtimes: 1000 
+Target Variable: total_yards 
+Most Important Features: ['total_yards', 'pass_rating', 'Temperature', 'Over_Under', 'Team_abbrev_MIA', 'player_Patrick Mahomes', 'Humidity', 'team_MIA', 'team_KAN', 'Vegas_Favorite_NWE', 'Opponent_abbrev_DEN', 'game_date_9/15/2019', 'Opponent_abbrev_NWE', 'Opponent_abbrev_CAR', 'vis_team_NWE', 'Team_abbrev_DAL', 'Team_abbrev_JAX', 'player_Dak Prescott', 'Vegas_Favorite_BAL', 'Vegas_Favorite_GNB', 'game_date_9/22/2019', 'Vegas_Favorite_LAR', 'home_team_GNB'] 
+Date: Thu Nov 17 01:41:21 2022
