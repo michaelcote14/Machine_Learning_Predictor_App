@@ -6,6 +6,27 @@ import pandas as pd
 from Step_1_Visualizing import visualization
 
 # ToDo put in graphs
+# ToDo add in focus for the scalar runtimes box
+
+def view_csv():
+    from machine_learning_app.predictor import treeview_csv_viewer
+    treeview_csv_viewer.file_open()
+    print('View CSV Button Clicked')
+    # ToDo figure out why the view csv treeviewer isn't working
+    csv_viewer_window = Tk()
+    csv_viewer_window.title('CSV Tree View')
+    csv_viewer_window.geometry('1200x300')
+
+    # Create frame
+    csv_viewer_frame = Frame(csv_viewer_window)
+    csv_viewer_frame.pack()
+
+    # Create treeview
+    csv_viewer_tree = ttk.Treeview(csv_viewer_frame)
+
+    # Create Open File Button
+    open_file_button = Button(csv_viewer_frame, text='Open File', command=file_open)
+    open_file_button.pack()
 
 root = Tk()
 root.title("Michael's Machine Learning App")
@@ -86,6 +107,7 @@ data_known_frame = Frame(model_runner_frame)
 # Functions
 def app_csv_opener():
     # Initialization
+    global csv_location
     csv_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
     filetypes=(('csv files', '*.csv'), ('all files', '*.*')))
     global csv_name
@@ -106,6 +128,7 @@ def app_csv_opener():
     target_variable_combo_box.set(target_variable_options[0])
     target_variable_combo_box.bind('<<ComboboxSelected>>', target_variable_combo_click)
     data_known_frame = Frame(model_runner_frame, highlightbackground='red', highlightthickness=2, bg='gray17')
+    csv_viewer_button = Button(model_runner_frame, text='View CSV', bg='green', command=view_csv)
 
     # Grabs all of the data from the data we know section
     global values_we_know_list
@@ -140,6 +163,9 @@ def app_csv_opener():
     target_variable_combo_box.grid(sticky=W, row=2, column=1)
     data_known_label.grid_forget()
     data_known_label.grid(sticky=W, row=0, column=2, columnspan=15, padx=11)
+    csv_viewer_button.grid(sticky=W, row=4, column=0)
+
+
 
 
 
@@ -150,10 +176,12 @@ def app_cleaner():
     combo_box_entries_list = []
     for combo_box_entry in features_we_know_list:
         combo_box_entries_list.append(str(combo_box_entry.get()))
+    print('combo box entries list:', combo_box_entries_list)
 
     values_we_know_entries = []
     for values in values_we_know_list:
         values_we_know_entries.append(str(values.get()))
+    print('values we know entries:', values_we_know_entries)
 
 
     # put all items from all entries list into a dictionary value
@@ -272,6 +300,9 @@ def app_saved_important_features_opener():
         # ToDo push the selected tree to the model runner
         important_features_window.destroy()
 
+    def tree_clicked_features(event):
+        tree_use_selected_features()
+
     def tree_cancellation():
         important_features_window.destroy()
 
@@ -284,6 +315,7 @@ def app_saved_important_features_opener():
                                          command=tree_use_selected_features)
     tree_cancel_button = Button(important_features_window, text='Cancel', command=tree_cancellation)
     tree_remove_button = Button(important_features_window, text='Remove Selected', command=tree_remove_selected)
+    tree_clicker_binding = tree_important_features_window.bind('<Double-1>', tree_clicked_features)
 
     # Locations
     tree_important_features_window.grid(row=0, column=0, columnspan=21)
@@ -309,7 +341,7 @@ def app_new_important_feature_finder():
 
 def app_feature_combiner():
     target_variable = target_variable_combo_box.get()
-    from Step_7_Feature_Combination_Testing.feature_combinator import feature_combiner
+    from Step_7_Feature_Combination_Testing.feature_selection import feature_combiner
     feature_combiner(target_variable)
     pass
 
@@ -354,7 +386,7 @@ target_variable_label = Label(model_runner_frame, text='Select Target Variable',
 csv_opener_button = Button(model_runner_frame, text='Select Data', command=app_csv_opener, width=18, height=1)
 model_combo_box = ttk.Combobox(model_runner_frame, value=model_options, width=21)
 model_combo_box.current(0) # sets the initial box focus
-clean_button = Button(model_runner_frame, text='Clean', bg='green', command=app_cleaner)
+clean_button = Button(model_runner_frame, text='Clean', bg='pink', command=app_cleaner)
 visualization_button = Button(model_runner_frame, text='Visualize', bg='yellow', command=app_visualizer)
 
 
@@ -368,3 +400,5 @@ visualization_button.grid(sticky=W, row=8, column=1, pady=5)
 clean_button.grid(sticky=W, row=8, column=0, pady=5)
 
 root.mainloop()
+
+

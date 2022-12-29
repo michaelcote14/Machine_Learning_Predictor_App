@@ -1,6 +1,0 @@
-Best Average Score:, 0.6998871579084909,
-Target Feature:, pass_blitzed, 
-Best Features:, ['comb_pass_rush_play', 'Humidity', 'pass_int', 'Opponent_abbrev_BAL', 'Opponent_abbrev_TAM', 'off_pct', 'pass_cmp', 'rush_att', 'pass_rating', 'home_score', 'pass_long'], 
-Runthroughs:, 5, 
-Elapsed Time:, 0 Hours 01 Minutes 32.997984 Seconds, seconds, 
-Date Completed:, Mon Nov 14 14:29:57 2022

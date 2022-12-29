@@ -1,5 +1,6 @@
 
 def time_formatter(input_time_in_seconds):
+    input_time_in_seconds = float(input_time_in_seconds)
     from datetime import timedelta
     # create timedelta and convert it into string
     td_str = str(timedelta(seconds=input_time_in_seconds))
