@@ -190,25 +190,6 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
 
-        # Grabs the inputs from the features known and values known boxes
-        features_we_know_entries = []
-        for feature_known in self.features_we_know_list:
-            features_we_know_entries.append(str(feature_known.get()))
-
-        values_we_know_entries = []
-        for values in self.values_we_know_list:
-            values_we_know_entries.append(str(values.get()))
-
-        # Puts all items from entries into a dictionary
-        self.data_we_know_dict = {}
-        runner = 0
-        for value in values_we_know_entries:
-            self.data_we_know_dict[features_we_know_entries[runner]] = [value]
-            runner +=1
-        del self.data_we_know_dict['']
-
-        print('Data Known Dictionary:', self.data_we_know_dict)
-
         Grapher.data_type_cleaner(self, self.original_df, self.target_variable)
         type_clean_df = Grapher.data_type_cleaner(self, self.original_df, self.target_variable)
 
@@ -253,6 +234,37 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
+        # Grabs the inputs from the features known and values known boxes
+        features_we_know_entries = []
+        for feature_known in self.features_we_know_list:
+            features_we_know_entries.append(str(feature_known.get()))
+
+        values_we_know_entries = []
+        for values in self.values_we_know_list:
+            values_we_know_entries.append(str(values.get()))
+
+        # Puts all items from entries into a dictionary
+        self.data_we_know_dict = {}
+        runner = 0
+        for value in values_we_know_entries:
+            self.data_we_know_dict[features_we_know_entries[runner]] = [value]
+            runner +=1
+        del self.data_we_know_dict['']
+
+
+        print('Data Known Frame Dictionary:', self.data_we_know_dict)
+        # ToDo make data known disabled if split checkmark is selected
+
+        # Puts test dataframe into a dictionary that can then be scaled
+        try:
+            self.data_we_know_dict = self.test_df.to_dict()
+            split_dataframe_question = 'yes'
+        except:
+            split_dataframe_question = 'no'
+
+        print('New Data We Know Dictionary:', len(list(self.data_we_know_dict.values())[0]))
+
+
         scaler_runtimes = int(self.scaler_runtimes_spinbox.get())
 
         from Step_5_Scaling.scaler import main_scaler, scaler_time_predictor
@@ -267,8 +279,9 @@ class PredictorPage(tk.Frame):
         scaler_progressbar = ttk.Progressbar(self, orient=HORIZONTAL, length=100, mode='determinate')
         scaler_progressbar.grid(row=8, column=0, padx=(80, 0))
 
+
         self.scaled_df, self.scaled_data_we_know_df = main_scaler(scaler_runtimes, self.fully_cleaned_df,
-                                                        self.target_variable, self.data_we_know_dict, scaler_progressbar, self.master)
+                                                        self.target_variable, self.data_we_know_dict, scaler_progressbar, self.master, split_dataframe_question)
 
         # Changes the red x to a green checkmark
         self.image_changer('green_checkmark.png', self.green_check_label_scale, 24, 24)
@@ -277,7 +290,7 @@ class PredictorPage(tk.Frame):
         try:
             print('found train name')
             self.original_df = pd.read_csv(self.csv_train_location)
-            self.test_df = pd.read_csv(self.csv_test_location)
+            self.test_df = pd.read_csv(self.csv_data_we_know_location)
         except:
             self.csv_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
                                                            filetypes=(('csv files', '*.csv'),))
@@ -326,7 +339,6 @@ class PredictorPage(tk.Frame):
 
         from Step_7_Feature_Combination_Testing.feature_selection import FeatureSelectionPage
         FeatureSelectionPage(self.target_variable, self.scaled_df, self.csv_name, self.image_changer, self.green_check_label_features)
-        FeatureSelectionPage.test_df = self.test_df
 
     def on_split_data_check(self):
         def on_select_train_data_button():
@@ -337,16 +349,14 @@ class PredictorPage(tk.Frame):
             # Changes the button text
             self.select_train_data_button.config(text=self.csv_name)
 
-            self.on_select_data_button()
-
 
         def on_select_test_data_button():
-            self.csv_test_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
+            self.csv_data_we_know_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
                                                            filetypes=(('csv files', '*.csv'),))
-            self.csv_test_name = self.csv_test_location[self.csv_test_location.rfind('/', 0) + 1:]
+            self.csv_data_we_know_name = self.csv_data_we_know_location[self.csv_data_we_know_location.rfind('/', 0) + 1:]
 
             # Changes the button text
-            self.select_test_data_button.config(text=self.csv_test_name)
+            self.select_test_data_button.config(text=self.csv_data_we_know_name)
 
             self.image_changer('green_checkmark.png', self.green_check_label_data, 24, 24)
 
@@ -358,6 +368,9 @@ class PredictorPage(tk.Frame):
                 self.image_changer('red_x.png', self.green_check_label_features, 24, 24)
                 self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
                 self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
+
+            self.on_select_data_button()
+
 
 
         if self.split_data_check_status.get() == 1:
@@ -372,8 +385,8 @@ class PredictorPage(tk.Frame):
             self.select_train_data_button.grid(sticky=W, row=2, column=0, pady=(5))
             self.select_test_data_button.grid(sticky=W, row=2, column=0, pady=(5), padx=(100, 0))
         else:
-            self.select_train_data_button.configure(text='testing')
-            self.select_test_data_button.grid_forget()
+            self.select_train_data_button.destroy()
+            self.select_test_data_button.destroy()
 
             self.select_data_button = ttk.Button(self, text='Select Data...', command=self.on_select_data_button,
                                                  width=30)

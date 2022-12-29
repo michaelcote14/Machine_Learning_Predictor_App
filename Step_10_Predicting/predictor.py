@@ -108,6 +108,7 @@ class PredictorTreeviewPage:
             self.filter_current_model_checkbox = ttk.Checkbutton(self.predictor_buttons_frame, text='Only Show Current Model', command=self.filter_model)
             graph_prediction_button = ttk.Button(self.predictor_buttons_frame, text='Graph Prediction', command=self.on_graph_prediction)
             prediction_analysis_button = ttk.Button(self.predictor_buttons_frame, text='Analyze Selected Prediction', command=self.on_prediction_analysis)
+            test_against_file_button = ttk.Button(self.predictor_buttons_frame, text='Test Against File', command=on_test_against_file_button)
     
             # Makes the current dataframe checkbox start out as selected
             self.filter_current_model_checkbox.state(['!alternate'])
@@ -123,6 +124,7 @@ class PredictorTreeviewPage:
             self.filter_current_model_checkbox.grid(row=0, column=2)
             graph_prediction_button.grid(row=2, column=0)
             prediction_analysis_button.grid(row=1, column=2)
+            test_against_file_button.grid(row=2, column=2)
     
             self.query_database()
             predictor_window.mainloop()
@@ -227,6 +229,12 @@ class PredictorTreeviewPage:
             cursor = conn.cursor()
 
             database_feature_combination = ', '.join(self.selected_features)
+
+            # Makes the data we know dict nothing if a test dataframe was selected
+            try:
+                print(len(list(self.data_we_know_dict.values())[0]))
+            except:
+                self.data_we_know_dict = {}
 
             # Add new record
             cursor.execute("INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Cross_Val_Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
@@ -485,6 +493,9 @@ class PredictorTreeviewPage:
         # Refresh the database
         self.query_database()
 
+    def on_test_against_file_button(self):
+        pass
+
     def query_database(self):
         if self.filter_current_model_checkbox.instate(['selected']) == True:
             self.filter_model()
@@ -566,8 +577,6 @@ class Predictor:
                                                                       self.scaled_data_we_know_df)
         pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
         old_pickled_regression_line = pickle.load(pickle_in)
-
-        # ToDo make a save predictions to csv button
 
 
         runtimes = 10

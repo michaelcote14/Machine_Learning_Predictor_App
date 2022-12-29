@@ -81,14 +81,17 @@ def raw(runtimes, X, y, scaler_progressbar, master_frame):
     raw_average_accuracy = total_accuracy / runtimes
     return raw_average_accuracy
 
-def main_scaler(runtimes, fully_cleaned_df, target_variable, data_we_know_dict, scaler_progressbar, master_frame):
+def main_scaler(runtimes, fully_cleaned_df, target_variable, data_we_know_dict, scaler_progressbar, master_frame, split_dataframe_question):
     start_time = time.time()
 
     FEATURES = fully_cleaned_df.drop([target_variable], axis=1)
     X = np.array(FEATURES)
     y = np.array(fully_cleaned_df[target_variable])
 
-    unscaled_predictor_array = get_predictor_array(data_we_know_dict, fully_cleaned_df, target_variable)
+    if split_dataframe_question == 'no':
+        unscaled_predictor_array = get_predictor_array(data_we_know_dict, fully_cleaned_df, target_variable)
+    else:
+        unscaled_predictor_array = get_predictor_array({}, fully_cleaned_df, target_variable)
 
     raw_accuracy = raw(runtimes, X, y, scaler_progressbar, master_frame)
     standardized_accuracy, standardized_df, standardized_predictor_array = standardizer(runtimes, X, y, unscaled_predictor_array, FEATURES, scaler_progressbar, master_frame)
