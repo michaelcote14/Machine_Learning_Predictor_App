@@ -1,30 +1,27 @@
-import sklearn
-from sklearn import linear_model
-import numpy as np
-from sklearn import metrics
-from sklearn.metrics import r2_score
-import pickle
-import time
-from sklearn.model_selection import cross_val_score
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import ast
-from tkinter import *
-from tkinter import ttk
-import sqlite3
 import datetime
+import pickle
+import sqlite3
+from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
+
+import matplotlib.pyplot as plt
 import mplcursors as mpc
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import sklearn
+from sklearn import metrics
 
 
 class PredictorTreeviewPage:
-    def __init__(self, scaled_df, target_variable, scaled_data_we_know_df, csv_name, data_we_know_dict):
+    def __init__(self, scaled_df, target_variable, csv_name, is_data_split, split_original_df=None, scaled_df2=None):
         self.scaled_df = scaled_df
         self.target_variable = target_variable
-        self.scaled_data_we_know_df = scaled_data_we_know_df
         self.csv_name = csv_name
-        self.data_we_know_dict = data_we_know_dict
+        self.is_data_split = is_data_split
+        self.scaled_df2 = scaled_df2
+        self.original_df2 = split_original_df
 
         # Used for sorting the dataframe
         self.sorted_state = 'off'
@@ -36,7 +33,7 @@ class PredictorTreeviewPage:
         except AttributeError:
             messagebox.showerror('Error', 'Error: No Model Was Selected')
             return
-        
+
         # Makes sure only one window is possible to open
         global predictor_window
         try:
@@ -46,25 +43,29 @@ class PredictorTreeviewPage:
             predictor_window = Toplevel()
             predictor_window.title('Predictor')
             predictor_window.geometry('1100x350')
-    
+
             # Create frame for treeview
             predictor_treeview_frame = Frame(predictor_window)
             predictor_treeview_frame.pack(ipadx=200)
             # Create frame for buttons
             self.predictor_buttons_frame = Frame(predictor_window)
             self.predictor_buttons_frame.pack(ipadx=200)
-    
+
             # Create tree
             self.predictor_tree = ttk.Treeview(predictor_treeview_frame)
-    
+
             # Create scrollbar for the tree
-            predictor_horizontal_scrollbar = ttk.Scrollbar(predictor_treeview_frame, orient=HORIZONTAL, command=self.predictor_tree.xview)
+            predictor_horizontal_scrollbar = ttk.Scrollbar(predictor_treeview_frame, orient=HORIZONTAL,
+                                                           command=self.predictor_tree.xview)
             predictor_horizontal_scrollbar.pack(side=BOTTOM, fill=X)
             self.predictor_tree.configure(xscrollcommand=predictor_horizontal_scrollbar.set)
-    
+
             # Define columns
-            self.predictor_tree['columns'] = ('Date_Predicted', 'Target', 'Predicted_Value', 'Mean_Absolute_Error', 'Score', 'Cross_Val_Score', 'Data_Known', 'Model_Used', 'Dataframe', 'Features_Used', 'All_Pickle_Model_Predictions', 'Tested_Actual_Values')
-    
+            self.predictor_tree['columns'] = (
+                'Date_Predicted', 'Target', 'Predicted_Value', 'Mean_Absolute_Error', 'Score',
+                'Data_Known', 'Model_Used', 'Dataframe', 'Features_Used', 'All_Pickle_Model_Predictions',
+                'Tested_Actual_Values')
+
             # Format columns
             self.predictor_tree.column('#0', width=0, stretch=NO)
             self.predictor_tree.column('Date_Predicted', anchor=W, width=110, stretch=NO)
@@ -72,48 +73,59 @@ class PredictorTreeviewPage:
             self.predictor_tree.column('Predicted_Value', anchor=W, width=130, stretch=NO)
             self.predictor_tree.column('Mean_Absolute_Error', anchor=W, width=150, stretch=NO)
             self.predictor_tree.column('Score', anchor=W, width=120, stretch=NO)
-            self.predictor_tree.column('Cross_Val_Score', anchor=W, width=120, stretch=NO)
             self.predictor_tree.column('Data_Known', anchor=W, width=200, stretch=NO)
             self.predictor_tree.column('Model_Used', anchor=W, width=140, stretch=NO)
             self.predictor_tree.column('Dataframe', anchor=W, width=140, stretch=NO)
             self.predictor_tree.column('Features_Used', anchor=W, width=450, stretch=NO)
             self.predictor_tree.column('All_Pickle_Model_Predictions', anchor=W, width=0, stretch=NO)
             self.predictor_tree.column('Tested_Actual_Values', anchor=W, width=0, stretch=NO)
-            #ToDo put a graph comparer in or even a prediction comparer?
-    
+            # ToDo put a graph comparer in or even a prediction comparer?
+
             # Create headings
             self.predictor_tree.heading('Date_Predicted', text='Date_Predicted', anchor=W)
             self.predictor_tree.heading('Target', text='Target', anchor=W)
             self.predictor_tree.heading('Predicted_Value', text='Predicted_Value', anchor=W)
             self.predictor_tree.heading('Mean_Absolute_Error', text='Mean_Absolute_Error', anchor=W)
             self.predictor_tree.heading('Score', text='Score', anchor=W)
-            self.predictor_tree.heading('Cross_Val_Score', text='Cross_Val_Score', anchor=W)
             self.predictor_tree.heading('Data_Known', text='Data_Known', anchor=W)
             self.predictor_tree.heading('Model_Used', text='Model_Used', anchor=W)
             self.predictor_tree.heading('Dataframe', text='Dataframe', anchor=W)
             self.predictor_tree.heading('Features_Used', text='Features_Used', anchor=W)
             self.predictor_tree.heading('All_Pickle_Model_Predictions', text='All_Pickle_Model_Predictions', anchor=W)
             self.predictor_tree.heading('Tested_Actual_Values', text='Tested_Actual_Values', anchor=W)
-    
+
             # Bind treeview to click for filter
             self.predictor_tree.bind('<Button-1>', self.on_column_clicked)
-    
-    
+
             # Widgets
-            create_new_prediction_button = ttk.Button(self.predictor_buttons_frame, text='Create New Prediction', command=self.on_create_new_prediction)
-            delete_selected_row_button = ttk.Button(self.predictor_buttons_frame, text='Delete Selected Row', command=self.on_delete_selected_row)
+            create_new_prediction_button = ttk.Button(self.predictor_buttons_frame, text='Create New Prediction',
+                                                      command=self.on_create_new_prediction)
+            delete_selected_row_button = ttk.Button(self.predictor_buttons_frame, text='Delete Selected Row',
+                                                    command=self.on_delete_selected_row)
             up_button = ttk.Button(self.predictor_buttons_frame, text='Move Record Up', command=self.on_move_record_up)
-            down_button = ttk.Button(self.predictor_buttons_frame, text='Move Record Down', command=self.on_move_record_down)
-            row_order_saver_button = ttk.Button(self.predictor_buttons_frame, text='Save Current Row Order', command=self.on_save_current_row_order)
-            self.filter_current_model_checkbox = ttk.Checkbutton(self.predictor_buttons_frame, text='Only Show Current Model', command=self.filter_model)
-            graph_prediction_button = ttk.Button(self.predictor_buttons_frame, text='Graph Prediction', command=self.on_graph_prediction)
-            prediction_analysis_button = ttk.Button(self.predictor_buttons_frame, text='Analyze Selected Prediction', command=self.on_prediction_analysis)
-            test_against_file_button = ttk.Button(self.predictor_buttons_frame, text='Test Against File', command=on_test_against_file_button)
-    
+            down_button = ttk.Button(self.predictor_buttons_frame, text='Move Record Down',
+                                     command=self.on_move_record_down)
+            row_order_saver_button = ttk.Button(self.predictor_buttons_frame, text='Save Current Row Order',
+                                                command=self.on_save_current_row_order)
+            self.filter_current_model_checkbox = ttk.Checkbutton(self.predictor_buttons_frame,
+                                                                 text='Only Show Current Model',
+                                                                 command=self.filter_model)
+            graph_prediction_button = ttk.Button(self.predictor_buttons_frame, text='Graph Prediction',
+                                                 command=self.on_graph_prediction)
+            test_on_train_button = ttk.Button(self.predictor_buttons_frame, text='Test Selection on Train Data',
+                                              command=self.on_test_on_train)
+            test_on_test_button = ttk.Button(self.predictor_buttons_frame, text='Test Selection on Test Data',
+                                             command=self.on_test_on_test)
+
+            # Disables the test against test button if the split data option was not selected in the beginning
+            if self.is_data_split == 0:
+                test_against_test_button.configure(state=DISABLED)
+                # ToDo put hover over label if this is disabled to clarify why its disabled
+
             # Makes the current dataframe checkbox start out as selected
             self.filter_current_model_checkbox.state(['!alternate'])
             self.filter_current_model_checkbox.state(['selected'])
-    
+
             # Locations
             self.predictor_tree.pack(expand=True, fill=BOTH, padx=5)
             create_new_prediction_button.grid(row=0, column=0)
@@ -123,9 +135,9 @@ class PredictorTreeviewPage:
             row_order_saver_button.grid(row=2, column=1)
             self.filter_current_model_checkbox.grid(row=0, column=2)
             graph_prediction_button.grid(row=2, column=0)
-            prediction_analysis_button.grid(row=1, column=2)
-            test_against_file_button.grid(row=2, column=2)
-    
+            test_on_train_button.grid(row=1, column=2)
+            test_on_test_button.grid(row=2, column=2)
+
             self.query_database()
             predictor_window.mainloop()
 
@@ -159,11 +171,10 @@ class PredictorTreeviewPage:
         count = 0
         for record in fetched_records:
             self.predictor_tree.insert(parent='', index='end', iid=count, text='',
-                                                values=(record[0], record[1], record[2], record[3], record[4],
-                                                record[5], record[6], record[7], record[8], record[9], record[10], record[11]))
+                                       values=(record[0], record[1], record[2], record[3], record[4],
+                                               record[5], record[6], record[7], record[8], record[9], record[10]))
             # Increment counter
             count += 1
-
 
     def on_column_clicked(self, event):
         region_clicked = self.predictor_tree.identify_region(event.x, event.y)
@@ -172,7 +183,7 @@ class PredictorTreeviewPage:
             return
         if self.sorted_state == 'off':
             column_clicked = self.predictor_tree.identify_column(event.x)
-            column_clicked_index = int(column_clicked[1:])-1
+            column_clicked_index = int(column_clicked[1:]) - 1
 
             self.sorted_state = 'on'
             column_clicked_name = (self.predictor_tree['columns'][column_clicked_index])
@@ -201,26 +212,32 @@ class PredictorTreeviewPage:
             count = 0
             for record in fetched_records:
                 self.predictor_tree.insert(parent='', index='end', iid=count, text='',
-                        values=(record[0], record[1], record[2], record[3], record[4], record[5], record[6], record[7], record[8], record[9], record[10], record[11]))
+                                           values=(
+                                               record[0], record[1], record[2], record[3], record[4], record[5],
+                                               record[6],
+                                               record[7], record[8], record[9], record[10], record[11]))
                 # Increment counter
                 count += 1
 
         else:
             # Reload the original treeview data
             for column in self.predictor_tree['columns']:
-                self.predictor_tree.heading(column, text=column) # Reload the original treeview data
+                self.predictor_tree.heading(column, text=column)  # Reload the original treeview data
 
             self.sorted_state = 'off'
 
     def on_create_new_prediction(self):
         def prediction_database_inserter():
-            self.all_pickle_model_predictions, tested_actual_values = Predictor.predictor(self)
+            if self.is_data_split == 1:
+                self.all_test_file_predictions, self.all_test_file_actual_values = Predictor.predictor(self,
+                                                                                                       self.scaled_df2)
+
+            self.all_predictions, all_actual_values = Predictor.predictor(self, self.scaled_df)
 
             # convert the above to usable sql format
-            tested_actual_values = tested_actual_values.tolist()
-            self.all_tree_pickle_model_predictions = ', '.join(map(str, self.all_pickle_model_predictions))
-            tested_actual_values = ', '.join(map(str, tested_actual_values))
-
+            all_actual_values = all_actual_values.tolist()
+            self.all_predictions = ', '.join(map(str, self.all_predictions))
+            all_actual_values = ', '.join(map(str, all_actual_values))
 
             # Connect to database
             conn = sqlite3.connect('Predictions_Database')
@@ -230,6 +247,7 @@ class PredictorTreeviewPage:
 
             database_feature_combination = ', '.join(self.selected_features)
 
+            # ToDo get rid of this somehow
             # Makes the data we know dict nothing if a test dataframe was selected
             try:
                 print(len(list(self.data_we_know_dict.values())[0]))
@@ -237,19 +255,19 @@ class PredictorTreeviewPage:
                 self.data_we_know_dict = {}
 
             # Add new record
-            cursor.execute("INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Cross_Val_Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
-                           {'Date_Predicted': datetime.date.today(),
-                            'Target': self.target_variable,
-                            'Predicted_Value': round(self.pickle_predicted_value, 15),
-                            'Mean_Absolute_Error': self.pickle_model_average_mae,
-                            'Score': round(self.pickle_model_average_score, 15),
-                            'Cross_Val_Score': round(self.pickle_cross_val_average_score, 15),
-                            'Data_Known': str(self.data_we_know_dict),
-                            'Model_Used': self.selected_training_model,
-                            'Dataframe': str(self.csv_name),
-                            'Features_Used': database_feature_combination,
-                            'All_Pickle_Model_Predictions': self.all_tree_pickle_model_predictions,
-                            'Tested_Actual_Values': tested_actual_values})
+            cursor.execute(
+                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Predictions, :All_Actual_Values)",
+                {'Date_Predicted': datetime.date.today(),
+                 'Target': self.target_variable,
+                 'Predicted_Value': round(self.data_known_prediction, 15),
+                 'Mean_Absolute_Error': self.average_mae,
+                 'Score': round(self.average_score, 15),
+                 'Data_Known': str(self.data_we_know_dict),
+                 'Model_Used': self.selected_training_model,
+                 'Dataframe': str(self.csv_name),
+                 'Features_Used': database_feature_combination,
+                 'All_Predictions': self.average_predictions,
+                 'All_Actual_Values': self.all_actual_values})
 
             # Commit changes
             conn.commit()
@@ -262,7 +280,6 @@ class PredictorTreeviewPage:
 
             # Reset tree by querying the database again
             self.query_database()
-
 
         prediction_database_inserter()
 
@@ -277,13 +294,14 @@ class PredictorTreeviewPage:
         cursor = conn.cursor()
 
         # Delete from database
-        cursor.execute('DELETE from predictions_table WHERE Date_Predicted = :Date_Predicted AND Target = :Target AND Predicted_Value = :Predicted_Value AND Dataframe = :Dataframe AND Model_Used = :Model_Used AND Score = :Score',
-                       {'Date_Predicted': tree_values[0],
-                        'Target': tree_values[1],
-                        'Predicted_Value': tree_values[2],
-                        'Score': tree_values[4],
-                        'Model_Used': tree_values[6],
-                        'Dataframe': tree_values[7]})
+        cursor.execute(
+            'DELETE from predictions_table WHERE Date_Predicted = :Date_Predicted AND Target = :Target AND Predicted_Value = :Predicted_Value AND Dataframe = :Dataframe AND Model_Used = :Model_Used AND Score = :Score',
+            {'Date_Predicted': tree_values[0],
+             'Target': tree_values[1],
+             'Predicted_Value': tree_values[2],
+             'Score': tree_values[4],
+             'Model_Used': tree_values[6],
+             'Dataframe': tree_values[7]})
         # Commit changes
         conn.commit()
 
@@ -313,7 +331,6 @@ class PredictorTreeviewPage:
         tree_all_predicted_values = tree_all_predicted_values.split(', ')
         tree_tested_actual_values = tree_tested_actual_values.split(', ')
 
-
         # Turn tree values into arrays for plotter
         tree_all_predicted_values = np.array([float(value) for value in tree_all_predicted_values])
         tree_tested_actual_values = np.array([float(value) for value in tree_tested_actual_values])
@@ -321,125 +338,15 @@ class PredictorTreeviewPage:
         # Run plotter
         Predictor.predictor_plotter(self, tree_all_predicted_values, tree_tested_actual_values, self.target_variable)
 
-
     def on_move_record_down(self):
         rows = self.predictor_tree.selection()
         for row in reversed(rows):
-            self.predictor_tree.move(row, self.predictor_tree.parent(row), self.predictor_tree.index(row)+1)
+            self.predictor_tree.move(row, self.predictor_tree.parent(row), self.predictor_tree.index(row) + 1)
 
     def on_move_record_up(self):
         rows = self.predictor_tree.selection()
         for row in rows:
-            self.predictor_tree.move(row, self.predictor_tree.parent(row), self.predictor_tree.index(row)-1)
-
-    def on_prediction_analysis(self):
-        def csv_name_entry_initial_clearer(e, csv_name_entry):
-            csv_name_entry.delete(0, END)
-
-        def on_column_clicked_analysis():
-            pass
-
-        def on_save_to_csv(prediction_analysis_buttons_frame, tree_all_predicted_values_list, tree_all_actual_values_list):
-            def on_save_button():
-                prediction_analysis_dataframe.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
-
-            print('tree all predicted values list:', tree_all_predicted_values_list)
-            print('tree all actual values list:', tree_all_actual_values_list)
-            differences_list = []
-            for row in range(len(tree_all_predicted_values_list)):
-                print(float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
-                differences_list.append(float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
-            print('differences list:', differences_list)
-
-            dataframe_data = list(zip(tree_all_predicted_values_list, tree_all_actual_values_list, differences_list))
-
-            prediction_analysis_dataframe = pd.DataFrame(dataframe_data, columns=['Predicted Values', 'Actual Values', 'Difference'])
-            # Create entry box for csv name
-            csv_name_entry = Entry(prediction_analysis_buttons_frame, width=17, font=('Arial', 11, 'italic'))
-            csv_name_entry.insert(0, 'Save As')
-            save_button = ttk.Button(prediction_analysis_buttons_frame, text='Save', command=on_save_button)
-
-            # Make entry box clear when clicked on
-            csv_name_entry.bind('<ButtonRelease-1>', lambda event, csv_name_entry=csv_name_entry: csv_name_entry_initial_clearer(event, csv_name_entry))
-
-            # Locations
-            csv_name_entry.grid(row=1, column=0, padx=5)
-            save_button.grid(row=2, column=0)
-
-        # Makes sure only one window is possible to open
-        global prediction_analysis_window
-        try:
-            if prediction_analysis_window.state() == 'normal': prediction_analysis_window.focus()
-        except:
-            # Create window
-            prediction_analysis_window = Toplevel()
-            prediction_analysis_window.title('Prediction Analysis')
-            prediction_analysis_window.geometry('400x350')
-
-            # Create frame for treeview
-            prediction_analysis_treeview_frame = Frame(prediction_analysis_window)
-            prediction_analysis_treeview_frame.pack(ipadx=200)
-
-            # Create frame for buttons
-            prediction_analysis_buttons_frame = Frame(prediction_analysis_window)
-            prediction_analysis_buttons_frame.pack(ipadx=200)
-
-            # Create tree
-            prediction_analysis_tree = ttk.Treeview(prediction_analysis_treeview_frame)
-
-            # Define columns
-            prediction_analysis_tree['columns'] = ('Predicted_Value', 'Actual_Value', 'Difference')
-
-            # Format columns
-            prediction_analysis_tree.column('#0', width=0, stretch=NO)
-            prediction_analysis_tree.column('Predicted_Value', width=140, stretch=NO)
-            prediction_analysis_tree.column('Actual_Value', width=120, stretch=NO)
-            prediction_analysis_tree.column('Difference', width=120, stretch=NO)
-
-            # Create headings
-            prediction_analysis_tree.heading('Predicted_Value', text='Predicted_Value', anchor=W)
-            prediction_analysis_tree.heading('Actual_Value', text='Actual_Value', anchor=W)
-            prediction_analysis_tree.heading('Difference', text='Difference', anchor=W)
-
-            # Bind treeview to column click for filter
-            prediction_analysis_tree.bind('<Button-1>', on_column_clicked_analysis)
-
-            # Grab values from predictor treeview current selected
-            selected = self.predictor_tree.selection()
-            tree_all_predicted_values = self.predictor_tree.item(selected, 'values')[10]
-            tree_all_actual_values = self.predictor_tree.item(selected, 'values')[11]
-
-            tree_all_predicted_values_list = tree_all_predicted_values.split(', ')
-            tree_all_actual_values_list = tree_all_actual_values.split(', ')
-
-            # Create an iteration to grab data and put it into treeview
-            index = max_difference = 0
-            min_difference = 99999999999999999999999999
-            for row in range(len(tree_all_predicted_values_list)):
-                prediction_analysis_tree.insert(parent='', index='end', iid=index, text='',
-                    values=(str(tree_all_predicted_values_list[row]), str(tree_all_actual_values_list[row]),
-                            (float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))))
-                individual_difference = abs(float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
-                if individual_difference > max_difference:
-                    max_difference = individual_difference
-                if individual_difference < min_difference:
-                    min_difference = individual_difference
-                index += 1
-
-
-            # Widgets
-            save_to_csv_button = ttk.Button(prediction_analysis_buttons_frame, text='Save to CSV',
-                    command=lambda: on_save_to_csv(prediction_analysis_buttons_frame, tree_all_predicted_values_list, tree_all_actual_values_list))
-            max_difference_label = Label(prediction_analysis_buttons_frame, text='Max Difference: ' + str(max_difference))
-            min_difference_label = Label(prediction_analysis_buttons_frame, text='Minimum Difference: ' + str(min_difference))
-
-            # Locations
-            prediction_analysis_tree.pack(expand=True, fill=BOTH, padx=5)
-            save_to_csv_button.grid(row=0, column=0, padx=5, pady=5)
-            max_difference_label.grid(row=0, column=1, padx=5, pady=5)
-            min_difference_label.grid(row=1, column=1, padx=5, pady=5)
-
-
+            self.predictor_tree.move(row, self.predictor_tree.parent(row), self.predictor_tree.index(row) - 1)
 
     def on_save_current_row_order(self):
         # Connect to database
@@ -457,7 +364,6 @@ class PredictorTreeviewPage:
         # Close connection
         conn.close()
 
-
         # Add new record
         for record in self.predictor_tree.get_children():
             # Connect to database
@@ -467,19 +373,19 @@ class PredictorTreeviewPage:
             cursor = conn.cursor()
 
             # Insert new reordered data into table
-            cursor.execute("INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Cross_Val_Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
-                       {'Date_Predicted': self.predictor_tree.item(record[0], 'values')[0],
-                        'Target': self.predictor_tree.item(record[0], 'values')[1],
-                        'Predicted_Value': self.predictor_tree.item(record[0], 'values')[2],
-                        'Mean_Absolute_Error': self.predictor_tree.item(record[0], 'values')[3],
-                        'Score': self.predictor_tree.item(record[0], 'values')[4],
-                        'Cross_Val_Score': self.predictor_tree.item(record[0], 'values')[5],
-                        'Data_Known': self.predictor_tree.item(record[0], 'values'[6]),
-                        'Model_Used': self.predictor_tree.item(record[0], 'values')[7],
-                        'Dataframe': self.predictor_tree.item(record[0], 'values')[8],
-                        'Features_Used': self.predictor_tree.item(record[0], 'values')[9],
-                        'All_Pickle_Model_Predictions': self.predictor_tree.item(record[0], 'values')[10],
-                        'Tested_Actual_Values': self.predictor_tree.item(record[0], 'values')[11]})
+            cursor.execute(
+                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
+                {'Date_Predicted': self.predictor_tree.item(record[0], 'values')[0],
+                 'Target': self.predictor_tree.item(record[0], 'values')[1],
+                 'Predicted_Value': self.predictor_tree.item(record[0], 'values')[2],
+                 'Mean_Absolute_Error': self.predictor_tree.item(record[0], 'values')[3],
+                 'Score': self.predictor_tree.item(record[0], 'values')[4],
+                 'Data_Known': self.predictor_tree.item(record[0], 'values'[5]),
+                 'Model_Used': self.predictor_tree.item(record[0], 'values')[6],
+                 'Dataframe': self.predictor_tree.item(record[0], 'values')[7],
+                 'Features_Used': self.predictor_tree.item(record[0], 'values')[8],
+                 'All_Pickle_Model_Predictions': self.predictor_tree.item(record[0], 'values')[9],
+                 'Tested_Actual_Values': self.predictor_tree.item(record[0], 'values')[10]})
 
             # Commit changes
             conn.commit()
@@ -493,8 +399,215 @@ class PredictorTreeviewPage:
         # Refresh the database
         self.query_database()
 
-    def on_test_against_file_button(self):
-        pass
+    def on_test_on_test(self):
+        def csv_name_entry_initial_clearer(e, csv_name_entry):
+            csv_name_entry.delete(0, END)
+
+        def on_column_clicked__test():
+            pass
+
+        def on_save_to_csv(test_on_test_button_frame, tree_all_predicted_values_list, tree_all_actual_values_list):
+            def on_save_button():
+                test_on_test_dataframe.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
+
+            test_file_data = list(zip(tree_all_predicted_values_list, tree_all_actual_values_list, differences_list))
+
+            test_on_test_dataframe = pd.DataFrame(test_file_data,
+                                                  columns=['Predicted Values', 'Actual Values', 'Difference'])
+            # Create entry box for csv name
+            csv_name_entry = Entry(test_on_test_button_frame, width=17, font=('Arial', 11, 'italic'))
+            csv_name_entry.insert(0, 'Save As')
+            save_button = ttk.Button(test_on_test_button_frame, text='Save', command=on_save_button)
+
+            # Make entry box clear when clicked on
+            csv_name_entry.bind('<ButtonRelease-1>',
+                                lambda event, csv_name_entry=csv_name_entry: csv_name_entry_initial_clearer(event,
+                                                                                                            csv_name_entry))
+
+            # Locations
+            csv_name_entry.grid(row=1, column=0, padx=5)
+            save_button.grid(row=2, column=0)
+
+        # Makes sure only one window is possible to open
+        global test_on_test_window
+        try:
+            if test_on_test_window.state() == 'normal': test_on_test_window.focus()
+        except:
+            # Create window
+            test_on_test_window = Toplevel()
+            test_on_test_window.title('Test on Test Analysis')
+            test_on_test_window.geometry('600x380')
+
+            # Create frame for treeview
+            test_on_test_tree_frame = Frame(test_on_test_window)
+            test_on_test_tree_frame.pack(ipadx=200)
+
+            # Create frame for buttons
+            test_on_test_buttons_frame = Frame(test_on_test_window)
+            test_on_test_buttons_frame.pack(ipadx=200)
+
+            # Create tree
+            test_on_test_tree = ttk.Treeview(test_on_test_tree_frame)
+
+            # Create scrollbar for tree frame
+            test_on_test_scrollbar = ttk.Scrollbar(test_on_test_tree_frame, orient=HORIZONTAL, command=test_on_test_tree.xview)
+            test_on_test_scrollbar.pack(side=BOTTOM, fill=X)
+            test_on_test_tree.configure(xscrollcommand=test_on_test_scrollbar.set)
+
+            # Get average predictions
+            average_predictions = Predictor.predictor_split(self, self.scaled_df, self.scaled_df2)
+            average_predictions_df = pd.DataFrame(average_predictions, columns=['Predicted_Value'])
+
+            # Combine the predicted values with the split original dataframe
+            predicted_df = pd.concat([self.original_df2, average_predictions_df], axis=1)
+
+            # Define columns
+            test_on_test_tree['columns'] = predicted_df.columns.tolist()
+            test_on_test_tree['show'] = 'headings'
+
+            # Loop through column list to create the tree headers
+            for column in test_on_test_tree['columns']:
+                test_on_test_tree.heading(column, text=column, anchor=W)
+
+            # Put data in treeview
+            df_rows = predicted_df.to_numpy().tolist()
+            for row in df_rows:
+                test_on_test_tree.insert('', 'end', values=row)
+
+            # Bind treeview to column click for filter
+            test_on_test_tree.bind('<Button-1>', on_column_clicked__test)
+
+            # Widgets
+            save_to_csv_button__test = ttk.Button(test_on_test_buttons_frame, text='Save to CSV',
+                                                  command=lambda: on_save_to_csv(test_on_test_buttons_frame,
+                                                                                 tree_all_predicted_values_list,
+                                                                                 tree_all_actual_values_list))
+
+            # ToDo put all of this parts data into treeview hidden instead of having to create new prediction to create
+
+            # Locations
+            test_on_test_tree.pack(expand=True, fill=BOTH, padx=5)
+            save_to_csv_button__test.grid(row=0, column=0, padx=5, pady=5)
+
+    def on_test_on_train(self):
+        def csv_name_entry_initial_clearer(e, csv_name_entry):
+            csv_name_entry.delete(0, END)
+
+        def on_column_clicked__train():
+            pass
+
+        def on_save_to_csv(test_on_train_buttons_frame, tree_all_predicted_values_list, tree_all_actual_values_list):
+            def on_save_button():
+                test_on_train_dataframe.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
+
+            print('tree all predicted values list:', tree_all_predicted_values_list)
+            print('tree all actual values list:', tree_all_actual_values_list)
+            differences_list = []
+            for row in range(len(tree_all_predicted_values_list)):
+                print(float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
+                differences_list.append(
+                    float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
+            print('differences list:', differences_list)
+
+            train_file_data = list(zip(tree_all_predicted_values_list, tree_all_actual_values_list, differences_list))
+
+            test_on_train_dataframe = pd.DataFrame(train_file_data,
+                                                   columns=['Predicted Values', 'Actual Values', 'Difference'])
+            # Create entry box for csv name
+            csv_name_entry = Entry(test_on_train_buttons_frame, width=17, font=('Arial', 11, 'italic'))
+            csv_name_entry.insert(0, 'Save As')
+            save_button = ttk.Button(test_on_train_buttons_frame, text='Save', command=on_save_button)
+
+            # Make entry box clear when clicked on
+            csv_name_entry.bind('<ButtonRelease-1>',
+                                lambda event, csv_name_entry=csv_name_entry: csv_name_entry_initial_clearer(event,
+                                                                                                            csv_name_entry))
+
+            # Locations
+            csv_name_entry.grid(row=1, column=0, padx=5)
+            save_button.grid(row=2, column=0)
+
+        # Makes sure only one window is possible to open
+        global test_on_train_window
+        try:
+            if test_on_train_window.state() == 'normal': test_on_train_window.focus()
+        except:
+            # Create window
+            test_on_train_window = Toplevel()
+            test_on_train_window.title('Test on Train Analysis')
+            test_on_train_window.geometry('400x350')
+
+            # Create frame for treeview
+            test_on_train_tree_frame = Frame(test_on_train_window)
+            test_on_train_tree_frame.pack(ipadx=200)
+
+            # Create frame for buttons
+            test_on_train_buttons_frame = Frame(test_on_train_window)
+            test_on_train_buttons_frame.pack(ipadx=200)
+
+            # Create tree
+            test_on_train_tree = ttk.Treeview(test_on_train_tree_frame)
+
+            # Get predictions of the test dataframe and put the results into a dataframe
+            all_test_file_predictions = Predictor.predictor(self, dataframe)
+
+            # Define columns
+            test_on_train_tree['columns'] = ('Predicted_Value', 'Actual_Value', 'Difference')
+
+            # Format columns
+            test_on_train_tree.column('#0', width=0, stretch=NO)
+            test_on_train_tree.column('Predicted_Value', width=140, stretch=NO)
+            test_on_train_tree.column('Actual_Value', width=120, stretch=NO)
+            test_on_train_tree.column('Difference', width=120, stretch=NO)
+
+            # Create headings
+            test_on_train_tree.heading('Predicted_Value', text='Predicted_Value', anchor=W)
+            test_on_train_tree.heading('Actual_Value', text='Actual_Value', anchor=W)
+            test_on_train_tree.heading('Difference', text='Difference', anchor=W)
+
+            # Bind treeview to column click for filter
+            test_on_train_tree.bind('<Button-1>', on_column_clicked__train)
+
+            # Grab values from predictor treeview current selected
+            selected = self.predictor_tree.selection()
+            tree_all_predicted_values = self.predictor_tree.item(selected, 'values')[10]
+            tree_all_actual_values = self.predictor_tree.item(selected, 'values')[11]
+
+            tree_all_predicted_values_list = tree_all_predicted_values.split(', ')
+            tree_all_actual_values_list = tree_all_actual_values.split(', ')
+
+            # Create an iteration to grab data and put it into treeview
+            index = max_difference = 0
+            min_difference = 99999999999999999999999999
+            for row in range(len(tree_all_predicted_values_list)):
+                test_on_train_tree.insert(parent='', index='end', iid=index, text='',
+                                          values=(str(tree_all_predicted_values_list[row]),
+                                                  str(tree_all_actual_values_list[row]),
+                                                  (float(tree_all_predicted_values_list[row]) - float(
+                                                      tree_all_actual_values_list[row]))))
+                individual_difference = abs(
+                    float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
+                if individual_difference > max_difference:
+                    max_difference = individual_difference
+                if individual_difference < min_difference:
+                    min_difference = individual_difference
+                index += 1
+
+            # Widgets
+            save_to_csv_button__train = ttk.Button(test_on_train_buttons_frame, text='Save to CSV',
+                                                   command=lambda: on_save_to_csv(test_on_train_buttons_frame,
+                                                                                  tree_all_predicted_values_list,
+                                                                                  tree_all_actual_values_list))
+            max_difference_label__train = Label(test_on_train_buttons_frame,
+                                                text='Max Difference: ' + str(max_difference))
+            min_difference_label__train = Label(test_on_train_buttons_frame,
+                                                text='Minimum Difference: ' + str(min_difference))
+
+            # Locations
+            test_on_train_tree.pack(expand=True, fill=BOTH, padx=5)
+            save_to_csv_button__train.grid(row=0, column=0, padx=5, pady=5)
+            max_difference_label__train.grid(row=0, column=1, padx=5, pady=5)
+            min_difference_label__train.grid(row=1, column=1, padx=5, pady=5)
 
     def query_database(self):
         if self.filter_current_model_checkbox.instate(['selected']) == True:
@@ -516,7 +629,6 @@ class PredictorTreeviewPage:
                 Predicted_Value real,
                 Mean_Absolute_Error real,
                 Score real,
-                Cross_Val_Score real,
                 Data_Known text,
                 Model_Used text,
                 Dataframe text,
@@ -542,72 +654,106 @@ class PredictorTreeviewPage:
         count = 0
         for record in fetched_records:
             self.predictor_tree.insert(parent='', index='end', iid=count, text='',
-                                                values=(record[0], record[1], record[2], record[3], record[4], record[5],
-                                                        record[6], record[7], record[8], record[9], record[10], record[11]))
+                                       values=(record[0], record[1], record[2], record[3], record[4], record[5],
+                                               record[6], record[7], record[8], record[9], record[10]))
             # Increment counter
             count += 1
 
 
 class Predictor:
-    def predictor_array_cleaner(self, scaled_df, target_variable, scaled_predictor_df):
-        df = self.scaled_df[self.selected_features]
-        mean_dataframe = pd.DataFrame(df.mean())
-        mean_dataframe = mean_dataframe.T
-        # plug in our data to the above dataframe
-        mean_dataframe.update(scaled_predictor_df)
-        mean_dataframe.drop([self.target_variable], axis=1, inplace=True)
-        # now turn the above into an array
-        finalized_predictor_array = np.array(mean_dataframe)
+    # This will get the mean values for each column of the full_df,
+    # then it will add entire columns all with mean values to the shortened_df
+    def predictor_array_cleaner(self, full_df, shortened_df):
+        # Grabs the mean values of each full_df column
+        full_df_mean = pd.DataFrame(full_df.mean())
+
+        # Switches the rows and columns
+        full_df_mean = full_df_mean.T
+
+        # Creates columns for every column that is not in the shortened_df and sets it to the mean of full_df's entire column
+        for column in full_df_mean.columns:
+            if column not in shortened_df.columns:
+                shortened_df[column] = full_df_mean[column][0]
+
+        # Now turn the new dataframe into an array
+        finalized_predictor_array = np.array(shortened_df)
         return finalized_predictor_array
 
-
-    def predictor(self):
+    def predictor(self, dataframe):
         # Make selected feature combination a list
-        try:
+        if self.is_data_split == 1:
             self.selected_features = self.selected_features.split(', ')
             self.selected_features.append(self.target_variable)
-        except:
-            pass
-        df = self.scaled_df[self.selected_features]
 
-        X = np.array(df.drop([self.target_variable], axis=1), dtype='object')
-        y = np.array(df[self.target_variable], dtype='object')
+        print('self selected features:', self.selected_features)
+        # Make dataframe from selected features
+        shortened_dataframe = dataframe[self.selected_features]
 
-        finalized_predictor_array = Predictor.predictor_array_cleaner(self, self.scaled_df, self.target_variable,
-                                                                      self.scaled_data_we_know_df)
+        X = np.array(shortened_dataframe.drop([self.target_variable], axis=1), dtype='object')
+        y = np.array(shortened_dataframe[self.target_variable], dtype='object')
+
+        finalized_predictor_array = Predictor.predictor_array_cleaner(self, shortened_dataframe, self.target_variable,
+                                                                      shortened_dataframe)
         pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
-        old_pickled_regression_line = pickle.load(pickle_in)
+        regression_line = pickle.load(pickle_in)
 
+        runtimes = 100  # ToDo what should default runtimes be?
 
-        runtimes = 10
-
-        current_model_total_score = 0
-        pickle_model_total_score = pickle_total_mean_absolute_error = total_pickle_predicted_value = 0
+        total_predictions = total_score = total_mean_absolute_error = 0
         for i in range(runtimes):
-            X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
-            MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
+            if self.is_data_split == 0:
+                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 
-            pickle_model_input_prediction = old_pickled_regression_line.predict(finalized_predictor_array)
+            if self.is_data_split == 0:
+                predictions = regression_line.predict(X_test)
+                score = regression_line.score(X_test, y_test)
+                mean_absolute_error = metrics.mean_absolute_error(y_test, predictions)
 
-            pickle_cross_val_score = cross_val_score(old_pickled_regression_line, X, y, cv=10).mean()
-            pickle_model_score = old_pickled_regression_line.score(X_test, y_test)
-            pickle_model_total_score += pickle_model_score
+            else:
+                predictions = regression_line.predict(X)
+                score = regression_line.score(X, y)
+                mean_absolute_error = metrics.mean_absolute_error(y, predictions)
 
-            self.all_pickle_model_predictions = old_pickled_regression_line.predict(X_test)  # problem line
+            total_predictions = np.add(predictions, total_predictions)
+            total_score += score
+            total_mean_absolute_error += mean_absolute_error
 
-            pickle_mean_absolute_error = metrics.mean_absolute_error(y_test, self.all_pickle_model_predictions)
-            pickle_total_mean_absolute_error += pickle_mean_absolute_error
+            self.data_known_prediction = regression_line.predict(finalized_predictor_array)[0]
+            # ToDo make sure raw doesn't win everytime in the future
 
+        self.average_predictions = total_predictions / runtimes
 
-        self.pickle_predicted_value = pickle_model_input_prediction[0]
-        self.pickle_model_average_score = pickle_model_total_score/runtimes
-        self.pickle_cross_val_average_score = pickle_cross_val_score/runtimes
-        self.pickle_model_average_mae = pickle_total_mean_absolute_error/runtimes
+        self.average_score = total_score / runtimes
+        self.average_mae = total_mean_absolute_error / runtimes
 
-        self.all_actual_values = y_test
-        self.all_pickle_model_predictions = self.all_pickle_model_predictions.tolist()
+        if self.is_data_split == 0:
+            self.all_actual_values = y_test
+        else:
+            self.all_actual_values = y
 
-        return self.all_pickle_model_predictions, y_test
+        return self.average_predictions, self.all_actual_values
+
+    def predictor_split(self, scaled_df, scaled_df2):
+        # Loads in the regression line using pickle
+        pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
+        regression_line = pickle.load(pickle_in)
+
+        # Reformat selected features to be a list
+        selected_features = self.selected_features.split(', ')
+
+        scaled_df__selected = scaled_df[selected_features]
+        scaled_df2__selected = scaled_df2[selected_features]
+        finalized_predictor_array = Predictor.predictor_array_cleaner(self, scaled_df__selected, scaled_df2__selected)
+        # ToDo scaled df2 has 2 target variable columns in it
+
+        runtimes = 100  # ToDo what should default runtimes be?
+        total_predictions = 0
+        for i in range(runtimes):
+            predictions = regression_line.predict(finalized_predictor_array)
+            total_predictions = np.add(predictions, total_predictions)
+        self.average_predictions = total_predictions / runtimes
+
+        return self.average_predictions
 
     def predictor_plotter(self, all_current_model_predictions, y_test, target_variable):
         sns.set_style('darkgrid')
@@ -620,15 +766,11 @@ class Predictor:
         plt.legend(loc='upper left', title='X=Actual Values\nY=Predicted Values')
         plt.get_current_fig_manager().window.state('zoomed')
 
-
         # Makes the point values shown when hovered over
         mpc.cursor(hover=True)
 
         plt.show()
 
 
-
 if __name__ == '__main__':
     print('You must run this program from the mother predictor app')
-
-

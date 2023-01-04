@@ -1,57 +1,90 @@
-def outlier_cleaner(multiple_encoded_df):
-    for feature in multiple_encoded_df:
-        Q1 = multiple_encoded_df[feature].quantile(0.25)
-        Q3 = multiple_encoded_df[feature].quantile(0.75)
-        IQR = Q3 - Q1
+import pandas as pd
 
-        lower_limit = Q1 - 1.5 * IQR
-        upper_limit = Q3 + 1.5 * IQR
 
-        outlier_free_df = multiple_encoded_df.loc[(multiple_encoded_df[feature] < upper_limit) & (multiple_encoded_df[feature] > lower_limit)]
-
-        percent_removed = (len(multiple_encoded_df) - len(outlier_free_df)) / len(multiple_encoded_df)
-        if percent_removed < 0.05:
-            # capping
-            outlier_free_df = multiple_encoded_df.copy()
-            outlier_free_df.loc[(outlier_free_df[feature] > upper_limit), feature] = upper_limit
-            outlier_free_df.loc[(outlier_free_df[feature] < lower_limit), feature] = lower_limit
+def outlier_cleaner(dataframe_to_clean):
+    # This function makes outliers outside the IQR equal to the IQR bounds, unless more than 5% are outside.
+    # If more than 5% are outside, it simply removes the outlier values, causing a Nan to replace its value
+    outlier_free_df = pd.DataFrame()
+    for column in dataframe_to_clean:
+        print('\ncolumn:', column)
+        if dataframe_to_clean[column].dtypes == 'object':
+            print('column is categorical')
+            continue
+        lower_limit, upper_limit = dataframe_to_clean[column].quantile([.0, 1.0])
+        print('lower/upper limit:', lower_limit, '/', upper_limit)
+        len_of_dropped_rows = len(dataframe_to_clean[column].loc[(dataframe_to_clean[column] > upper_limit) | (
+                    dataframe_to_clean[column] < lower_limit)])
+        print('len of dropped rows:', len_of_dropped_rows)
+        print('len of test[column]', len(dataframe_to_clean[column]))
+        row_percent_removed = len_of_dropped_rows / len(dataframe_to_clean[column])
+        print('row percent moved:', row_percent_removed)
+        if row_percent_removed < 0.05:
+            dataframe_to_clean[column] = dataframe_to_clean[column].clip(lower_limit, upper_limit)
+            print('percent removed was less than 0.05')
         else:
-            pass
+            dataframe_to_clean[column] = dataframe_to_clean[column].loc[
+                (dataframe_to_clean[column] <= upper_limit) & (dataframe_to_clean[column] >= lower_limit)]
+            print('percent removed was greater than 0.05')
+        print('final dataframe to clean[column]:\n', dataframe_to_clean[column])
+        outlier_free_df = pd.concat([outlier_free_df, dataframe_to_clean[column]], axis=1)
+    return outlier_free_df
 
-        return outlier_free_df
 
-
-def null_column_cleaner(data_to_null_clean):
+def null_columns_cleaner(data_to_null_clean):
+    # This function gets rid of columns entirely if more than 25% of them are null
+    columns_removed_list = []
     for column in data_to_null_clean.columns:
-        if (data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean))) > 0.25:
+        # print('\n\n\ncolumn:', column)
+        print('percent of column ' + column + ' that is null:',
+              data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean)))
+        if (data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean))) > 1.00:
             print('column with too many null values deleted:', column)
             data_to_null_clean.drop(column, inplace=True, axis=1)
+            columns_removed_list.append(column)
 
-    fully_cleaned_df = data_to_null_clean.fillna(data_to_null_clean.mean(numeric_only=True))
-    return fully_cleaned_df
+    print(
+        '\033[33m' + '\nColumns that were removed because they had too many null values after outliers were removed:\n',
+        columns_removed_list)
+    print('\033[39m')
+    non_empty_columns_df = data_to_null_clean.fillna(data_to_null_clean.mean(numeric_only=True))
+    return non_empty_columns_df
 
 
-def null_row_cleaner(data_to_clean):
-    fully_cleaned_df = data_to_clean.dropna(how='all')
-    fully_cleaned_df.reset_index(drop=True, inplace=True)
-    return fully_cleaned_df
+# ToDo put in a graph to add to the grapher button that shows how much data was removed from cleaning
+
+# def null_row_cleaner(data_to_clean):
+#     # This function drops rows if too many of the columns are null
+#     fully_cleaned_df = data_to_clean.dropna(how='all')
+#     fully_cleaned_df.reset_index(drop=True, inplace=True)
+#     return fully_cleaned_df
 
 
-def unnamed_column_dropper(data_to_unname_drop):
-    for column in data_to_unname_drop.columns:
+def unnamed_column_cleaner(data_with_unnamed_columns):
+    # This function clears any columns that are unnamed
+    for column in data_with_unnamed_columns.columns:
         if column.startswith('Unnamed'):
-            data_to_unname_drop.drop([column], axis=1, inplace=True)
-    return data_to_unname_drop
+            data_with_unnamed_columns.drop([column], axis=1, inplace=True)
+    fully_named_df = data_with_unnamed_columns
+    return fully_named_df
 
 
-def full_cleaner(multiple_encoded_df):
-    outlier_free_df = outlier_cleaner(multiple_encoded_df)
-    null_column_free_df = null_column_cleaner(outlier_free_df)
-    # null_free_df = null_row_cleaner(null_column_free_df)
-    fully_cleaned_df = unnamed_column_dropper(null_column_free_df)
+def full_cleaner(dataframe_to_clean):
+    fully_named_df = unnamed_column_cleaner(dataframe_to_clean)
+    outlier_free_df = outlier_cleaner(fully_named_df)
+    non_empty_columns_df = null_columns_cleaner(outlier_free_df)
+    fully_cleaned_df = non_empty_columns_df
+    # null_free_df = null_row_cleaner(null_column_free_df) # not sure if I want this function
     return fully_cleaned_df
+
+
+# ToDo put in a gui tool that lets you decided what iqr ranges and other cleaning parameters you want
 
 
 if __name__ == '__main__':
-    pass
+    dataframe = pd.read_csv('multiple encoded csv')
+    pd.options.display.width = 500
+    pd.set_option('display.max_rows', 888888)
+    pd.set_option('display.max_columns', 888888)
 
+    fully_cleaned_df = full_cleaner(dataframe)
+    print('fully cleaned df:\n', fully_cleaned_df)
