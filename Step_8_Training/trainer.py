@@ -1,6 +1,7 @@
 import numpy as np
 import sklearn
 from sklearn import linear_model
+from sklearn.model_selection import StratifiedShuffleSplit
 import pickle
 import time
 from Extras import functions
@@ -495,6 +496,9 @@ class Trainer():
         y = np.array(df[target_variable])
         save_pickle_to = 'saved_training_pickle_models/' + saved_model_name + '.pickle'
 
+        current_model_regression_line = linear_model.LinearRegression()
+        split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
+
         self.upgrades_to_pickle_model = 0
         for lap in range(int(trainer_runtimes)):
             training_progress_bar['value'] += (1 / int(trainer_runtimes) * 100)
@@ -503,8 +507,12 @@ class Trainer():
 
             current_model_total_score, old_pickled_model_total_score = 0, 0
             for _ in range(small_loops):
-                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
-                current_model_regression_line = linear_model.LinearRegression()
+                for train_index, test_index in split.split(df)
+
+
+                # The line below will only be for categorical testing
+                # X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+
                 current_model_regression_line.fit(X_train, y_train)
                 current_model_score = current_model_regression_line.score(X_test, y_test)
                 current_model_total_score = current_model_total_score + current_model_score
