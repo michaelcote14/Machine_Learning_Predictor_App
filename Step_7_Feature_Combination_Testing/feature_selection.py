@@ -1,5 +1,5 @@
-import numpy as np 
-import sklearn  
+import numpy as np
+import sklearn
 from sklearn import linear_model
 import itertools
 from Extras import functions
@@ -18,7 +18,6 @@ import datetime
 from tkinter import messagebox
 import threading
 from PIL import ImageTk, Image
-
 
 
 class FeatureSelectionPage:
@@ -52,12 +51,14 @@ class FeatureSelectionPage:
             self.feature_selection_tree = ttk.Treeview(feature_selection_tree_frame)
 
             # Create scrollbar for the tree frame
-            self.feature_selection_horizontal_scrollbar = ttk.Scrollbar(feature_selection_tree_frame, orient=HORIZONTAL, command=self.feature_selection_tree.xview)
+            self.feature_selection_horizontal_scrollbar = ttk.Scrollbar(feature_selection_tree_frame, orient=HORIZONTAL,
+                                                                        command=self.feature_selection_tree.xview)
             self.feature_selection_horizontal_scrollbar.pack(side=BOTTOM, fill=X)
             self.feature_selection_tree.configure(xscrollcommand=self.feature_selection_horizontal_scrollbar.set)
 
             # Define columns
-            self.feature_selection_tree['columns'] = ('Date_Created', 'Target', 'Dataframe', 'Features', 'R2_Score', 'Runtimes')
+            self.feature_selection_tree['columns'] = (
+                'Date_Created', 'Target', 'Dataframe', 'Features', 'R2_Score', 'Runtimes')
 
             # Format columns
             self.feature_selection_tree.column('#0', width=0, stretch=NO)
@@ -81,13 +82,22 @@ class FeatureSelectionPage:
             self.feature_selection_tree.bind('<Button-1>', self.on_column_clicked)
 
             # Widgets
-            use_selected_features_button = ttk.Button(self.feature_selection_button_frame, text='Use Selected Features', command=self.use_selected_features)
-            create_new_features_button = ttk.Button(self.feature_selection_button_frame, text='Create New Feature Combination', command=self.create_new_feature_combination)
-            delete_selected_button = ttk.Button(self.feature_selection_button_frame, text='Delete Selected Row', command=self.remove_selected_row)
-            up_button = ttk.Button(self.feature_selection_button_frame, text='Move Selection Up', command=self.move_record_up)
-            down_button = ttk.Button(self.feature_selection_button_frame, text='Move Selection Down', command=self.move_record_down)
-            save_row_order_button = ttk.Button(self.feature_selection_button_frame, text='Save Current Row Order', command=feature_selection_window)
-            self.filter_current_dataframe_checkbox = ttk.Checkbutton(self.feature_selection_button_frame, text='Only Show Current Target and Dataframe', command=self.filter_dataframe)
+            use_selected_features_button = ttk.Button(self.feature_selection_button_frame, text='Use Selected Features',
+                                                      command=self.use_selected_features)
+            create_new_features_button = ttk.Button(self.feature_selection_button_frame,
+                                                    text='Create New Feature Combination',
+                                                    command=self.create_new_feature_combination)
+            delete_selected_button = ttk.Button(self.feature_selection_button_frame, text='Delete Selected Row',
+                                                command=self.remove_selected_row)
+            up_button = ttk.Button(self.feature_selection_button_frame, text='Move Selection Up',
+                                   command=self.move_record_up)
+            down_button = ttk.Button(self.feature_selection_button_frame, text='Move Selection Down',
+                                     command=self.move_record_down)
+            save_row_order_button = ttk.Button(self.feature_selection_button_frame, text='Save Current Row Order',
+                                               command=feature_selection_window)
+            self.filter_current_dataframe_checkbox = ttk.Checkbutton(self.feature_selection_button_frame,
+                                                                     text='Only Show Current Target and Dataframe',
+                                                                     command=self.filter_dataframe)
 
             # Makes the current dataframe checkbox start out as selected
             self.filter_current_dataframe_checkbox.state(['!alternate'])
@@ -105,43 +115,48 @@ class FeatureSelectionPage:
 
             self.query_database()
 
-
     def create_new_feature_combination(self):
         def indeterminate_progress_threader():
-            self.feature_selection_progressbar = ttk.Progressbar(feature_selection_progress_window, orient=HORIZONTAL, length=300, mode='indeterminate')
+            self.feature_selection_progressbar = ttk.Progressbar(feature_selection_progress_window, orient=HORIZONTAL,
+                                                                 length=300, mode='indeterminate')
             self.feature_selection_progressbar.grid(row=0, column=0, columnspan=3, padx=10)
 
             self.feature_selection_progressbar.start(8)
-
-
 
             ImportantFeaturesFinder.feature_importer(self, self.feature_selection_runtimes_spinbox.get(),
                                                      self.scaled_df, self.target_variable,
                                                      self.amount_of_features_combo.get(), 'yes')
 
         def important_features_creator():
-            importance_creator_predicted_time = ImportantFeaturesFinder.importance_time_predictor(self, self.feature_selection_runtimes_spinbox.get(), self.amount_of_features_combo.get(), self.scaled_df)
+            importance_creator_predicted_time = ImportantFeaturesFinder.importance_time_predictor(self,
+                                                                                                  self.feature_selection_runtimes_spinbox.get(),
+                                                                                                  self.amount_of_features_combo.get(),
+                                                                                                  self.scaled_df)
             # print('Importance Creator Predicted Time:', importance_creator_predicted_time)
 
             # ToDo fix time predictor for important feature creator and feature combiner
 
             # Widgets
-            self.importance_finder_caution_label = Label(feature_selection_progress_window, text='Step 1 will take approximately\n'
-                            + importance_creator_predicted_time + '\nto run, are you sure you wan to continue?')
+            self.importance_finder_caution_label = Label(feature_selection_progress_window,
+                                                         text='Step 1 will take approximately\n'
+                                                              + importance_creator_predicted_time + '\nto run, are you sure you wan to continue?')
 
             self.importance_finder_yes_button = ttk.Button(feature_selection_progress_window, text='Yes',
-                command=threading.Thread(target=indeterminate_progress_threader).start)
+                                                           command=threading.Thread(
+                                                               target=indeterminate_progress_threader).start)
 
             self.importance_finder_no_button = ttk.Button(feature_selection_progress_window, text='No',
-                command=lambda: ImportantFeaturesFinder.feature_importer(self, self.feature_selection_runtimes_spinbow.get(),
-                self.scaled_df, self.target_variable, self.amount_of_features_combo.get(), 'no'))
+                                                          command=lambda: ImportantFeaturesFinder.feature_importer(self,
+                                                                                                                   self.feature_selection_runtimes_spinbow.get(),
+                                                                                                                   self.scaled_df,
+                                                                                                                   self.target_variable,
+                                                                                                                   self.amount_of_features_combo.get(),
+                                                                                                                   'no'))
 
             # Locations
             self.importance_finder_caution_label.grid(row=6, column=1)
             self.importance_finder_yes_button.grid(row=7, column=1, padx=(0, 80))
             self.importance_finder_no_button.grid(row=7, column=1, padx=(80, 0))
-
-
 
         def feature_selection_progress_tracker():
             global feature_selection_progress_window
@@ -154,14 +169,17 @@ class FeatureSelectionPage:
 
                 # Widgets
                 spinbox_variable = StringVar(feature_selection_progress_window)
-                self.feature_selection_runtimes_spinbox = Spinbox(feature_selection_progress_window, from_=500, to=10000000,
-                                increment=500, textvariable=spinbox_variable, font=('Ariel', 11), width=18)
+                self.feature_selection_runtimes_spinbox = Spinbox(feature_selection_progress_window, from_=500,
+                                                                  to=10000000,
+                                                                  increment=500, textvariable=spinbox_variable,
+                                                                  font=('Ariel', 11), width=18)
                 spinbox_variable.set('Runtimes')
 
                 # Amount of features for combo box
                 amount_of_features_list = [x for x in range(len(self.scaled_df.columns))]
                 amount_of_features_list.insert(0, 'Select # of Features...')
-                self.amount_of_features_combo = ttk.Combobox(feature_selection_progress_window, values=amount_of_features_list, width=23)
+                self.amount_of_features_combo = ttk.Combobox(feature_selection_progress_window,
+                                                             values=amount_of_features_list, width=23)
                 self.amount_of_features_combo.current(0)
                 create_new_features_run_button = ttk.Button(feature_selection_progress_window, text='Run',
                                                             command=important_features_creator)
@@ -177,10 +195,7 @@ class FeatureSelectionPage:
 
                 feature_selection_progress_window.mainloop()
 
-
         feature_selection_progress_tracker()
-
-
 
     def current_row_saver(self):
         # Connect to database
@@ -199,7 +214,7 @@ class FeatureSelectionPage:
                 "INSERT INTO feature_selection_table VALUES (:Date_Created, :Dataframe, :Features, :R2_Score, :Runtimes)",
                 {'Date_Created': self.feature_selection_tree.item(record[0], 'values')[0],
                  'Target': self.feature_selection_tree.item(record[0], 'values')[1],
-                  'Dataframe': self.feature_selection_tree.item(record[0], 'values')[2],
+                 'Dataframe': self.feature_selection_tree.item(record[0], 'values')[2],
                  'Features': self.feature_selection_tree.item(record[0], 'values')[3],
                  'R2_Score': self.feature_selection_tree(record[0], 'values'[4]),
                  'Runtimes': self.feature_selection_tree.item(record[0], 'values')[5],
@@ -248,20 +263,22 @@ class FeatureSelectionPage:
         count = 0
         for record in fetched_records:
             self.feature_selection_tree.insert(parent='', index='end', iid=count, text='',
-                                                values=(record[0], record[1], record[2], record[3], record[4], record[5]))
+                                               values=(
+                                                   record[0], record[1], record[2], record[3], record[4], record[5]))
             # Increment counter
             count += 1
-
 
     def move_record_down(self):
         rows = self.feature_selection_tree.selection()
         for row in reversed(rows):
-            self.feature_selection_tree.move(row, self.feature_selection_tree.parent(row), self.feature_selection_tree.index(row))
+            self.feature_selection_tree.move(row, self.feature_selection_tree.parent(row),
+                                             self.feature_selection_tree.index(row))
 
     def move_record_up(self):
         rows = self.feature_selection_tree.selection()
         for row in rows:
-            self.feature_selection_tree.move(row, self.feature_selection_tree.parent(row), self.feature_selection_tree.index(row)-1)
+            self.feature_selection_tree.move(row, self.feature_selection_tree.parent(row),
+                                             self.feature_selection_tree.index(row) - 1)
 
     def on_column_clicked(self, event):
         region_clicked = self.feature_selection_tree.identify_region(event.x, event.y)
@@ -270,14 +287,14 @@ class FeatureSelectionPage:
             return
         if self.sorted_state == 'off':
             column_clicked = self.feature_selection_tree.identify_column(event.x)
-            column_clicked_index = int(column_clicked[1:])-1
+            column_clicked_index = int(column_clicked[1:]) - 1
 
             self.sorted_state = 'on'
             column_clicked_name = (self.feature_selection_tree['columns'][column_clicked_index])
             print('column clicked name:', column_clicked_name)
 
             # Puts a down arrow in the column name
-            self.feature_selection_tree.heading(column_clicked_name, text=column_clicked_name + ' '*3 + 'V')
+            self.feature_selection_tree.heading(column_clicked_name, text=column_clicked_name + ' ' * 3 + 'V')
 
             conn = sqlite3.connect('Feature_Selection_Database')  # creates a database file and puts it in the directory
 
@@ -301,7 +318,9 @@ class FeatureSelectionPage:
             for record in fetched_records:
                 print('records in sorted function:', record)
                 self.feature_selection_tree.insert(parent='', index='end', iid=count, text='',
-                                                   values=(record[0], record[1], record[2], record[3], record[4], record[5]))
+                                                   values=(
+                                                       record[0], record[1], record[2], record[3], record[4],
+                                                       record[5]))
                 # Increment counter
                 count += 1
 
@@ -309,11 +328,9 @@ class FeatureSelectionPage:
         else:
             # Reload the original treeview data
             for column in self.feature_selection_tree['columns']:
-                self.feature_selection_tree.heading(column, text=column) # Reload the original treeview data
+                self.feature_selection_tree.heading(column, text=column)  # Reload the original treeview data
 
             self.sorted_state = 'off'
-
-
 
     def query_database(self):
         if self.filter_current_dataframe_checkbox.instate(['selected']) == True:
@@ -354,11 +371,10 @@ class FeatureSelectionPage:
         count = 0
         for record in fetched_records:
             self.feature_selection_tree.insert(parent='', index='end', iid=count, text='',
-                                                values=(record[0], record[1], record[2], record[3], record[4], record[5]))
+                                               values=(
+                                                   record[0], record[1], record[2], record[3], record[4], record[5]))
             # Increment counter
             count += 1
-
-
 
     def remove_selected_row(self):
         selected = self.feature_selection_tree.selection()[0]
@@ -370,15 +386,16 @@ class FeatureSelectionPage:
         cursor = conn.cursor()
 
         # Delete from database
-        cursor.execute('DELETE from feature_selection_table WHERE Date_Created = :Date_Created AND Features = :Features AND R2_Score = :R2_Score AND Runtimes = :Runtimes',
-                       {
-                           'Date_Created': tree_values[0],
-                           'Target': tree_values[1],
-                           'Dataframe': tree_values[2],
-                           'Features': tree_values[3],
-                           'R2_Score': tree_values[4],
-                           'Runtimes': tree_values[5]
-                       })
+        cursor.execute(
+            'DELETE from feature_selection_table WHERE Date_Created = :Date_Created AND Features = :Features AND R2_Score = :R2_Score AND Runtimes = :Runtimes',
+            {
+                'Date_Created': tree_values[0],
+                'Target': tree_values[1],
+                'Dataframe': tree_values[2],
+                'Features': tree_values[3],
+                'R2_Score': tree_values[4],
+                'Runtimes': tree_values[5]
+            })
 
         # Commit changes
         conn.commit()
@@ -411,11 +428,12 @@ class FeatureSelectionPage:
                                                     text='Step 2 will take approximately\n'
                                                          + predicted_combiner_time + '\nto run, are you sure you wan to continue?')
         self.feature_combiner_yes_button = ttk.Button(feature_selection_progress_window, text='Yes',
-                                                      command=threading.Thread(target=lambda: FeatureCombiner.feature_combiner(self,
-                                                                                                       self.target_variable,
-                                                                                                       self.most_important_features,
-                                                                                                       self.scaled_df,
-                                                                                                       'yes')).start)
+                                                      command=threading.Thread(
+                                                          target=lambda: FeatureCombiner.feature_combiner(self,
+                                                                                                          self.target_variable,
+                                                                                                          self.most_important_features,
+                                                                                                          self.scaled_df,
+                                                                                                          'yes')).start)
         self.feature_combiner_no_button = ttk.Button(feature_selection_progress_window, text='No',
                                                      command=lambda: FeatureCombiner.feature_combiner(self,
                                                                                                       self.target_variable,
@@ -427,7 +445,6 @@ class FeatureSelectionPage:
         self.feature_combiner_caution_label.grid(row=6, column=1)
         self.feature_combiner_yes_button.grid(row=7, column=1, padx=(0, 80))
         self.feature_combiner_no_button.grid(row=7, column=1, padx=(80, 0))
-
 
     def use_selected_features(self, e=None):
         selected = self.feature_selection_tree.selection()[0]
@@ -443,7 +460,6 @@ class FeatureSelectionPage:
         PredictorTreeviewPage.selected_features = selected_features
         print('Selected Features:', selected_features)
 
-
         # Changes the red x to a green checkmark
         self.image_changer('green_checkmark.png', self.green_check_label_features, 24, 24)
 
@@ -452,7 +468,8 @@ class ImportantFeaturesFinder:
     def importance_time_predictor(self, runtimes, amount_of_features_selected, scaled_df):
         dataframe_column_length = scaled_df.shape[1]
         dataframe_row_length = scaled_df.shape[0]
-        predicted_time = ((int(runtimes)*dataframe_column_length) + int(amount_of_features_selected)*0.00012 + dataframe_row_length*0.00012) * 0.00012
+        predicted_time = ((int(runtimes) * dataframe_column_length) + int(
+            amount_of_features_selected) * 0.00012 + dataframe_row_length * 0.00012) * 0.00012
         predicted_time = time_formatter(predicted_time)
         return predicted_time
 
@@ -463,7 +480,6 @@ class ImportantFeaturesFinder:
         else:
             feature_selection_progress_window.destroy()
             return
-
 
         ######################################## Data preparation #########################################
         features = scaled_df.columns.tolist()
@@ -510,6 +526,7 @@ class ImportantFeaturesFinder:
         self.most_important_features = most_important_features
         self.step_two()
 
+
 class FeatureCombiner:
     def best_features_database_inserter(self):
         # Connect to database
@@ -544,23 +561,20 @@ class FeatureCombiner:
 
         feature_selection_progress_window.destroy()
 
-
     def combination_time_predictor(self, most_important_features, scaled_df):
 
         dataframe = scaled_df[most_important_features]
         all_data_columns = dataframe.columns
 
-
         runtimes = 5  # default should be 5
 
         global combination_max
         combination_max = (((2 ** (
-                    len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
+                len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
         time_per_1combination = 0.0014378042273516
         predicted_time = time_per_1combination * combination_max
 
         return time_formatter(predicted_time)
-
 
     def feature_combiner(self, target_variable, most_important_features, scaled_df, choice):
         if choice.lower() == 'yes':
@@ -571,7 +585,6 @@ class FeatureCombiner:
 
         # Clear the progressbar label
         self.feature_selection_progress_label.config(text='')
-
 
         # Delete the labels and buttons in the progress window
         self.feature_combiner_caution_label.destroy()
@@ -590,7 +603,8 @@ class FeatureCombiner:
         total_score = 0
         runtimes = 5  # default should be 5
         for loop in picked_dataframe_columns_list:
-            result = itertools.combinations(picked_dataframe_columns_list, picked_dataframe_columns_list.index(loop)+1)
+            result = itertools.combinations(picked_dataframe_columns_list,
+                                            picked_dataframe_columns_list.index(loop) + 1)
             for item in result:
                 # print("item:", list(item))
                 for i in range(runtimes):
@@ -598,31 +612,30 @@ class FeatureCombiner:
                     # print('combinations:', combinations)
                     # print('Percent Complete:', str((combinations/combination_max)*100)[0:4], '%')
 
-                    self.feature_selection_progressbar['value'] = (combinations/combination_max) * 100
+                    self.feature_selection_progressbar['value'] = (combinations / combination_max) * 100
                     self.feature_selection_progress_label.config(
                         text=str(format(self.feature_selection_progressbar['value'], '.2f')) + '%')
                     feature_selection_progress_window.update_idletasks()
 
                     newdata = list(item)
 
-
                     X = np.array(dataframe[newdata])
                     y = np.array(dataframe[target_variable])
 
-                    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
+                    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y,
+                                                                                                test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
 
                     MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
                     # print('Score:', MyLinearRegression.score(X_test, y_test))
                     # make this add up 5 times first one should equal 0.184
                     total_score = total_score + MyLinearRegression.score(X_test, y_test)
 
-                average_score = total_score/runtimes
+                average_score = total_score / runtimes
                 # print('Average Score:', average_score, '\n')
                 total_score = 0
                 if average_score > best_average_score:
                     best_average_score = average_score
                     best_features = newdata
-
 
         self.feature_selection_progress_label.config(text='Completed')
 
@@ -631,15 +644,12 @@ class FeatureCombiner:
 
         if elapsed_time > 3:
             functions.email_or_text_alert('Trainer is done',
-            'Elapsed Time: ' + str(time_formatter(elapsed_time)) + '\nBest Average Score: ' + str(format(best_average_score, '.4f')), '4052198820@mms.att.net')
+                                          'Elapsed Time: ' + str(
+                                              time_formatter(elapsed_time)) + '\nBest Average Score: ' + str(
+                                              format(best_average_score, '.4f')), '4052198820@mms.att.net')
 
         self.best_features = best_features
         self.r2_score = best_average_score
 
         # Put features and other data into database
         FeatureCombiner.best_features_database_inserter(self)
-
-
-
-
-

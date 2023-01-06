@@ -1,28 +1,28 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
-import tkinter.font as font
-from tkinter import messagebox
 from tkinter import filedialog
-from PIL import ImageTk, Image
+from tkinter import messagebox
+from tkinter import ttk
+
 import pandas as pd
-import sqlite3
-import datetime
-from Step_1_Visualizing.visualization import Grapher
+from PIL import ImageTk, Image
+
+from Step_2_Visualizing.visualization import Grapher
 
 LARGE_FONT = ('Arial', 11, 'bold')
 NORMAL_FONT = ('Arial', 9)
 SMALL_FONT = ('Arial', 7)
 
+
 class Machine_Learning_App(tk.Tk):
     def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs) # sets up Tkinter, doesn't actually call anything in
+        tk.Tk.__init__(self, *args, **kwargs)  # sets up Tkinter, doesn't actually call anything in
 
-        tk.Tk.iconbitmap(self, default="C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/Machine_Learning_Icon.ico")
+        tk.Tk.iconbitmap(self,
+                         default="C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/Machine_Learning_Icon.ico")
         tk.Tk.wm_title(self, "Michael's Machine Learning App")
 
         container = tk.Frame(self)
-
 
         # Fill will fill in any space allowed to a pack, expand will go beyond the bounds allowed by a pack
         container.pack(side='top', fill='both', expand=True)
@@ -30,7 +30,7 @@ class Machine_Learning_App(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {} # a dictionary of all the frames in your application
+        self.frames = {}  # a dictionary of all the frames in your application
 
         menubar = tk.Menu(container)
         pages_menu = tk.Menu(menubar, tearoff=0)
@@ -38,24 +38,21 @@ class Machine_Learning_App(tk.Tk):
         pages_menu.add_command(label='Extras', command=lambda: self.show_frame(ExtrasPage))
         menubar.add_cascade(label='Pages', menu=pages_menu)
 
-        tk.Tk.config(self, menu=menubar) # actually puts the buttons up there
-
+        tk.Tk.config(self, menu=menubar)  # actually puts the buttons up there
 
         # List of frames to open
-        for F in (PredictorPage, ExtrasPage, PageOne, PageTwo): # F stands for frame, add in new pages here
+        for F in (PredictorPage, ExtrasPage, PageOne, PageTwo):  # F stands for frame, add in new pages here
             frame = F(container, self)
-            frame.config(bg='gray10') # Makes all the frames gray
+            frame.config(bg='gray10')  # Makes all the frames gray
 
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky='nsew')
 
-
-
         self.show_frame(PredictorPage)
 
-    def show_frame(self, cont): # cont stands for container
+    def show_frame(self, cont):  # cont stands for container
         frame = self.frames[cont]
-        frame.tkraise() # makes the frame selected come to the front
+        frame.tkraise()  # makes the frame selected come to the front
 
 
 class PredictorPage(tk.Frame):
@@ -70,31 +67,33 @@ class PredictorPage(tk.Frame):
             'KNN',
             'SVD']
 
-
         # Labels
         page_title_label = tk.Label(self, text='Predictor', font=LARGE_FONT, bg='#225BBB', anchor=CENTER)
 
         # Widgets
-        self.select_model_combo_box = ttk.Combobox(self, value=model_options, width=21, justify='center', font=('Ariel', 11))
+        self.select_model_combo_box = ttk.Combobox(self, value=model_options, width=21, justify='center',
+                                                   font=('Ariel', 11))
         self.select_data_button = ttk.Button(self, text='Select Data...', command=self.on_select_data_button, width=30)
-        self.split_data_check_status = IntVar()
+        self.is_data_split = IntVar()
         self.split_data_check = Checkbutton(self, text='Data is already split', command=self.on_split_data_check,
-                background='gray10', foreground='white', variable=self.split_data_check_status, selectcolor='gray20')
+                                            background='gray10', foreground='white',
+                                            variable=self.is_data_split, selectcolor='gray20')
         self.select_model_combo_box.current(1)  # Sets the initial box focus
         self.target_variable_combo_box = ttk.Combobox(self, width=21, font=('Ariel', 11))
         self.target_variable_combo_box.bind('<<ComboboxSelected>>', self.on_target_variable_combo_box_click)
         clean_button = ttk.Button(self, text='Clean', width=30, command=self.on_clean_button)
         spinbox_variable = StringVar(self)
         self.scaler_runtimes_spinbox = Spinbox(self, from_=500, to=100000, increment=500, textvariable=spinbox_variable,
-                                            font=('Ariel', 13, 'bold'), width=13)
+                                               font=('Ariel', 13, 'bold'), width=13)
         spinbox_variable.set('Runtimes')
         self.graph_button = ttk.Button(self, text='Graph', width=21, command=self.on_graph_button, state=DISABLED)
-        self.view_data_button = ttk.Button(self, text='View Data', width=21, command=self.on_view_data_button, state=DISABLED)
+        self.view_data_button = ttk.Button(self, text='View Data', width=21, command=self.on_view_data_button,
+                                           state=DISABLED)
         select_model_button = ttk.Button(self, text='Select Model', width=30, command=self.on_train_model_button)
         predict_button = ttk.Button(self, text='Predict', width=30, command=self.on_predict_button)
-        feature_selection_button = ttk.Button(self, text='Select Features', width=30, command=self.on_select_features_button)
+        feature_selection_button = ttk.Button(self, text='Select Features', width=30,
+                                              command=self.on_select_features_button)
         scale_button = ttk.Button(self, text='Scale', command=self.on_scale_button, width=7)
-
 
         # Images
         self.green_check_label_model = self.image_creator('green_checkmark.png', 24, 24)
@@ -107,14 +106,14 @@ class PredictorPage(tk.Frame):
         self.green_check_label_predict = self.image_creator('red_x.png', 24, 24)
 
         # Image Locations
-        self.green_check_label_model.grid(row=1, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_data.grid(row=2, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_target.grid(row=3, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_clean.grid(row=7, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_scale.grid(row=8, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_features.grid(row=9, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_trainer.grid(row=10, column=0, sticky=W, padx=(195,10))
-        self.green_check_label_predict.grid(row=11, column=0, sticky=W, padx=(195,10))
+        self.green_check_label_model.grid(row=1, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_data.grid(row=2, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_target.grid(row=3, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_clean.grid(row=7, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_scale.grid(row=8, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_features.grid(row=9, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_trainer.grid(row=10, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_predict.grid(row=11, column=0, sticky=W, padx=(195, 10))
 
         # Locations
         page_title_label.grid(sticky='EW', row=0, column=0, ipadx=40, columnspan=2)
@@ -128,7 +127,7 @@ class PredictorPage(tk.Frame):
         self.scaler_runtimes_spinbox.grid(sticky=W, row=8, column=0, pady=5)
         select_model_button.grid(sticky=W, row=10, column=0, pady=5)
         self.graph_button.grid(sticky=W, row=11, column=0, padx=(295, 0))
-        self.view_data_button.grid(sticky=W, row=1, column=0, pady=5, padx=(295,0))
+        self.view_data_button.grid(sticky=W, row=1, column=0, pady=5, padx=(295, 0))
         predict_button.grid(sticky=W, row=11, column=0, pady=5)
 
         # Data Known widgets
@@ -137,7 +136,8 @@ class PredictorPage(tk.Frame):
         self.data_known_frame2 = Frame(self.data_known_canvas, bg='gray10')
         self.data_known_scrollbar = ttk.Scrollbar(self.data_known_frame, orient=HORIZONTAL,
                                                   command=self.data_known_canvas.xview)
-        data_known_label = Label(self.data_known_frame2, text=' '*54 + 'Data Known', width=100, bg='white', font=LARGE_FONT, anchor=W)
+        data_known_label = Label(self.data_known_frame2, text=' ' * 54 + 'Data Known', width=100, bg='white',
+                                 font=LARGE_FONT, anchor=W)
         data_known_feature_label = Label(self.data_known_frame2, text='Feature', bg='gray10', fg='white',
                                          font=LARGE_FONT)
         data_known_value_label = Label(self.data_known_frame2, text='Value', bg='gray10', fg='white', font=LARGE_FONT)
@@ -159,8 +159,8 @@ class PredictorPage(tk.Frame):
         self.data_known_canvas.pack(fill=BOTH)
 
     def feature_combination_chooser(self):
-        FeatureCombinationPage(self.target_variable, self.selected_important_features, self.scaled_df, self.csv_name, self.update_feature_combination)
-
+        FeatureCombinationPage(self.target_variable, self.selected_important_features, self.scaled_df, self.csv_name,
+                               self.update_feature_combination)
 
     def image_changer(self, img_location, label_to_configure, width, height):
         red_x_image = Image.open(img_location)
@@ -168,7 +168,6 @@ class PredictorPage(tk.Frame):
         my_img2 = ImageTk.PhotoImage(new_size)
         label_to_configure.configure(image=my_img2, text='green')
         label_to_configure.ImageTk = my_img2
-
 
     def image_creator(self, img_location, width, height, bg='gray10'):
         green_check_image = Image.open(img_location)
@@ -179,7 +178,8 @@ class PredictorPage(tk.Frame):
         return label_image
 
     def important_features_selector(self):
-        important_features_object = ImportantFeaturesPage(self.scaled_df, self.target_variable, self.update_important_features, self.csv_name)
+        important_features_object = ImportantFeaturesPage(self.scaled_df, self.target_variable,
+                                                          self.update_important_features, self.csv_name)
 
     def on_clean_button(self):
         # Checks the status of the green check image and changes images after button click
@@ -189,50 +189,40 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
+        pd.set_option('display.max_columns', 8888888)
+        pd.set_option('display.max_rows', 8888888)
 
-        Grapher.data_type_cleaner(self, self.original_df, self.target_variable)
-        type_clean_df = Grapher.data_type_cleaner(self, self.original_df, self.target_variable)
+        # Gets a list of columns that have white spaces in them # ToDo make it to where this will strip and rename the columns if there are white spaces
+        print([column for column in self.original_df.columns if column.endswith(' ') or column.startswith(' ')])
 
-        from Step_2_Single_Encoding.single_hot_encoder import single_encoder
-        single_encoded_df = single_encoder(type_clean_df)
+        # Drop target variable from original df
+        self.non_target_original_df = self.original_df.drop([self.target_variable], axis=1)
 
-        from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
-        self.multiple_encoded_df = multiple_encoder(self.original_df, single_encoded_df)
-
-        from Step_4_Data_Cleaning.data_cleaner import full_cleaner
-        self.fully_cleaned_df = full_cleaner(self.multiple_encoded_df)
-
-        # Changes the red x to a green checkmark
-        self.image_changer('green_checkmark.png', self.green_check_label_clean, 24, 24)
-
-    def on_data_known_combo_box_click(self, event):
-        if self.green_check_label_clean['text'] == 'green':
-            self.image_changer('red_x.png', self.green_check_label_clean, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_scale, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_features, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
-
-    def on_graph_button(self):
-        self.target_variable = self.target_variable_combo_box.get()
-        type_clean_df = Grapher.data_type_cleaner(self, self.original_df, self.target_variable)
-
-        Grapher.main_visualizer(self, type_clean_df, self.target_variable)
-
-    def on_predict_button(self):
-        # Changes the red x to a green checkmark
-        self.image_changer('green_checkmark.png', self.green_check_label_predict, 24, 24)
-
-        from Step_10_Predicting.predictor import PredictorTreeviewPage
-        PredictorTreeviewPage(self.scaled_df, self.target_variable, self.scaled_data_we_know_df, self.csv_name, self.data_we_know_dict)
+        from Step_1_Data_Cleaning.data_cleaner import full_cleaner
+        self.fully_cleaned_df, columns_removed, rows_removed = full_cleaner(self.original_df)
+        self.fully_cleaned_df2, columns_removed, rows_removed = full_cleaner(self.original_df2)
+        print('fully cleaned df:\n', self.fully_cleaned_df.head())
+        print('fully cleaned df2:\n', self.fully_cleaned_df2.head())
 
 
-    def on_scale_button(self):
-        # Checks the status of the green check image and changes images after button click
-        if self.green_check_label_scale['text'] == 'green':
-            self.image_changer('red_x.png', self.green_check_label_features, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
+        # A popup info box that shows how many columns and rows were removed from cleaning
+        messagebox.showinfo('Cleaning Results', 'CLEANING RESULTS:' +
+                    '\n\nCOLUMNS REMOVED: ' + str(columns_removed) + '\n\nTOTAL ROWS REMOVED: ' + str(rows_removed))
+
+        from Step_3_Single_Encoding.single_hot_encoder import single_encoder
+        single_encoded_df, single_encoded_df2 = single_encoder(self.fully_cleaned_df, self.fully_cleaned_df2)
+        print('single encoded df:', single_encoded_df.head())
+        print('single encoded df2:\n', single_encoded_df2.head())
+
+        from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
+        self.multiple_encoded_df, self.multiple_encoded_df2 = multiple_encoder(self.fully_cleaned_df, single_encoded_df,
+                                                                               self.fully_cleaned_df2, single_encoded_df2)
+        print('multiple encoded df:\n', self.multiple_encoded_df.head())
+        print('multiple encoded df2:\n', self.multiple_encoded_df2.head())
+
+
+        # Add the target variable column back to the fully cleaned df
+        # self.multiple_encoded_df = pd.concat([self.multiple_encoded_df, self.original_df[self.target_variable]], axis=1)
 
         # Grabs the inputs from the features known and values known boxes
         features_we_know_entries = []
@@ -248,29 +238,65 @@ class PredictorPage(tk.Frame):
         runner = 0
         for value in values_we_know_entries:
             self.data_we_know_dict[features_we_know_entries[runner]] = [value]
-            runner +=1
+            runner += 1
         del self.data_we_know_dict['']
+
+        # Makes the graph button clickable
+        self.graph_button.config(state=NORMAL)
 
 
         print('Data Known Frame Dictionary:', self.data_we_know_dict)
         # ToDo make data known disabled if split checkmark is selected
 
-        # Puts test dataframe into a dictionary that can then be scaled
-        try:
-            self.data_we_know_dict = self.test_df.to_dict()
-            split_dataframe_question = 'yes'
-        except:
-            split_dataframe_question = 'no'
+        # Changes the red x to a green checkmark
+        self.image_changer('green_checkmark.png', self.green_check_label_clean, 24, 24)
 
-        print('New Data We Know Dictionary:', len(list(self.data_we_know_dict.values())[0]))
+    def on_data_known_combo_box_click(self, event):
+        if self.green_check_label_clean['text'] == 'green':
+            self.image_changer('red_x.png', self.green_check_label_clean, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_scale, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_features, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
+    def on_graph_button(self):
+        self.target_variable = self.target_variable_combo_box.get()
+
+        Grapher.main_visualizer(self, self.fully_cleaned_df, self.target_variable)
+
+    def on_predict_button(self):
+        # Add the target variable column back to the multiple encoded df
+        self.multiple_encoded_df = pd.concat([self.multiple_encoded_df, self.original_df[self.target_variable]], axis=1)
+
+
+        from Step_10_Predicting.predictor import PredictorTreeviewPage
+        print('main:', self.is_data_split.get())
+        # try:
+        PredictorTreeviewPage(self.scaled_df, self.target_variable, self.csv_name,
+                              self.is_data_split.get(), self.original_df2, self.scaled_df2)
+        # except:
+        #     PredictorTreeviewPage(self.scaled_df, self.target_variable, self.csv_name,
+        #                           self.is_data_split.get())
+
+        # Changes the red x to a green checkmark
+        self.image_changer('green_checkmark.png', self.green_check_label_predict, 24, 24)
+
+    def on_scale_button(self):
+        # Checks the status of the green check image and changes images after button click
+        if self.green_check_label_scale['text'] == 'green':
+            self.image_changer('red_x.png', self.green_check_label_features, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_trainer, 24, 24)
+            self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
+
+        # Changes the red x to a green checkmark
+        self.image_changer('green_checkmark.png', self.green_check_label_scale, 24, 24)
 
         scaler_runtimes = int(self.scaler_runtimes_spinbox.get())
 
-        from Step_5_Scaling.scaler import main_scaler, scaler_time_predictor
-        scaler_predicted_time = scaler_time_predictor(scaler_runtimes, self.fully_cleaned_df)
+        from Step_5_Scaling.scaler import Scaler
+        scaler_predicted_time = Scaler.scaler_time_predictor(self, scaler_runtimes, self.multiple_encoded_df)
         scaler_response = messagebox.askyesno('Caution', 'Scaler will take about\n' + str(scaler_predicted_time) +
-                    '\nto run, are you sure you want to continue?')
+                                              '\nto run, are you sure you want to continue?')
         if scaler_response == True:
             pass
         else:
@@ -279,31 +305,33 @@ class PredictorPage(tk.Frame):
         scaler_progressbar = ttk.Progressbar(self, orient=HORIZONTAL, length=100, mode='determinate')
         scaler_progressbar.grid(row=8, column=0, padx=(80, 0))
 
+        self.scaled_df, self.scaled_df2 = Scaler.main_scaler(self, scaler_runtimes,
+                                                             self.target_variable, scaler_progressbar, self.master,
+                                                             self.multiple_encoded_df, self.multiple_encoded_df2)
 
-        self.scaled_df, self.scaled_data_we_know_df = main_scaler(scaler_runtimes, self.fully_cleaned_df,
-                                                        self.target_variable, self.data_we_know_dict, scaler_progressbar, self.master, split_dataframe_question)
-
-        # Changes the red x to a green checkmark
-        self.image_changer('green_checkmark.png', self.green_check_label_scale, 24, 24)
+    # ToDo put all image codes below all the other code in each function
 
     def on_select_data_button(self):
         try:
-            print('found train name')
             self.original_df = pd.read_csv(self.csv_train_location)
-            self.test_df = pd.read_csv(self.csv_data_we_know_location)
+            self.original_df2 = pd.read_csv(self.csv_data_we_know_location, encoding='utf-8')
+            self.csv_location = self.csv_train_location
         except:
             self.csv_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
                                                            filetypes=(('csv files', '*.csv'),))
             self.csv_name = self.csv_location[self.csv_location.rfind('/', 0) + 1:]
-            self.original_df = pd.read_csv(self.csv_location)
+            self.original_df = pd.read_csv(self.csv_location, encoding='utf-8')
+            self.original_df2 = None
 
         self.target_variable_options = self.original_df.columns.tolist()
 
         filtered_target_variable_list = []
         if self.select_model_combo_box.get() == 'Linear Regression' or self.select_model_combo_box.get() == 'Logistic Regression':
-            [filtered_target_variable_list.append(column) for column in self.original_df.columns if self.original_df[column].dtype == 'float64' or self.original_df[column].dtype == 'int64']
+            [filtered_target_variable_list.append(column) for column in self.original_df.columns if
+             self.original_df[column].dtype == 'float64' or self.original_df[column].dtype == 'int64']
         elif self.select_model_combo_box.get() == 'KNN' or self.select_model_combo_box.get() == 'SVD':
-            [filtered_target_variable_list.append(column) for column in self.original_df.columns if self.original_df[column].dtype != 'float64' or self.original_df[column].dtype == 'int64']
+            [filtered_target_variable_list.append(column) for column in self.original_df.columns if
+             self.original_df[column].dtype != 'float64' or self.original_df[column].dtype == 'int64']
 
         # Sort the target variable list
         filtered_target_variable_list = sorted(filtered_target_variable_list, key=str.casefold)
@@ -319,10 +347,10 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
             # ToDo should i put known values in trainer and combinations?
 
-
         # Widgets
         self.image_changer('green_checkmark.png', self.green_check_label_data, 24, 24)
-        self.target_variable_combo_box.config(value=filtered_target_variable_list, width=22, justify='center', state=NORMAL)
+        self.target_variable_combo_box.config(value=filtered_target_variable_list, width=22, justify='center',
+                                              state=NORMAL)
         self.target_variable_combo_box.set(filtered_target_variable_list[0])
         self.select_model_combo_box.bind('<<ComboboxSelected>>', self.select_model_combo_click)
         self.view_data_button.config(state=NORMAL)
@@ -338,22 +366,23 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
         from Step_7_Feature_Combination_Testing.feature_selection import FeatureSelectionPage
-        FeatureSelectionPage(self.target_variable, self.scaled_df, self.csv_name, self.image_changer, self.green_check_label_features)
+        FeatureSelectionPage(self.target_variable, self.scaled_df, self.csv_name, self.image_changer,
+                             self.green_check_label_features)
 
     def on_split_data_check(self):
         def on_select_train_data_button():
             self.csv_train_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
-                                                           filetypes=(('csv files', '*.csv'),))
+                                                                 filetypes=(('csv files', '*.csv'),))
             self.csv_name = self.csv_train_location[self.csv_train_location.rfind('/', 0) + 1:]
 
             # Changes the button text
             self.select_train_data_button.config(text=self.csv_name)
 
-
         def on_select_test_data_button():
             self.csv_data_we_know_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
-                                                           filetypes=(('csv files', '*.csv'),))
-            self.csv_data_we_know_name = self.csv_data_we_know_location[self.csv_data_we_know_location.rfind('/', 0) + 1:]
+                                                                        filetypes=(('csv files', '*.csv'),))
+            self.csv_data_we_know_name = self.csv_data_we_know_location[
+                                         self.csv_data_we_know_location.rfind('/', 0) + 1:]
 
             # Changes the button text
             self.select_test_data_button.config(text=self.csv_data_we_know_name)
@@ -371,10 +400,9 @@ class PredictorPage(tk.Frame):
 
             self.on_select_data_button()
 
-
-
-        if self.split_data_check_status.get() == 1:
+        if self.is_data_split.get() == 1:
             self.select_data_button.destroy()
+            self.data_known_frame.grid_forget()
 
             # Widgets
             self.select_train_data_button = ttk.Button(self, text='Select Train Data',
@@ -391,8 +419,8 @@ class PredictorPage(tk.Frame):
             self.select_data_button = ttk.Button(self, text='Select Data...', command=self.on_select_data_button,
                                                  width=30)
             self.select_data_button.grid(sticky=W, row=2, column=0, pady=5)
+            self.data_known_frame.grid(row=4, column=0, columnspan=2, rowspan=3, sticky=W)
             return
-
 
     def on_target_variable_combo_box_click(self, event):
         self.target_variable = self.target_variable_combo_box.get()
@@ -408,18 +436,17 @@ class PredictorPage(tk.Frame):
         for i in range(len(self.original_df.columns.tolist())):
             features_we_know_combo_boxes = ttk.Combobox(self.data_known_frame2, values=sorted_combo_box_list, width=14)
             features_we_know_combo_boxes.grid_forget()
-            features_we_know_combo_boxes.grid(row=2, column=i+1, sticky=NW, pady=(8,0))
+            features_we_know_combo_boxes.grid(row=2, column=i + 1, sticky=NW, pady=(8, 0))
 
             values_we_know_entry_boxes = Entry(self.data_known_frame2, width=17)
             values_we_know_entry_boxes.grid_forget()
-            values_we_know_entry_boxes.grid(row=3, column=i+1, sticky=NW)
+            values_we_know_entry_boxes.grid(row=3, column=i + 1, sticky=NW)
             self.features_we_know_list.append(features_we_know_combo_boxes)
             self.values_we_know_list.append(values_we_know_entry_boxes)
 
             # Updates green label checkmark images if the process is not in order
             features_we_know_combo_boxes.bind('<<ComboboxSelected>>', self.on_data_known_combo_box_click)
 
-        self.graph_button.config(state=NORMAL)
 
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_target['text'] == 'green':
@@ -430,7 +457,6 @@ class PredictorPage(tk.Frame):
             self.image_changer('red_x.png', self.green_check_label_predict, 24, 24)
 
         self.image_changer('green_checkmark.png', self.green_check_label_target, 24, 24)
-
 
     def on_train_model_button(self):
         # Checks the status of the green check image and changes images after button click
@@ -443,20 +469,20 @@ class PredictorPage(tk.Frame):
         # Changes the red x to a green checkmark
         self.image_changer('green_checkmark.png', self.green_check_label_trainer, 24, 24)
 
-
     def on_view_data_button(self):
         ViewDataPage(self.csv_location)
 
     def scalar_runtime_entry_clearer(self, e):
         self.scaler_runtimes_entry.delete(0, END)
 
-
     def select_model_combo_click(self, event):
         filtered_target_variable_list = []
         if select_model_combo_box.get() == 'Linear Regression' or select_model_combo_box.get() == 'Logistic Regression':
-            [filtered_target_variable_list.append(column) for column in self.original_df.columns if self.original_df[column].dtype == 'int64']
+            [filtered_target_variable_list.append(column) for column in self.original_df.columns if
+             self.original_df[column].dtype == 'int64']
         elif select_model_combo_box.get() == 'KNN' or select_model_combo_box.get() == 'SVD':
-            [filtered_target_variable_list.append(column) for column in self.original_df.columns if self.original_df[column].dtype != 'int64']
+            [filtered_target_variable_list.append(column) for column in self.original_df.columns if
+             self.original_df[column].dtype != 'int64']
 
         self.target_variable_combo_box.configure(values=filtered_target_variable_list)
 
@@ -484,7 +510,8 @@ class ViewDataPage:
             self.data_viewer_tree = ttk.Treeview(data_viewer_frame)
 
             # Configure scrollbar
-            view_data_horizontal_scrollbar = ttk.Scrollbar(data_viewer_frame, orient=HORIZONTAL, command=self.data_viewer_tree.xview)
+            view_data_horizontal_scrollbar = ttk.Scrollbar(data_viewer_frame, orient=HORIZONTAL,
+                                                           command=self.data_viewer_tree.xview)
             view_data_horizontal_scrollbar.pack(side=BOTTOM, fill=X)
             self.data_viewer_tree.configure(xscrollcommand=view_data_horizontal_scrollbar.set)
 
@@ -515,11 +542,11 @@ class ViewDataPage:
         if self.sorted_state == 'off':
             # How to identify which column was clicked
             column_clicked = self.data_viewer_tree.identify_column(event.x)
-            column_clicked_index = int(column_clicked[1:])-1
+            column_clicked_index = int(column_clicked[1:]) - 1
 
             # Puts a down arrow in the column name
             self.data_viewer_tree.heading(list(self.dataframe_to_view)[column_clicked_index],
-                        text=list(self.dataframe_to_view)[column_clicked_index] + ' '*8 + 'V')
+                                          text=list(self.dataframe_to_view)[column_clicked_index] + ' ' * 8 + 'V')
 
             self.sorted_state = 'on'
 

@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def row_deleter():
     # Create a database or connect to one that exists
     conn = sqlite3.connect('Predictions_Database')
@@ -18,6 +19,7 @@ def row_deleter():
 
     # Close our connection
     conn.close()
+
 
 def inserter():
     # Create a database or connect to one that exists
@@ -40,16 +42,17 @@ def inserter():
             mean_absolute_error real
             )""")
 
-    cursor.execute("INSERT INTO predictions_table VALUES (:date_predicted, :target, :predicted_value, :dataframe, :model_used, :normal_score, :r2_score, :mean_absolute_error)",
-                   {'date_predicted': data[0],
-                    'target': data[1],
-                    'predicted_value': data[2],
-                    'dataframe': data[3],
-                    'model_used': data[4],
-                    'normal_score': data[5],
-                    'r2_score': data[6],
-                    'mean_absolute_error': data[7]
-                   })
+    cursor.execute(
+        "INSERT INTO predictions_table VALUES (:date_predicted, :target, :predicted_value, :dataframe, :model_used, :normal_score, :r2_score, :mean_absolute_error)",
+        {'date_predicted': data[0],
+         'target': data[1],
+         'predicted_value': data[2],
+         'dataframe': data[3],
+         'model_used': data[4],
+         'normal_score': data[5],
+         'r2_score': data[6],
+         'mean_absolute_error': data[7]
+         })
     # Commit changes
     conn.commit()
 
@@ -69,17 +72,19 @@ def column_adder():
     conn.commit()
     conn.close()
 
+
 def column_deleter():
     # Create a database or connect to one that exists
-    conn = sqlite3.connect('Training_Model_Database')
+    conn = sqlite3.connect('Predictions_Database')
 
     # Create a cursor instance
     cursor = conn.cursor()
 
-    cursor.execute('ALTER TABLE training_model_table DROP COLUMN Total_Model_Upgrades')
+    cursor.execute('ALTER TABLE predictions_table DROP COLUMN Cross_Val_Score')
 
     conn.commit()
     conn.close()
 
-row_deleter()
+
+# column_deleter()
 

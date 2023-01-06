@@ -5,8 +5,8 @@ import sklearn
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import time
-from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
-from Step_1_Visualizing.visualization import target_variable
+from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
+from Step_2_Visualizing.visualization import target_variable
 
 predictor_data_dict = {'Temperature' : [65]}
 
