@@ -450,7 +450,7 @@ class FeatureSelectionPage:
         selected = self.feature_selection_tree.selection()[0]
         tree_values = self.feature_selection_tree.item(selected, 'values')
 
-        selected_features = tree_values[3]
+        selected_features = tree_values[3].split(', ')
         feature_selection_window.destroy()
 
         from Step_8_Training.trainer import TrainingModelPage

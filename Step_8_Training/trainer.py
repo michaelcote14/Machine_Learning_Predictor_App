@@ -147,16 +147,21 @@ class TrainingModelPage:
             self.query_database()
             return
 
+        # Change self.selected features into a database usable format
+        selected_features = self.selected_features
+        selected_features = ', '.join(selected_features)
+
         # creates a database if one doesn't already exist, otherwise it connects to it
         conn = sqlite3.connect('Training_Model_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
 
+
         # Grab only data you want
         cursor.execute('SELECT * FROM training_model_table WHERE Target = :Target AND Features_Used = :Features_Used',
                        {'Target': self.target_variable,
-                        'Features_Used': self.selected_features})
+                        'Features_Used': selected_features})
         fetched_records = cursor.fetchall()
 
         conn.commit()
@@ -485,19 +490,17 @@ class Trainer():
         small_loops = 10
         start_time = time.time()
 
-        # Make most important features a list
-        selected_feature_combination = selected_feature_combination.split(', ')
-
         selected_feature_combination.append(target_variable)
 
         df = scaled_dataframe[selected_feature_combination]
 
         X = np.array(df.drop([target_variable], axis=1))
         y = np.array(df[target_variable])
+
         save_pickle_to = 'saved_training_pickle_models/' + saved_model_name + '.pickle'
 
         current_model_regression_line = linear_model.LinearRegression()
-        split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
+        # split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
 
         self.upgrades_to_pickle_model = 0
         for lap in range(int(trainer_runtimes)):
@@ -507,11 +510,19 @@ class Trainer():
 
             current_model_total_score, old_pickled_model_total_score = 0, 0
             for _ in range(small_loops):
-                for train_index, test_index in split.split(df)
+                # ToDo figure out how to do stratified shuffle split
+                # # Splits the data set
+                # for train_index, test_index in split_object.split(df, df[target_variable]):
+                #     stratified_training_set = df.loc[train_index]
+                #     stratified_testing_set = df.loc[test_index]
+                # X_train = stratified_training_set.drop([target_variable])
+                # y_train = stratified_training_set[target_variable]
+                # X_test = stratified_testing_set.drop([target_variable])
+                # y_test = stratified_testing_set[target_variable]
 
 
                 # The line below will only be for categorical testing
-                # X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 
                 current_model_regression_line.fit(X_train, y_train)
                 current_model_score = current_model_regression_line.score(X_test, y_test)
@@ -618,7 +629,6 @@ class Trainer():
             new_training_progress_window.mainloop()
 
     def trainer_time_predictor(self, selected_feature_combination, trainer_runtimes):
-        selected_feature_combination = selected_feature_combination.split(',')
         # ToDo fix the time predictor
         trainer_predicted_time = .58439946 ** len(selected_feature_combination) * trainer_runtimes
         return functions.time_formatter(format(trainer_predicted_time, '.2f'))
@@ -702,6 +712,14 @@ class Trainer():
         self.query_database()
 
     def training_model_database_inserter(self):
+        # Check to see if any upgrades were made
+        try:
+            exact_upgrade_runtimes = self.exact_upgrade_runtimes
+        except:
+            exact_upgrade_runtimes = 0
+
+        selected_features = ', '.join(self.selected_features)
+
         # Connect to database
         conn = sqlite3.connect('Training_Model_Database')
 
@@ -718,11 +736,11 @@ class Trainer():
                 'Saved_Model_Name': self.saved_model_name,
                 'Total_Average_Score': round(self.old_pickled_model_average_score, 13),
                 'Total_Model_Upgrades': self.upgrades_to_pickle_model,
-                'Last_Upgrade_Total_Runtimes': self.exact_upgrade_runtimes,
+                'Last_Upgrade_Total_Runtimes': exact_upgrade_runtimes,
                 'Total_Runtimes': self.trainer_runtimes,
                 'Best_Average_Score': round(self.old_pickled_model_average_score, 13),
                 'Best_Score_Runtimes': self.trainer_runtimes,
-                'Features_Used': self.selected_features
+                'Features_Used': selected_features
             })
 
         # Commit changes

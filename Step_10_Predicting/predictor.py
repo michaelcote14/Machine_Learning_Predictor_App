@@ -4,7 +4,6 @@ import sqlite3
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-
 import matplotlib.pyplot as plt
 import mplcursors as mpc
 import numpy as np
@@ -224,10 +223,6 @@ class PredictorTreeviewPage:
 
     def on_create_new_prediction(self):
         def prediction_database_inserter():
-            if self.is_data_split == 1:
-                self.all_test_file_predictions = Predictor.predictor_split(self,
-                                                                                                       self.scaled_df, self.scaled_df2)
-
             self.all_predictions, all_actual_values = Predictor.predictor(self, self.scaled_df)
 
             # Convert the above to usable sql format
@@ -674,12 +669,10 @@ class Predictor:
         return finalized_predictor_array
 
     def predictor(self, dataframe):
-        # Make selected feature combination a list
-        if self.is_data_split == 1:
-            self.selected_features = self.selected_features.split(', ')
-            self.selected_features.append(self.target_variable)
-
+        selected_features = self.selected_features
+        selected_features.append(self.target_variable)
         print('self selected features:', self.selected_features)
+
         # Make dataframe from selected features
         shortened_dataframe = dataframe[self.selected_features]
 
@@ -695,18 +688,11 @@ class Predictor:
 
         total_predictions = total_score = total_mean_absolute_error = 0
         for i in range(runtimes):
-            if self.is_data_split == 0:
-                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+            X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 
-            if self.is_data_split == 0:
-                predictions = regression_line.predict(X_test)
-                score = regression_line.score(X_test, y_test)
-                mean_absolute_error = metrics.mean_absolute_error(y_test, predictions)
-
-            else:
-                predictions = regression_line.predict(X)
-                score = regression_line.score(X, y)
-                mean_absolute_error = metrics.mean_absolute_error(y, predictions)
+            predictions = regression_line.predict(X_test)
+            score = regression_line.score(X_test, y_test)
+            mean_absolute_error = metrics.mean_absolute_error(y_test, predictions)
 
             total_predictions = np.add(predictions, total_predictions)
             total_score += score
@@ -731,6 +717,8 @@ class Predictor:
         # Loads in the regression line using pickle
         pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
         regression_line = pickle.load(pickle_in)
+
+        # self.selected_features = self.selected_features.split(', ')
 
         scaled_df__selected = scaled_df[self.selected_features]
         scaled_df2__selected = scaled_df2[self.selected_features]
