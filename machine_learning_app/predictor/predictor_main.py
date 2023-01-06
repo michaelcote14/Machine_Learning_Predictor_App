@@ -7,7 +7,7 @@ from tkinter import ttk
 import pandas as pd
 from PIL import ImageTk, Image
 
-from Step_1_Visualizing.visualization import Grapher
+from Step_2_Visualizing.visualization import Grapher
 
 LARGE_FONT = ('Arial', 11, 'bold')
 NORMAL_FONT = ('Arial', 9)
@@ -198,30 +198,31 @@ class PredictorPage(tk.Frame):
         # Drop target variable from original df
         self.non_target_original_df = self.original_df.drop([self.target_variable], axis=1)
 
-        bool_free_df = Grapher.data_type_cleaner(self, self.non_target_original_df)
-        bool_free_df2 = Grapher.data_type_cleaner(self, self.split_original_df)
-        print('bool free df:', bool_free_df.columns)
-        print('bool free df2:', bool_free_df2.columns)
-
-        from Step_2_Single_Encoding.single_hot_encoder import single_encoder
-        single_encoded_df, single_encoded_df2 = single_encoder(bool_free_df, bool_free_df2)
-        print('single encoded df:', single_encoded_df.head())
-        print('single encoded df2:\n', single_encoded_df2.head())
-
-        from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
-        self.multiple_encoded_df, self.multiple_encoded_df2 = multiple_encoder(self.non_target_original_df, single_encoded_df,
-                                                                               self.split_original_df, single_encoded_df2)
-        print('multiple encoded df:\n', self.multiple_encoded_df.head())
-        print('multiple encoded df2:\n', self.multiple_encoded_df2.head())
-
-        from Step_4_Data_Cleaning.data_cleaner import full_cleaner
-        self.fully_cleaned_df = full_cleaner(self.multiple_encoded_df)
-        self.fully_cleaned_df2 = full_cleaner(self.multiple_encoded_df2)
+        from Step_1_Data_Cleaning.data_cleaner import full_cleaner
+        self.fully_cleaned_df, columns_removed, rows_removed = full_cleaner(self.original_df)
+        self.fully_cleaned_df2, columns_removed, rows_removed = full_cleaner(self.original_df2)
         print('fully cleaned df:\n', self.fully_cleaned_df.head())
         print('fully cleaned df2:\n', self.fully_cleaned_df2.head())
 
+
+        # A popup info box that shows how many columns and rows were removed from cleaning
+        messagebox.showinfo('Cleaning Results', 'CLEANING RESULTS:' +
+                    '\n\nCOLUMNS REMOVED: ' + str(columns_removed) + '\n\nTOTAL ROWS REMOVED: ' + str(rows_removed))
+
+        from Step_3_Single_Encoding.single_hot_encoder import single_encoder
+        single_encoded_df, single_encoded_df2 = single_encoder(self.fully_cleaned_df, self.fully_cleaned_df2)
+        print('single encoded df:', single_encoded_df.head())
+        print('single encoded df2:\n', single_encoded_df2.head())
+
+        from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
+        self.multiple_encoded_df, self.multiple_encoded_df2 = multiple_encoder(self.fully_cleaned_df, single_encoded_df,
+                                                                               self.fully_cleaned_df2, single_encoded_df2)
+        print('multiple encoded df:\n', self.multiple_encoded_df.head())
+        print('multiple encoded df2:\n', self.multiple_encoded_df2.head())
+
+
         # Add the target variable column back to the fully cleaned df
-        self.fully_cleaned_df = pd.concat([self.fully_cleaned_df, self.original_df[self.target_variable]], axis=1)
+        # self.multiple_encoded_df = pd.concat([self.multiple_encoded_df, self.original_df[self.target_variable]], axis=1)
 
         # Grabs the inputs from the features known and values known boxes
         features_we_know_entries = []
@@ -240,6 +241,10 @@ class PredictorPage(tk.Frame):
             runner += 1
         del self.data_we_know_dict['']
 
+        # Makes the graph button clickable
+        self.graph_button.config(state=NORMAL)
+
+
         print('Data Known Frame Dictionary:', self.data_we_know_dict)
         # ToDo make data known disabled if split checkmark is selected
 
@@ -256,20 +261,19 @@ class PredictorPage(tk.Frame):
 
     def on_graph_button(self):
         self.target_variable = self.target_variable_combo_box.get()
-        graph_clean_df = Grapher.data_type_cleaner(self, self.original_df)
 
-        Grapher.main_visualizer(self, graph_clean_df, self.target_variable)
+        Grapher.main_visualizer(self, self.fully_cleaned_df, self.target_variable)
 
     def on_predict_button(self):
-        # Put the target variable back into both dataframes
-        self.scaled_df = pd.concat([self.scaled_df, self.original_df[self.target_variable]])
+        # Add the target variable column back to the multiple encoded df
+        self.multiple_encoded_df = pd.concat([self.multiple_encoded_df, self.original_df[self.target_variable]], axis=1)
 
 
         from Step_10_Predicting.predictor import PredictorTreeviewPage
         print('main:', self.is_data_split.get())
         # try:
         PredictorTreeviewPage(self.scaled_df, self.target_variable, self.csv_name,
-                                  self.is_data_split.get(), self.split_original_df, self.scaled_df2)
+                              self.is_data_split.get(), self.original_df2, self.scaled_df2)
         # except:
         #     PredictorTreeviewPage(self.scaled_df, self.target_variable, self.csv_name,
         #                           self.is_data_split.get())
@@ -290,7 +294,7 @@ class PredictorPage(tk.Frame):
         scaler_runtimes = int(self.scaler_runtimes_spinbox.get())
 
         from Step_5_Scaling.scaler import Scaler
-        scaler_predicted_time = Scaler.scaler_time_predictor(self, scaler_runtimes, self.fully_cleaned_df)
+        scaler_predicted_time = Scaler.scaler_time_predictor(self, scaler_runtimes, self.multiple_encoded_df)
         scaler_response = messagebox.askyesno('Caution', 'Scaler will take about\n' + str(scaler_predicted_time) +
                                               '\nto run, are you sure you want to continue?')
         if scaler_response == True:
@@ -303,21 +307,21 @@ class PredictorPage(tk.Frame):
 
         self.scaled_df, self.scaled_df2 = Scaler.main_scaler(self, scaler_runtimes,
                                                              self.target_variable, scaler_progressbar, self.master,
-                                                             self.fully_cleaned_df, self.fully_cleaned_df2)
+                                                             self.multiple_encoded_df, self.multiple_encoded_df2)
 
     # ToDo put all image codes below all the other code in each function
 
     def on_select_data_button(self):
         try:
             self.original_df = pd.read_csv(self.csv_train_location)
-            self.split_original_df = pd.read_csv(self.csv_data_we_know_location, encoding='utf-8')
+            self.original_df2 = pd.read_csv(self.csv_data_we_know_location, encoding='utf-8')
             self.csv_location = self.csv_train_location
         except:
             self.csv_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
                                                            filetypes=(('csv files', '*.csv'),))
             self.csv_name = self.csv_location[self.csv_location.rfind('/', 0) + 1:]
             self.original_df = pd.read_csv(self.csv_location, encoding='utf-8')
-            self.split_original_df = None
+            self.original_df2 = None
 
         self.target_variable_options = self.original_df.columns.tolist()
 
@@ -443,7 +447,6 @@ class PredictorPage(tk.Frame):
             # Updates green label checkmark images if the process is not in order
             features_we_know_combo_boxes.bind('<<ComboboxSelected>>', self.on_data_known_combo_box_click)
 
-        self.graph_button.config(state=NORMAL)
 
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_target['text'] == 'green':

@@ -5,14 +5,14 @@ import time
 if __name__ == '__main__':
     predictor_data_dict = {'Temperature': [65]}
 
-    from Step_1_Visualizing.visualization import main_visualizer, data_type_cleaner
+    from Step_2_Visualizing.visualization import main_visualizer, data_type_cleaner
     main_visualizer(original_df, target_variable)
     type_clean_df = data_type_cleaner(original_df, target_variable)
 
-    from Step_2_Single_Encoding.single_hot_encoder import single_encoder
+    from Step_3_Single_Encoding.single_hot_encoder import single_encoder
     single_encoded_df = single_encoder(type_clean_df)
 
-    from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
+    from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
     multiple_encoded_df = multiple_encoder(original_df, single_encoded_df)
 
     from Step_5_Scaling.scaler import main_scaler

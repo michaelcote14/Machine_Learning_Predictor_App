@@ -62,18 +62,16 @@ class PredictorTreeviewPage:
 
             # Define columns
             self.predictor_tree['columns'] = (
-                'Date_Predicted', 'Target', 'Predicted_Value', 'Mean_Absolute_Error', 'Score',
-                'Data_Known', 'Model_Used', 'Dataframe', 'Features_Used', 'All_Pickle_Model_Predictions',
+                'Date_Predicted', 'Target', 'Mean_Absolute_Error', 'Score',
+                'Model_Used', 'Dataframe', 'Features_Used', 'All_Pickle_Model_Predictions',
                 'Tested_Actual_Values')
 
             # Format columns
             self.predictor_tree.column('#0', width=0, stretch=NO)
             self.predictor_tree.column('Date_Predicted', anchor=W, width=110, stretch=NO)
             self.predictor_tree.column('Target', anchor=W, width=110, stretch=NO)
-            self.predictor_tree.column('Predicted_Value', anchor=W, width=130, stretch=NO)
             self.predictor_tree.column('Mean_Absolute_Error', anchor=W, width=150, stretch=NO)
             self.predictor_tree.column('Score', anchor=W, width=120, stretch=NO)
-            self.predictor_tree.column('Data_Known', anchor=W, width=200, stretch=NO)
             self.predictor_tree.column('Model_Used', anchor=W, width=140, stretch=NO)
             self.predictor_tree.column('Dataframe', anchor=W, width=140, stretch=NO)
             self.predictor_tree.column('Features_Used', anchor=W, width=450, stretch=NO)
@@ -84,10 +82,8 @@ class PredictorTreeviewPage:
             # Create headings
             self.predictor_tree.heading('Date_Predicted', text='Date_Predicted', anchor=W)
             self.predictor_tree.heading('Target', text='Target', anchor=W)
-            self.predictor_tree.heading('Predicted_Value', text='Predicted_Value', anchor=W)
             self.predictor_tree.heading('Mean_Absolute_Error', text='Mean_Absolute_Error', anchor=W)
             self.predictor_tree.heading('Score', text='Score', anchor=W)
-            self.predictor_tree.heading('Data_Known', text='Data_Known', anchor=W)
             self.predictor_tree.heading('Model_Used', text='Model_Used', anchor=W)
             self.predictor_tree.heading('Dataframe', text='Dataframe', anchor=W)
             self.predictor_tree.heading('Features_Used', text='Features_Used', anchor=W)
@@ -172,7 +168,7 @@ class PredictorTreeviewPage:
         for record in fetched_records:
             self.predictor_tree.insert(parent='', index='end', iid=count, text='',
                                        values=(record[0], record[1], record[2], record[3], record[4],
-                                               record[5], record[6], record[7], record[8], record[9], record[10]))
+                                               record[5], record[6], record[7], record[8]))
             # Increment counter
             count += 1
 
@@ -215,7 +211,7 @@ class PredictorTreeviewPage:
                                            values=(
                                                record[0], record[1], record[2], record[3], record[4], record[5],
                                                record[6],
-                                               record[7], record[8], record[9], record[10], record[11]))
+                                               record[7], record[8]))
                 # Increment counter
                 count += 1
 
@@ -229,15 +225,20 @@ class PredictorTreeviewPage:
     def on_create_new_prediction(self):
         def prediction_database_inserter():
             if self.is_data_split == 1:
-                self.all_test_file_predictions, self.all_test_file_actual_values = Predictor.predictor(self,
-                                                                                                       self.scaled_df2)
+                self.all_test_file_predictions = Predictor.predictor_split(self,
+                                                                                                       self.scaled_df, self.scaled_df2)
 
             self.all_predictions, all_actual_values = Predictor.predictor(self, self.scaled_df)
 
-            # convert the above to usable sql format
+            # Convert the above to usable sql format
             all_actual_values = all_actual_values.tolist()
             self.all_predictions = ', '.join(map(str, self.all_predictions))
             all_actual_values = ', '.join(map(str, all_actual_values))
+
+            selected_features = self.selected_features
+            selected_features.remove(self.target_variable)
+            database_feature_combination = ', '.join(selected_features)
+
 
             # Connect to database
             conn = sqlite3.connect('Predictions_Database')
@@ -245,7 +246,6 @@ class PredictorTreeviewPage:
             # Create cursor
             cursor = conn.cursor()
 
-            database_feature_combination = ', '.join(self.selected_features)
 
             # ToDo get rid of this somehow
             # Makes the data we know dict nothing if a test dataframe was selected
@@ -256,13 +256,11 @@ class PredictorTreeviewPage:
 
             # Add new record
             cursor.execute(
-                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Predictions, :All_Actual_Values)",
+                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Mean_Absolute_Error, :Score, :Model_Used, :Dataframe, :Features_Used, :All_Predictions, :All_Actual_Values)",
                 {'Date_Predicted': datetime.date.today(),
                  'Target': self.target_variable,
-                 'Predicted_Value': round(self.data_known_prediction, 15),
                  'Mean_Absolute_Error': self.average_mae,
                  'Score': round(self.average_score, 15),
-                 'Data_Known': str(self.data_we_know_dict),
                  'Model_Used': self.selected_training_model,
                  'Dataframe': str(self.csv_name),
                  'Features_Used': database_feature_combination,
@@ -295,13 +293,13 @@ class PredictorTreeviewPage:
 
         # Delete from database
         cursor.execute(
-            'DELETE from predictions_table WHERE Date_Predicted = :Date_Predicted AND Target = :Target AND Predicted_Value = :Predicted_Value AND Dataframe = :Dataframe AND Model_Used = :Model_Used AND Score = :Score',
+            'DELETE from predictions_table WHERE Date_Predicted = :Date_Predicted AND Target = :Target AND Dataframe = :Dataframe AND Model_Used = :Model_Used AND Score = :Score AND Features_Used = :Features_Used',
             {'Date_Predicted': tree_values[0],
              'Target': tree_values[1],
-             'Predicted_Value': tree_values[2],
-             'Score': tree_values[4],
-             'Model_Used': tree_values[6],
-             'Dataframe': tree_values[7]})
+             'Score': tree_values[3],
+             'Model_Used': tree_values[4],
+             'Dataframe': tree_values[5],
+             'Features_Used': tree_values[6]})
         # Commit changes
         conn.commit()
 
@@ -374,18 +372,16 @@ class PredictorTreeviewPage:
 
             # Insert new reordered data into table
             cursor.execute(
-                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Predicted_Value, :Mean_Absolute_Error, :Score, :Data_Known, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
+                "INSERT INTO predictions_table VALUES (:Date_Predicted, :Target, :Mean_Absolute_Error, :Score, :Model_Used, :Dataframe, :Features_Used, :All_Pickle_Model_Predictions, :Tested_Actual_Values)",
                 {'Date_Predicted': self.predictor_tree.item(record[0], 'values')[0],
                  'Target': self.predictor_tree.item(record[0], 'values')[1],
-                 'Predicted_Value': self.predictor_tree.item(record[0], 'values')[2],
-                 'Mean_Absolute_Error': self.predictor_tree.item(record[0], 'values')[3],
-                 'Score': self.predictor_tree.item(record[0], 'values')[4],
-                 'Data_Known': self.predictor_tree.item(record[0], 'values'[5]),
-                 'Model_Used': self.predictor_tree.item(record[0], 'values')[6],
-                 'Dataframe': self.predictor_tree.item(record[0], 'values')[7],
-                 'Features_Used': self.predictor_tree.item(record[0], 'values')[8],
-                 'All_Pickle_Model_Predictions': self.predictor_tree.item(record[0], 'values')[9],
-                 'Tested_Actual_Values': self.predictor_tree.item(record[0], 'values')[10]})
+                 'Mean_Absolute_Error': self.predictor_tree.item(record[0], 'values')[2],
+                 'Score': self.predictor_tree.item(record[0], 'values')[3],
+                 'Model_Used': self.predictor_tree.item(record[0], 'values')[4],
+                 'Dataframe': self.predictor_tree.item(record[0], 'values')[5],
+                 'Features_Used': self.predictor_tree.item(record[0], 'values')[6],
+                 'All_Pickle_Model_Predictions': self.predictor_tree.item(record[0], 'values')[7],
+                 'Tested_Actual_Values': self.predictor_tree.item(record[0], 'values')[8]})
 
             # Commit changes
             conn.commit()
@@ -626,10 +622,8 @@ class PredictorTreeviewPage:
         cursor.execute("""CREATE TABLE if not exists predictions_table (
                 Date_Predicted DATE,
                 Target text,
-                Predicted_Value real,
                 Mean_Absolute_Error real,
                 Score real,
-                Data_Known text,
                 Model_Used text,
                 Dataframe text,
                 Features_Used text,
@@ -655,7 +649,7 @@ class PredictorTreeviewPage:
         for record in fetched_records:
             self.predictor_tree.insert(parent='', index='end', iid=count, text='',
                                        values=(record[0], record[1], record[2], record[3], record[4], record[5],
-                                               record[6], record[7], record[8], record[9], record[10]))
+                                               record[6], record[7], record[8]))
             # Increment counter
             count += 1
 
@@ -692,8 +686,8 @@ class Predictor:
         X = np.array(shortened_dataframe.drop([self.target_variable], axis=1), dtype='object')
         y = np.array(shortened_dataframe[self.target_variable], dtype='object')
 
-        finalized_predictor_array = Predictor.predictor_array_cleaner(self, shortened_dataframe, self.target_variable,
-                                                                      shortened_dataframe)
+        # ToDo put in a quick predictor? Using the line below
+        # finalized_predictor_array = Predictor.predictor_array_cleaner(self, shortened_dataframe, self.target_variable)
         pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
         regression_line = pickle.load(pickle_in)
 
@@ -718,7 +712,7 @@ class Predictor:
             total_score += score
             total_mean_absolute_error += mean_absolute_error
 
-            self.data_known_prediction = regression_line.predict(finalized_predictor_array)[0]
+            # self.data_known_prediction = regression_line.predict(finalized_predictor_array)[0]
             # ToDo make sure raw doesn't win everytime in the future
 
         self.average_predictions = total_predictions / runtimes
@@ -738,11 +732,8 @@ class Predictor:
         pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
         regression_line = pickle.load(pickle_in)
 
-        # Reformat selected features to be a list
-        selected_features = self.selected_features.split(', ')
-
-        scaled_df__selected = scaled_df[selected_features]
-        scaled_df2__selected = scaled_df2[selected_features]
+        scaled_df__selected = scaled_df[self.selected_features]
+        scaled_df2__selected = scaled_df2[self.selected_features]
         finalized_predictor_array = Predictor.predictor_array_cleaner(self, scaled_df__selected, scaled_df2__selected)
         # ToDo scaled df2 has 2 target variable columns in it
 

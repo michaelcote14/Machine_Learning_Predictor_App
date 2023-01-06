@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
 import pandas as pd
-from Step_1_Visualizing import visualization
+from Step_2_Visualizing import visualization
 
 # ToDo put in graphs
 # ToDo add in focus for the scalar runtimes box
@@ -202,14 +202,14 @@ def app_cleaner():
 
     else:
         target_variable_error_label = Label(text='')
-        from Step_1_Visualizing.visualization import data_type_cleaner
+        from Step_2_Visualizing.visualization import data_type_cleaner
         data_type_cleaner(original_df, target_variable)
 
         type_clean_df = visualization.data_type_cleaner(original_df, target_variable)
-        from Step_2_Single_Encoding.single_hot_encoder import single_encoder
+        from Step_3_Single_Encoding.single_hot_encoder import single_encoder
         single_encoded_df = single_encoder(type_clean_df)
 
-        from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
+        from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoder
         global multiple_encoded_df
         multiple_encoded_df = multiple_encoder(original_df, single_encoded_df)
 

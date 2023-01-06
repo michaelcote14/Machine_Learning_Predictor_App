@@ -11,15 +11,6 @@ import math
 
 
 class Grapher:
-    def data_type_cleaner(self, dataframe_to_clean):
-        # This makes sure that all boolean values in the dataframe are converted to strings
-        for column in dataframe_to_clean.columns:
-            if dataframe_to_clean.dtypes[column] == 'bool':
-                dataframe_to_clean[column] = dataframe_to_clean[column].astype(str)
-        bool_free_df = dataframe_to_clean
-
-        return bool_free_df
-
     def box_and_whisker(self, type_clean_df, target_variable):
         if len(type_clean_df.columns) > 15:
             graph_width = len(type_clean_df.columns)/1.5
@@ -99,15 +90,26 @@ class Grapher:
         return figure
 
     def unique_value_plot(self, type_clean_df, target_variable):
+        # This changes the graph width depending on how many columns the dataframe has
         if len(type_clean_df.columns) > 15:
-            graph_width = len(type_clean_df.columns) / 1.5
+            graph_width = len(type_clean_df.columns) / 0.5
         else:
-            graph_width = 9
+            graph_width = 15
+
+        print('graph width:', graph_width)
 
         figure, ax = plt.subplots(figsize=(graph_width, 10))
         cp = type_clean_df.nunique().plot(kind='bar', color='orange')
         plt.xticks(rotation=25)
         ax.grid(axis='y')
+
+        # This adds min/max/mode labels to the top of each bar
+        for column in range(len(type_clean_df.nunique())):
+            plt.text(column, type_clean_df.nunique()[column],
+                     'Max: ' + str(type_clean_df.max(numeric_only=False)[column]) +
+                     '\nMode: ' + str(type_clean_df.mode(numeric_only=False).iloc[0][column]) +
+                     '\nMin: ' + str(type_clean_df.min(numeric_only=False)[0]), ha='center', va='bottom')
+        # This labels the target variable as blue
         for xtick in cp.get_xticklabels():
             if xtick.get_text() == target_variable:
                 xtick.set_fontweight('bold')

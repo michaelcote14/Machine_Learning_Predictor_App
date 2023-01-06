@@ -5,7 +5,7 @@ import pickle
 import time
 from Extras import functions
 import pandas as pd
-from Step_1_Visualizing.visualization import target_variable
+from Step_2_Visualizing.visualization import target_variable
 import random
 
 # ToDo put in a time predictor and percentage tracker

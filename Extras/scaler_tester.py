@@ -2,8 +2,8 @@ from Step_5_Scaling.scaler import scaled_df
 import sklearn
 import numpy as np
 import time
-from Step_3_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
-from Step_4_Data_Cleaning.data_cleaner import target_variable
+from Step_4_Multiple_Encoding.multiple_hot_encoder import multiple_encoded_df
+from Step_1_Data_Cleaning.data_cleaner import target_variable
 from sklearn import linear_model
 
 
