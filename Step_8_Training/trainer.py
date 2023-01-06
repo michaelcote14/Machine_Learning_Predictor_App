@@ -718,7 +718,9 @@ class Trainer():
         except:
             exact_upgrade_runtimes = 0
 
-        selected_features = ', '.join(self.selected_features)
+        selected_features = self.selected_features
+        selected_features.remove(self.target_variable)
+        selected_features = ', '.join(selected_features)
 
         # Connect to database
         conn = sqlite3.connect('Training_Model_Database')

@@ -397,18 +397,17 @@ class PredictorTreeviewPage:
         def on_column_clicked__test():
             pass
 
-        def on_save_to_csv(test_on_test_button_frame, tree_all_predicted_values_list, tree_all_actual_values_list):
+        def on_save_to_csv(predicted_df, test_on_test_buttons_frame):
             def on_save_button():
-                test_on_test_dataframe.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
+                predicted_df.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
 
-            test_file_data = list(zip(tree_all_predicted_values_list, tree_all_actual_values_list, differences_list))
+                file_saved_label = Label(test_on_test_buttons_frame, text='File Saved Successfully', fg='green')
+                file_saved_label.grid(row=3, column=0, pady=5)
 
-            test_on_test_dataframe = pd.DataFrame(test_file_data,
-                                                  columns=['Predicted Values', 'Actual Values', 'Difference'])
             # Create entry box for csv name
-            csv_name_entry = Entry(test_on_test_button_frame, width=17, font=('Arial', 11, 'italic'))
+            csv_name_entry = Entry(test_on_test_buttons_frame, width=17, font=('Arial', 11, 'italic'))
             csv_name_entry.insert(0, 'Save As')
-            save_button = ttk.Button(test_on_test_button_frame, text='Save', command=on_save_button)
+            save_button = ttk.Button(test_on_test_buttons_frame, text='Save', command=on_save_button)
 
             # Make entry box clear when clicked on
             csv_name_entry.bind('<ButtonRelease-1>',
@@ -470,9 +469,7 @@ class PredictorTreeviewPage:
 
             # Widgets
             save_to_csv_button__test = ttk.Button(test_on_test_buttons_frame, text='Save to CSV',
-                                                  command=lambda: on_save_to_csv(test_on_test_buttons_frame,
-                                                                                 tree_all_predicted_values_list,
-                                                                                 tree_all_actual_values_list))
+                                                  command=lambda: on_save_to_csv(predicted_df, test_on_test_buttons_frame))
 
             # ToDo put all of this parts data into treeview hidden instead of having to create new prediction to create
 
