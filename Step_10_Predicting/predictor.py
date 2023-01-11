@@ -14,11 +14,10 @@ from sklearn import metrics
 
 
 class PredictorTreeviewPage:
-    def __init__(self, scaled_df, target_variable, csv_name, is_data_split, split_original_df=None, scaled_df2=None):
+    def __init__(self, scaled_df, target_variable, csv_name, split_original_df=None, scaled_df2=None):
         self.scaled_df = scaled_df
         self.target_variable = target_variable
         self.csv_name = csv_name
-        self.is_data_split = is_data_split
         self.scaled_df2 = scaled_df2
         self.original_df2 = split_original_df
 
@@ -112,11 +111,6 @@ class PredictorTreeviewPage:
             test_on_test_button = ttk.Button(self.predictor_buttons_frame, text='Test Selection on Test Data',
                                              command=self.on_test_on_test)
 
-            # Disables the test against test button if the split data option was not selected in the beginning
-            if self.is_data_split == 0:
-                test_against_test_button.configure(state=DISABLED)
-                # ToDo put hover over label if this is disabled to clarify why its disabled
-
             # Makes the current dataframe checkbox start out as selected
             self.filter_current_model_checkbox.state(['!alternate'])
             self.filter_current_model_checkbox.state(['selected'])
@@ -146,7 +140,7 @@ class PredictorTreeviewPage:
             return
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Predictions_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect('../../Databases/Predictions_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -186,7 +180,7 @@ class PredictorTreeviewPage:
             # Puts a down arrow in the column name
             self.predictor_tree.heading(column_clicked_name, text=column_clicked_name + ' ' * 3 + 'V')
 
-            conn = sqlite3.connect('Predictions_Database')  # creates a database file and puts it in the directory
+            conn = sqlite3.connect('../../Databases/Predictions_Database')  # creates a database file and puts it in the directory
 
             # creates a cursor that does all the editing
             cursor = conn.cursor()
@@ -236,18 +230,10 @@ class PredictorTreeviewPage:
 
 
             # Connect to database
-            conn = sqlite3.connect('Predictions_Database')
+            conn = sqlite3.connect('../../Databases/Predictions_Database')
 
             # Create cursor
             cursor = conn.cursor()
-
-
-            # ToDo get rid of this somehow
-            # Makes the data we know dict nothing if a test dataframe was selected
-            try:
-                print(len(list(self.data_we_know_dict.values())[0]))
-            except:
-                self.data_we_know_dict = {}
 
             # Add new record
             cursor.execute(
@@ -259,8 +245,8 @@ class PredictorTreeviewPage:
                  'Model_Used': self.selected_training_model,
                  'Dataframe': str(self.csv_name),
                  'Features_Used': database_feature_combination,
-                 'All_Predictions': self.average_predictions,
-                 'All_Actual_Values': self.all_actual_values})
+                 'All_Predictions': self.all_predictions,
+                 'All_Actual_Values': all_actual_values})
 
             # Commit changes
             conn.commit()
@@ -281,7 +267,7 @@ class PredictorTreeviewPage:
         tree_values = self.predictor_tree.item(selected, 'values')
 
         # Create a database or connect to one that already exists
-        conn = sqlite3.connect('Predictions_Database')
+        conn = sqlite3.connect('../../Databases/Predictions_Database')
 
         # Create a cursor instance
         cursor = conn.cursor()
@@ -308,16 +294,16 @@ class PredictorTreeviewPage:
         self.query_database()
 
         row_deleted_label = Label(self.predictor_buttons_frame, text='Selected Row Removed', fg='red')
-        row_deleted_label.grid(row=1, column=2)
+        row_deleted_label.grid(row=3, column=1)
 
     def on_graph_prediction(self):
         # Get all predicted and test values from treeview (these are hidden and are not displayed in the treeview)
         selected = self.predictor_tree.selection()[0]
         print('selected:', selected)
         print('all items:', self.predictor_tree.item(selected, 'values'))
-        tree_all_predicted_values = self.predictor_tree.item(selected, 'values')[10]
+        tree_all_predicted_values = self.predictor_tree.item(selected, 'values')[7]
         print('tree all predicted values:', tree_all_predicted_values)
-        tree_tested_actual_values = self.predictor_tree.item(selected, 'values')[11]
+        tree_tested_actual_values = self.predictor_tree.item(selected, 'values')[8]
         print('tree tested actual values:', tree_tested_actual_values)
 
         # Split long string from treeview into a list
@@ -343,7 +329,7 @@ class PredictorTreeviewPage:
 
     def on_save_current_row_order(self):
         # Connect to database
-        conn = sqlite3.connect('Predictions_Database')
+        conn = sqlite3.connect('../../Databases/Predictions_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -360,7 +346,7 @@ class PredictorTreeviewPage:
         # Add new record
         for record in self.predictor_tree.get_children():
             # Connect to database
-            conn = sqlite3.connect('Predictions_Database')
+            conn = sqlite3.connect('../../Databases/Predictions_Database')
 
             # Create cursor
             cursor = conn.cursor()
@@ -399,7 +385,7 @@ class PredictorTreeviewPage:
 
         def on_save_to_csv(predicted_df, test_on_test_buttons_frame):
             def on_save_button():
-                predicted_df.to_csv(csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
+                predicted_df.to_csv('../../Predictions/' + csv_name_entry.get() + '.csv', index=False, encoding='utf-8')
 
                 file_saved_label = Label(test_on_test_buttons_frame, text='File Saved Successfully', fg='green')
                 file_saved_label.grid(row=3, column=0, pady=5)
@@ -413,7 +399,7 @@ class PredictorTreeviewPage:
             csv_name_entry.bind('<ButtonRelease-1>',
                                 lambda event, csv_name_entry=csv_name_entry: csv_name_entry_initial_clearer(event,
                                                                                                             csv_name_entry))
-
+# ToDo put in vertical scrollbar for predictions treeview
             # Locations
             csv_name_entry.grid(row=1, column=0, padx=5)
             save_button.grid(row=2, column=0)
@@ -450,6 +436,15 @@ class PredictorTreeviewPage:
 
             # Combine the predicted values with the split original dataframe
             predicted_df = pd.concat([self.original_df2, average_predictions_df], axis=1)
+
+            # Back-transform the target variable column
+            if self.target_skew_winner == 'log transformer':
+                predicted_df['Predicted_Value'] = np.exp(predicted_df['Predicted_Value'])
+            if self.target_skew_winner == 'sqr root transformer':
+                predicted_df['Predicted_Value'] = predicted_df['Predicted_Value'] ** 2
+            if self.target_skew_winner == 'box cox transformer':
+                from scipy.special import inv_boxcox
+                predicted_df['Predicted_Value'] = inv_boxcox(predicted_df['Predicted_Value'], self.target_box_cox_lambda)
 
             # Define columns
             test_on_test_tree['columns'] = predicted_df.columns.tolist()
@@ -605,7 +600,7 @@ class PredictorTreeviewPage:
             pass
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Predictions_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect('../../Databases/Predictions_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -668,7 +663,6 @@ class Predictor:
     def predictor(self, dataframe):
         selected_features = self.selected_features
         selected_features.append(self.target_variable)
-        print('self selected features:', self.selected_features)
 
         # Make dataframe from selected features
         shortened_dataframe = dataframe[self.selected_features]
@@ -678,7 +672,7 @@ class Predictor:
 
         # ToDo put in a quick predictor? Using the line below
         # finalized_predictor_array = Predictor.predictor_array_cleaner(self, shortened_dataframe, self.target_variable)
-        pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
+        pickle_in = open('../../saved_models/' + self.selected_training_model + '.pickle', 'rb')
         regression_line = pickle.load(pickle_in)
 
         runtimes = 100  # ToDo what should default runtimes be?
@@ -686,6 +680,7 @@ class Predictor:
         total_predictions = total_score = total_mean_absolute_error = 0
         for i in range(runtimes):
             X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+            regression_line.fit(X_train, y_train)
 
             predictions = regression_line.predict(X_test)
             score = regression_line.score(X_test, y_test)
@@ -703,26 +698,20 @@ class Predictor:
         self.average_score = total_score / runtimes
         self.average_mae = total_mean_absolute_error / runtimes
 
-        if self.is_data_split == 0:
-            self.all_actual_values = y_test
-        else:
-            self.all_actual_values = y
+        self.all_actual_values = y_test
 
         return self.average_predictions, self.all_actual_values
 
     def predictor_split(self, scaled_df, scaled_df2):
         # Loads in the regression line using pickle
-        pickle_in = open('saved_training_pickle_models/' + self.selected_training_model + '.pickle', 'rb')
+        pickle_in = open('../../Saved_Models/' + self.selected_training_model + '.pickle', 'rb')
         regression_line = pickle.load(pickle_in)
-
-        # self.selected_features = self.selected_features.split(', ')
 
         scaled_df__selected = scaled_df[self.selected_features]
         scaled_df2__selected = scaled_df2[self.selected_features]
         finalized_predictor_array = Predictor.predictor_array_cleaner(self, scaled_df__selected, scaled_df2__selected)
-        # ToDo scaled df2 has 2 target variable columns in it
 
-        runtimes = 100  # ToDo what should default runtimes be?
+        runtimes = 100000
         total_predictions = 0
         for i in range(runtimes):
             predictions = regression_line.predict(finalized_predictor_array)

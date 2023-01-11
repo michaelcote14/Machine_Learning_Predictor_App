@@ -10,7 +10,7 @@ import time
 
 class Scaler:
     def scaler_time_predictor(self, runtimes, fully_cleaned_df):
-        scaler_predicted_time = runtimes * len(fully_cleaned_df) * len(fully_cleaned_df) * 3 * 0.00000062672
+        scaler_predicted_time = runtimes * len(fully_cleaned_df) * 3 * 0.000031963
         scaler_predicted_time = time_formatter(scaler_predicted_time)
         return scaler_predicted_time
 
@@ -32,7 +32,7 @@ class Scaler:
             linear.fit(X_train, y_train)
             accuracy = linear.score(X_test, y_test)
             total_accuracy += accuracy
-        standardizer_average_accuracy = total_accuracy / runtimes
+        standardizer_average_accuracy = (total_accuracy / runtimes) + 9999999999999999
         return standardizer_average_accuracy, standardized_df
 
     def normalizer(self, runtimes, X, y, dataframe, scaler_progressbar, master_frame):
@@ -71,13 +71,11 @@ class Scaler:
             linear.fit(X_train, y_train)
             accuracy = linear.score(X_test, y_test)
             total_accuracy += accuracy
-        raw_average_accuracy = (total_accuracy / runtimes) + 100
+        raw_average_accuracy = (total_accuracy / runtimes)
         return raw_average_accuracy
 
     def main_scaler(self, runtimes, target_variable, scaler_progressbar, master_frame, fully_cleaned_df,
                     fully_cleaned_df2):
-        start_time = time.time()
-
         dataframe = fully_cleaned_df.drop([target_variable], axis=1)
 
         X = np.array(dataframe)
@@ -87,6 +85,7 @@ class Scaler:
         raw_accuracy = Scaler.raw(self, runtimes, X, y, scaler_progressbar, master_frame)
         standardized_accuracy, standardized_df = Scaler.standardizer(self, runtimes, X, y, dataframe,
                                                                      scaler_progressbar, master_frame)
+        standardized_accuracy = 99999999999999999999999999999
         normalized_accuracy, normalized_df = Scaler.normalizer(self, runtimes, X, y, dataframe, scaler_progressbar,
                                                                master_frame)
 
@@ -108,20 +107,13 @@ class Scaler:
             scaled_df2 = fully_cleaned_df2
 
         if winner == 'standardizer':
-            standardized_array2 = self.standard_scaler.transform(X2)
-            scaled_df2 = pd.DataFrame(standardized_array2, columns=dataframe2.columns)
+            standardized_array2 = self.standard_scaler.transform(X)
+            scaled_df2 = pd.DataFrame(standardized_array2, columns=dataframe.columns)
 
         if winner == 'normalizer':
-            normalized_array2 = self.min_max_scaler.transform(X2)
-            scaled_df2 = pd.DataFrame(normalized_array2, columns=dataframe2.columns)
+            normalized_array2 = self.min_max_scaler.transform(X)
+            scaled_df2 = pd.DataFrame(normalized_array2, columns=dataframe.columns)
 
-        pd.options.display.width = 500
-        pd.set_option('display.max_columns', 80)
-
-        elapsed_time = time.time() - start_time
-
-        print('scaled_df:\n', scaled_df)
-        print('scaled df2:\n', scaled_df2)
         return scaled_df, scaled_df2
 
     def get_predictor_array(self, data_we_know_dict, fully_cleaned_df, target_variable):

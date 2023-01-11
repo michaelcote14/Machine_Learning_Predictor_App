@@ -1,9 +1,0 @@
-1. Visualize the data
-2. Encode all categorical data using single_hot_encoder and multiple_hot_encoder
-3. Get rid of outliers
-4. Scale data
-Use the Data:
-1. Find which features have the abs(highest value) using importance
-2. Plug these into feature_combinations to get best features
-3. Plug these into main_trainer to train your pickle model
-4. Run your predictions through Predictor

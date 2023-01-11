@@ -1,6 +1,6 @@
 import numpy as np
-import sklearn
 from sklearn import linear_model
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 import pickle
 import time
@@ -152,7 +152,7 @@ class TrainingModelPage:
         selected_features = ', '.join(selected_features)
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Training_Model_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -197,7 +197,7 @@ class TrainingModelPage:
             # Puts a down arrow in the column name
             self.training_model_tree.heading(column_clicked_name, text=column_clicked_name + ' ' * 3 + 'V')
 
-            conn = sqlite3.connect('Training_Model_Database')  # creates a database file and puts it in the directory
+            conn = sqlite3.connect('../../Databases/Training_Model_Database')  # creates a database file and puts it in the directory
 
             # creates a cursor that does all the editing
             cursor = conn.cursor()
@@ -237,7 +237,7 @@ class TrainingModelPage:
         tree_values = self.training_model_tree.item(selected, 'values')
 
         # Create a database or connect to one that exists
-        conn = sqlite3.connect('Training_Model_Database')
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')
 
         # Create a cursor instance
         cursor = conn.cursor()
@@ -260,10 +260,10 @@ class TrainingModelPage:
 
         # Remove selection model from pickled data folder
         if os.path.exists(
-                'C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/machine_learning_app/predictor/saved_training_pickle_models/' +
+                'C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Saved_Models/' +
                 tree_values[3] + '.pickle'):
             os.remove(
-                'C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/machine_learning_app/predictor/saved_training_pickle_models/' +
+                'C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Saved_Models/' +
                 tree_values[3] + '.pickle')
 
         # Add a removal message alert
@@ -307,7 +307,7 @@ class TrainingModelPage:
             pass
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Training_Model_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -354,7 +354,7 @@ class TrainingModelPage:
 
     def on_save_current_row_order(self):
         # Connect to database
-        conn = sqlite3.connect('Training_Model_Database')
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -449,7 +449,7 @@ class Trainer():
 
         # Gives an error if the model name already matches a model name in the database
         # Connect to database
-        conn = sqlite3.connect('Training_Model_Database')
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -497,7 +497,7 @@ class Trainer():
         X = np.array(df.drop([target_variable], axis=1))
         y = np.array(df[target_variable])
 
-        save_pickle_to = 'saved_training_pickle_models/' + saved_model_name + '.pickle'
+        save_pickle_to = '../../Saved_Models/' + saved_model_name + '.pickle'
 
         current_model_regression_line = linear_model.LinearRegression()
         # split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
@@ -521,8 +521,7 @@ class Trainer():
                 # y_test = stratified_testing_set[target_variable]
 
 
-                # The line below will only be for categorical testing
-                X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
+
 
                 current_model_regression_line.fit(X_train, y_train)
                 current_model_score = current_model_regression_line.score(X_test, y_test)
@@ -530,7 +529,11 @@ class Trainer():
 
                 if os.path.exists(save_pickle_to):
                     pickle_in = open(save_pickle_to, 'r+b')
+                    pickled_weights_and_models_dict = pickle.load(pickle_in)
+
+                    old_pickled_model_score =
                     old_pickled_regression_line = pickle.load(pickle_in)
+
                     old_pickled_model_score = old_pickled_regression_line.score(X_test, y_test)
                     old_pickled_model_total_score += old_pickled_model_score
                 else:
@@ -630,10 +633,8 @@ class Trainer():
 
     def trainer_time_predictor(self, selected_feature_combination, trainer_runtimes):
         # ToDo fix the time predictor
-        trainer_predicted_time = .58439946 ** len(selected_feature_combination) * trainer_runtimes
+        trainer_predicted_time = .685761 ** len(selected_feature_combination) * trainer_runtimes
         return functions.time_formatter(format(trainer_predicted_time, '.2f'))
-
-    # ToDo make, upon first creation, the last upgrade total runtimes the exact runtime
 
     def training_database_updater(self, trainer_runtimes, current_model_average_score):
         selected_row = self.selected_treeview_row
@@ -675,7 +676,7 @@ class Trainer():
             last_upgrade_total_runtimes = current_tree_last_upgrade_total_runtimes
 
         # Connect to database
-        conn = sqlite3.connect('Training_Model_Database')
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -723,7 +724,7 @@ class Trainer():
         selected_features = ', '.join(selected_features)
 
         # Connect to database
-        conn = sqlite3.connect('Training_Model_Database')
+        conn = sqlite3.connect('../../Databases/Training_Model_Database')
 
         # Create cursor
         cursor = conn.cursor()

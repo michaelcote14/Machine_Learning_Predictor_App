@@ -69,14 +69,13 @@ class Grapher:
     def heatmap(self, type_clean_df, target_variable):
         if len(type_clean_df.columns) > 15:
             # Current ratio 15/20
-            graph_width = len(type_clean_df.columns) / 1.7
+            graph_width = len(type_clean_df.columns) / 1
         else:
             graph_width = 13
         correlation = type_clean_df.corr(numeric_only=True)
         matrix = np.triu(correlation)
-        colormap = sns.color_palette('flare')
         figure, ax = plt.subplots(figsize=(graph_width, 10))
-        hm = sns.heatmap(correlation, annot=True, cmap=colormap, mask=matrix)  # YlGnBu is best color
+        hm = sns.heatmap(correlation, annot=True, cmap='viridis_r', mask=matrix)  # YlGnBu is best color
         for lab in hm.get_yticklabels():
             if lab.get_text() == target_variable:
                 lab.set_fontweight('bold')
@@ -95,8 +94,6 @@ class Grapher:
             graph_width = len(type_clean_df.columns) / 0.5
         else:
             graph_width = 15
-
-        print('graph width:', graph_width)
 
         figure, ax = plt.subplots(figsize=(graph_width, 10))
         cp = type_clean_df.nunique().plot(kind='bar', color='orange')

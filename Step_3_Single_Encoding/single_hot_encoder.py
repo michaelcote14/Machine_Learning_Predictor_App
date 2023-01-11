@@ -6,14 +6,14 @@ def single_encoder(dataframe_to_encode, dataframe_to_encode2=None):
     all_dataframes_after_drops_single = pd.DataFrame()
     all_dataframes_after_drops_single2 = pd.DataFrame()
     for column in dataframe_to_encode:
-        print('column:', column, '|||')
+        # print('column:', column, '|||')
         category_count = dataframe_to_encode[column].value_counts()
 
         if dataframe_to_encode[column].dtypes == 'object' and len(category_count) < 3:
 
             series_to_encode = dataframe_to_encode[[column]]
             series_to_encode2 = dataframe_to_encode2[[column]]
-            print('series to encode:', series_to_encode)
+            # print('series to encode:', series_to_encode)
 
 
             encoder = make_column_transformer((OneHotEncoder(handle_unknown='ignore'), [column]),

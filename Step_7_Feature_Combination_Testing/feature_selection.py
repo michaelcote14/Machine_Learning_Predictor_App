@@ -1,23 +1,20 @@
-import numpy as np
-import sklearn
-from sklearn import linear_model
-import itertools
-from Extras import functions
-import time
-from Extras.functions import time_formatter
-import pandas as pd
-import ast
-import pickle
-import rfpimp
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
+import datetime
+import sqlite3
+import threading
 from tkinter import *
 from tkinter import ttk
-import sqlite3
-import datetime
-from tkinter import messagebox
-import threading
-from PIL import ImageTk, Image
+
+import itertools
+import numpy as np
+import rfpimp
+import sklearn
+import time
+from sklearn import linear_model
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+
+from Extras import functions
+from Extras.functions import time_formatter
 
 
 class FeatureSelectionPage:
@@ -199,7 +196,7 @@ class FeatureSelectionPage:
 
     def current_row_saver(self):
         # Connect to database
-        conn = sqlite3.connect('Feature_Selection_Database')
+        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -241,7 +238,8 @@ class FeatureSelectionPage:
             return
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Feature_Selection_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect(
+            '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -296,7 +294,8 @@ class FeatureSelectionPage:
             # Puts a down arrow in the column name
             self.feature_selection_tree.heading(column_clicked_name, text=column_clicked_name + ' ' * 3 + 'V')
 
-            conn = sqlite3.connect('Feature_Selection_Database')  # creates a database file and puts it in the directory
+            conn = sqlite3.connect(
+                '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
 
             # creates a cursor that does all the editing
             cursor = conn.cursor()
@@ -340,7 +339,8 @@ class FeatureSelectionPage:
             pass
 
         # creates a database if one doesn't already exist, otherwise it connects to it
-        conn = sqlite3.connect('Feature_Selection_Database')  # creates a database file and puts it in the directory
+        conn = sqlite3.connect(
+            '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
@@ -380,7 +380,7 @@ class FeatureSelectionPage:
         selected = self.feature_selection_tree.selection()[0]
         tree_values = self.feature_selection_tree.item(selected, 'values')
         # Create a database or connect to one that exists
-        conn = sqlite3.connect('Feature_Selection_Database')
+        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
 
         # Create a cursor instance
         cursor = conn.cursor()
@@ -461,7 +461,7 @@ class FeatureSelectionPage:
         print('Selected Features:', selected_features)
 
         # Changes the red x to a green checkmark
-        self.image_changer('green_checkmark.png', self.green_check_label_features, 24, 24)
+        self.image_changer('../../Images/green_checkmark.png', self.green_check_label_features, 24, 24)
 
 
 class ImportantFeaturesFinder:
@@ -469,7 +469,7 @@ class ImportantFeaturesFinder:
         dataframe_column_length = scaled_df.shape[1]
         dataframe_row_length = scaled_df.shape[0]
         predicted_time = ((int(runtimes) * dataframe_column_length) + int(
-            amount_of_features_selected) * 0.00012 + dataframe_row_length * 0.00012) * 0.00012
+            amount_of_features_selected) * 0.00016327 + dataframe_row_length * 0.00016327) * 0.00016327
         predicted_time = time_formatter(predicted_time)
         return predicted_time
 
@@ -530,7 +530,7 @@ class ImportantFeaturesFinder:
 class FeatureCombiner:
     def best_features_database_inserter(self):
         # Connect to database
-        conn = sqlite3.connect('Feature_Selection_Database')
+        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
 
         # Create cursor
         cursor = conn.cursor()
@@ -571,7 +571,7 @@ class FeatureCombiner:
         global combination_max
         combination_max = (((2 ** (
                 len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
-        time_per_1combination = 0.0014378042273516
+        time_per_1combination = 0.00288095
         predicted_time = time_per_1combination * combination_max
 
         return time_formatter(predicted_time)
@@ -606,11 +606,8 @@ class FeatureCombiner:
             result = itertools.combinations(picked_dataframe_columns_list,
                                             picked_dataframe_columns_list.index(loop) + 1)
             for item in result:
-                # print("item:", list(item))
                 for i in range(runtimes):
                     combinations = combinations + 1
-                    # print('combinations:', combinations)
-                    # print('Percent Complete:', str((combinations/combination_max)*100)[0:4], '%')
 
                     self.feature_selection_progressbar['value'] = (combinations / combination_max) * 100
                     self.feature_selection_progress_label.config(
@@ -626,12 +623,10 @@ class FeatureCombiner:
                                                                                                 test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
 
                     MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-                    # print('Score:', MyLinearRegression.score(X_test, y_test))
-                    # make this add up 5 times first one should equal 0.184
+
                     total_score = total_score + MyLinearRegression.score(X_test, y_test)
 
                 average_score = total_score / runtimes
-                # print('Average Score:', average_score, '\n')
                 total_score = 0
                 if average_score > best_average_score:
                     best_average_score = average_score
@@ -640,9 +635,8 @@ class FeatureCombiner:
         self.feature_selection_progress_label.config(text='Completed')
 
         elapsed_time = time.time() - start_time
-        # print('Combiner Elapsed Time:', time_formatter(elapsed_time))
 
-        if elapsed_time > 3:
+        if elapsed_time > 500:
             functions.email_or_text_alert('Trainer is done',
                                           'Elapsed Time: ' + str(
                                               time_formatter(elapsed_time)) + '\nBest Average Score: ' + str(

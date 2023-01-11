@@ -11,7 +11,7 @@ import random
 # ToDo put in a time predictor and percentage tracker
 
 scaled_df = pd.read_csv('../Step_5_Scaling/scaled_dataframe.csv')
-with open('../Data/pickled_most_recent_important_features', 'rb') as f:
+with open('../Saved_CSVs/pickled_most_recent_important_features', 'rb') as f:
     most_important_features = pickle.load(f)[:]
 print('Length of Features:', len(most_important_features))
 small_loops = 10

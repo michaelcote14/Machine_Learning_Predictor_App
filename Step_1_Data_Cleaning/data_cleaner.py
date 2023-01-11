@@ -1,4 +1,6 @@
 import pandas as pd
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
 
 
 def boolean_cleaner(dataframe):
@@ -11,14 +13,33 @@ def boolean_cleaner(dataframe):
     return bool_free_df
 
 
-def full_cleaner(dataframe):
-    duplicate_free_df = dataframe.drop_duplicates()
-    null_free_rows_df = null_row_cleaner(duplicate_free_df)
-    bool_free_df = boolean_cleaner(null_free_rows_df)
+def full_cleaner(dataframe, target_variable=None):
+    # Convert the entire dataframe to uppercase
+    for column in dataframe.columns:
+        if dataframe[column].dtypes == 'object':
+            dataframe[column] = dataframe[column].str.upper()
+            # Clears the white spaces in all the rows
+            dataframe[column].str.strip()
+
+    # duplicate_free_df = dataframe.drop_duplicates()
+    # null_free_rows_df = null_row_cleaner(duplicate_free_df)
+    bool_free_df = boolean_cleaner(dataframe)
     fully_named_df = unnamed_column_cleaner(bool_free_df)
     non_empty_columns_df = null_columns_cleaner(fully_named_df)
-    outlier_free_df = outlier_cleaner(non_empty_columns_df)
-    fully_cleaned_df = outlier_free_df
+    # outlier_free_df = outlier_cleaner(non_empty_columns_df)
+    from Step_1_Data_Cleaning.skew_transformer import full_transformer, target_transformer
+    unskewed_df = full_transformer(non_empty_columns_df, target_variable)
+    fully_cleaned_df = unskewed_df
+
+    # Transform the target column and put it as an attribute to PreditorTreeviewPage
+    from Step_10_Predicting.predictor import PredictorTreeviewPage
+    if target_variable != None:
+        target_skew_winner, transformed_target_column, target_box_cox_lambda = target_transformer(non_empty_columns_df, target_variable)
+        PredictorTreeviewPage.target_skew_winner = target_skew_winner
+        PredictorTreeviewPage.target_box_cox_lambda = target_box_cox_lambda
+
+        # Recombine the target variable with the cleaned dataframe
+        fully_cleaned_df[target_variable] = transformed_target_column
 
     # Finds out the difference between the start dataframe and the final dataframe
     original_df_columns = dataframe.columns.tolist()
@@ -34,45 +55,32 @@ def outlier_cleaner(dataframe):
     # If more than 5% are outside, it simply removes the outlier values, causing a Nan to replace its value
     outlier_free_df = pd.DataFrame()
     for column in dataframe:
-        print('\ncolumn:', column)
         if dataframe[column].dtypes == 'object':
-            print('column is categorical, so we do not clean for outliers')
             continue
-        else:
-            print('column is numerical, so we do clean for outliers')
-
-        print('dataframe[' + column + ']:\n', dataframe[column])
 
         Q1, Q3 = dataframe[column].quantile([.25, .75])
         IQR = Q3 - Q1
         upper_limit = Q3 + 1.5 * IQR
         lower_limit = Q1 - 1.5 * IQR
-        print('Upper Limit/Lower Limit:', upper_limit, '/', lower_limit)
 
         num_of_outliers = len(dataframe[column].loc[(dataframe[column] > (upper_limit)) |
                                                     (dataframe[column] < (lower_limit))])
-        print('Number of outliers in column:', num_of_outliers)
-        print('% of column that is outliers:', (num_of_outliers / len(dataframe[column]) * 100), '%')
 
         # Checks the percentage of outliers there are compared to the entire column. If more than 5%,
         # it will drop all the rows that contained outliers
         if (num_of_outliers / len(dataframe[column]) * 100) > 5:
-            print('too many outliers, so we are going to drop all rows that contain outliers entirely')
             # This ensures that IQR's that are small compared to entire column will just delete the entire column
             if len(dataframe.loc[(dataframe[column] < (upper_limit)) &
                                  (dataframe[column] > (lower_limit))]) < (0.05 * len(dataframe)):
                 dataframe.drop(column, axis=1, inplace=True)
-                print('column was dropped because its IQR was too small')
             else:
                 dataframe = dataframe.loc[(dataframe[column] < (upper_limit)) &
                                           (dataframe[column] > (lower_limit))]
-            print('dataframe after rows were dropped:\n', dataframe)
 
         # If the number of outliers is less than 5% of the data, we will cap the outliers to make them fit in more
         else:
             pd.options.mode.chained_assignment = None
             dataframe[column].clip((lower_limit), (upper_limit), inplace=True)
-            print('dataframe[column]:\n', dataframe[column])
 
     dataframe.reset_index(inplace=True, drop=True)
 
@@ -82,35 +90,54 @@ def outlier_cleaner(dataframe):
 def null_columns_cleaner(data_to_null_clean):
     # This function gets rid of columns entirely if more than 25% of them are null
     columns_removed_list = []
-    for column in data_to_null_clean.columns[0:30]:
-        print('percent of column ' + column + ' that is null:',
-              data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean)))
+    for column in data_to_null_clean.columns:
+        # print('percent of column ' + column + ' that is null:',
+        #       data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean)))
         if (data_to_null_clean[column].isnull().sum() / (len(data_to_null_clean))) > 0.25:
             data_to_null_clean.drop(column, inplace=True, axis=1)
             columns_removed_list.append(column)
 
-    # This replaces each null value and replaces it with its column (mean + median) / 2
-    pd.set_option('display.min_rows', 240)
-    for column in data_to_null_clean.columns:
-        print('\nColumn:', column)
-        print('Null Values:', data_to_null_clean[column].isnull().sum())
-        if data_to_null_clean[column].dtype != 'object':
-            column_mean = data_to_null_clean[column].mean(numeric_only=True)
+    numerical_dataframe = data_to_null_clean.select_dtypes(['number'])
+    categorical_dataframe = data_to_null_clean.select_dtypes(include='object')
 
-            column_median = data_to_null_clean[column].median(numeric_only=True)
+    # Change the numeric null values to a regression-based guesser
+    imputer = IterativeImputer()
+    imputed_array = imputer.fit_transform(numerical_dataframe)
+    imputed_df = pd.DataFrame(imputed_array, columns=numerical_dataframe.columns)
 
-            data_to_null_clean[column].fillna((column_mean+column_median) / 2, inplace=True)
+    # Change the categorical null values to the mode of the column
+    for column in categorical_dataframe:
+        column_mode = categorical_dataframe[column].mode()[0]
+        categorical_dataframe[column].fillna(column_mode, inplace=True)
 
-        # This replaces each null value in categorical columns with the mode of its column
-        else:
-            column_mode = data_to_null_clean[column].mode()[0]
-            data_to_null_clean[column].fillna(column_mode, inplace=True)
+    # Recombine the categorical and numerical dataframes
+    fully_imputed_df = pd.concat([categorical_dataframe, imputed_df], axis=1)
+    print('fully imputed df:\n', fully_imputed_df)
 
 
-    return data_to_null_clean
-# ToDo you could make a ratio calculator that tells you what to put in each column depending on the
-#  ratio that the dataframe already has for each value #very smart
 
+
+    # # This replaces each null value and replaces it with its column (mean + median) / 2
+    # pd.set_option('display.min_rows', 240)
+    # for column in data_to_null_clean.columns:
+    #     # print('\nColumn:', column)
+    #     # print('Null Values:', data_to_null_clean[column].isnull().sum())
+    #     if data_to_null_clean[column].dtype != 'object':
+    #         column_mean = data_to_null_clean[column].mean(numeric_only=True)
+    #
+    #         column_median = data_to_null_clean[column].median(numeric_only=True)
+    #
+    #         data_to_null_clean[column].fillna((column_mean+column_median) / 2, inplace=True)
+    #
+    #     # This replaces each null value in categorical columns with the mode of its column
+    #     else:
+    #         column_mode = data_to_null_clean[column].mode()[0]
+    #         data_to_null_clean[column].fillna(column_mode, inplace=True)
+
+
+
+
+    return fully_imputed_df
 
 def null_row_cleaner(data_to_clean):
     # This stops a pointless error from popping up
@@ -139,14 +166,14 @@ if __name__ == '__main__':
     # pd.set_option('display.max_columns', 888888)
 
     # Real estate data
-    dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/real_estate_data/train.csv')
+    dataframe = pd.read_csv('C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Saved_CSVs/nfl_data.csv')
 
     # Nfl shortened data
     # dataframe = pd.read_csv(
     #     'C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/nfl_data(shortened_column_cleaner).csv')
 
     # Train data
-    dataframe = pd.read_csv("C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Data/(test)_train.csv")
+    # dataframe = pd.read_csv("/Saved_CSVs/(test)_train.csv")
 
     # fully_cleaned_df = full_cleaner(dataframe)
     #
