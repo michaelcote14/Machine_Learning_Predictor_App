@@ -1,7 +1,13 @@
 import numpy as np
-from sklearn import linear_model
+from sklearn.linear_model import LinearRegression, BayesianRidge, HuberRegressor, Ridge, OrthogonalMatchingPursuit
+from sklearn.ensemble import GradientBoostingRegressor
+from lightgbm import LGBMRegressor
+from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import KFold, cross_val_score
+from scipy.optimize import minimize
+import warnings
 import pickle
 import time
 from Extras import functions
@@ -487,6 +493,9 @@ class Trainer():
         else:
             return
 
+        # Turn off warnings
+        warnings.filterwarnings('ignore')
+
         small_loops = 10
         start_time = time.time()
 
@@ -499,7 +508,6 @@ class Trainer():
 
         save_pickle_to = '../../Saved_Models/' + saved_model_name + '.pickle'
 
-        current_model_regression_line = linear_model.LinearRegression()
         # split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
 
         self.upgrades_to_pickle_model = 0
@@ -520,29 +528,84 @@ class Trainer():
                 # X_test = stratified_testing_set.drop([target_variable])
                 # y_test = stratified_testing_set[target_variable]
 
+                regression_models = {
+                    'regression': LinearRegression(),
+                    'br': BayesianRidge(),
+                    'huber': HuberRegressor(),
+                    'ridge': Ridge(),
+                    'omp': OrthogonalMatchingPursuit(),
+                    'lightgbm': LGBMRegressor()
+                }
 
+                # Split the data
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
+                # Fit the regression models
+                for model in regression_models.values():
+                    model.fit(X_train, y_train)
 
-                current_model_regression_line.fit(X_train, y_train)
-                current_model_score = current_model_regression_line.score(X_test, y_test)
-                current_model_total_score = current_model_total_score + current_model_score
+                # ToDo add in cross validation to the ensemble
+
+                # Optimize the weights of each regression model
+                starting_weights = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
+
+                def objective(x, sign=-1.0): # the -1.0 makes this into a maximization optimization
+                    score = (
+                        regression_models['regression'].score(X_test, y_test) * x[0] +
+                        regression_models['br'].score(X_test, y_test) * x[1] +
+                        regression_models['huber'].score(X_test, y_test) * x[2] +
+                        regression_models['ridge'].score(X_test, y_test) * x[3] +
+                        regression_models['omp'].score(X_test, y_test) * x[4] +
+                        regression_models['lightgbm'].score(X_test, y_test) * x[5]
+                            )
+                    return sign * score
+
+                boundary = (0.0, 1.0) # This helps the max optimizer know the limits that each weight can go to
+                all_boundaries = (boundary, boundary, boundary, boundary, boundary, boundary) # assigns each boundary to each optimizer variable
+                # Creates the constraint that all weights added together cannot exceed 1
+                constraint1 = ({'type': 'eq', 'fun': lambda x: x[0] + x[1] + x[2] + x[3] + x[4] + x[5] - 1})
+                constraints_list = [constraint1]
+                solution = minimize(objective, starting_weights, bounds=all_boundaries, constraints=constraints_list, method='SLSQP')
+
+                current_model_weights = solution.x
+                # print('current model weights:', current_model_weights)
+                current_model_score = -(solution.fun)
+                # print('current model score:', current_model_score)
+                current_model_total_score += current_model_score
+
 
                 if os.path.exists(save_pickle_to):
                     pickle_in = open(save_pickle_to, 'r+b')
                     pickled_weights_and_models_dict = pickle.load(pickle_in)
+                    pickle_in.close()
+                    models = pickled_weights_and_models_dict.keys()
+                    weights = pickled_weights_and_models_dict.values()
+                    for model in models:
+                        model.fit(X_train, y_train)
 
-                    old_pickled_model_score =
-                    old_pickled_regression_line = pickle.load(pickle_in)
-
-                    old_pickled_model_score = old_pickled_regression_line.score(X_test, y_test)
+                    old_pickled_model_score = (
+                            list(models)[0].score(X_test, y_test) * list(weights)[0] +
+                            list(models)[1].score(X_test, y_test) * list(weights)[1] +
+                            list(models)[2].score(X_test, y_test) * list(weights)[2] +
+                            list(models)[3].score(X_test, y_test) * list(weights)[3] +
+                            list(models)[4].score(X_test, y_test) * list(weights)[4] +
+                            list(models)[5].score(X_test, y_test) * list(weights)[5]
+                                                )
+                    # old_pickled_regression_line = pickle.load(pickle_in)
                     old_pickled_model_total_score += old_pickled_model_score
+                    # print('old pickled model score:', old_pickled_model_score)
+
+                    # old_pickled_model_score = old_pickled_regression_line.score(X_test, y_test)
+                    # old_pickled_model_total_score += old_pickled_model_score
                 else:
                     old_pickled_model_score = -1000000
                     old_pickled_model_total_score += old_pickled_model_score
 
             global current_model_average_score
             current_model_average_score = current_model_total_score / small_loops
+            print('current model average score:', current_model_average_score)
             old_pickled_model_average_score = old_pickled_model_total_score / small_loops
+            print('old pickled model average score:', old_pickled_model_average_score)
 
             if current_model_average_score > old_pickled_model_average_score:
                 print('\033[32m' + '\n=======================Model Updated=======================')
@@ -550,13 +613,22 @@ class Trainer():
                 # resets the coloring
                 print('\033[39m')
 
+                # Put current model weights and models into pickle
+                current_weights_and_models_dict = {
+                    regression_models['regression']: current_model_weights[0],
+                   regression_models['br']: current_model_weights[1],
+                   regression_models['huber']: current_model_weights[2],
+                   regression_models['ridge']: current_model_weights[3],
+                   regression_models['omp']: current_model_weights[4],
+                   regression_models['lightgbm']: current_model_weights[5]}
+
                 old_pickled_model_average_score = current_model_average_score
                 self.best_average_score = current_model_average_score
                 self.best_score_runtimes = trainer_runtimes
                 self.upgrades_to_pickle_model = self.upgrades_to_pickle_model + 1
                 self.exact_upgrade_runtimes = lap
                 with open(save_pickle_to, 'wb') as f:
-                    pickle.dump(current_model_regression_line, f)
+                    pickle.dump(current_weights_and_models_dict, f)
 
             else:
                 self.best_average_score = old_pickled_model_average_score
@@ -581,6 +653,9 @@ class Trainer():
             # Update the old database numbers with the new numbers
             Trainer.training_database_updater(self, trainer_runtimes, current_model_average_score)
 
+        # Turn warnings back on
+        warnings.filterwarnings('default')
+
     def new_model_creator(self, selected_feature_combination, scaled_dataframe, target_variable):
         self.state = 'new'
 
@@ -603,8 +678,8 @@ class Trainer():
                 self, event, training_model_name_entry))
 
             spinbox_trainer_variable = StringVar(new_training_progress_window)
-            self.training_runtimes_spinbox = Spinbox(new_training_progress_window, from_=500, to=100000000,
-                                                     increment=500, textvariable=spinbox_trainer_variable,
+            self.training_runtimes_spinbox = Spinbox(new_training_progress_window, from_=10, to=100000000,
+                                                     increment=10, textvariable=spinbox_trainer_variable,
                                                      font=('Ariel', 11, 'bold'), width=19)
             spinbox_trainer_variable.set('Runtimes')
             create_new_model_run_button = ttk.Button(new_training_progress_window, text='Run',

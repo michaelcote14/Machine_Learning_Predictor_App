@@ -9,10 +9,12 @@ from sklearn.ensemble import GradientBoostingRegressor
 from xgboost import XGBRegressor
 # import catboost
 from sklearn.model_selection import KFold, cross_val_score
+import warnings
 
 
-dataframe = pd.read_csv("C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Saved_CSVs/nfl_data(numeric_only).csv")
-target_variable = 'Wind_Speed'
+dataframe = pd.read_csv("C:/Users/micha/Pycharm(Local)/LinearRegressionRepo/Saved_CSVs/real_estate_data/train(numerical).csv")
+target_variable = 'SalePrice'
+dataframe.dropna(inplace=True)
 
 X = np.array(dataframe.drop([target_variable], axis=1))
 y = np.array(dataframe[target_variable])
@@ -26,6 +28,10 @@ regression_models = {
     'lightgbm': LGBMRegressor()
 }
 
+for model in regression_models.values():
+    print('model', model)
+
+warnings.filterwarnings('ignore')
 # Get the scores for each model
 results_dict = {}
 kf = KFold(n_splits=10)
@@ -42,7 +48,7 @@ for name, result in sorted_results_dict.items():
 # How to combine predictions
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
 
-final_predictions = (
+starting_predictions = (
     0.16666667 * regression_models['regression'].predict(X_test) +
     0.16666667 * regression_models['br'].predict(X_test) +
     0.16666667 * regression_models['huber'].predict(X_test) +
@@ -51,7 +57,7 @@ final_predictions = (
     0.16666667 * regression_models['lightgbm'].predict(X_test)
                     )
 
-final_score = (
+starting_score = (
         0.16666667 * regression_models['regression'].score(X_test, y_test) +
         0.16666667 * regression_models['br'].score(X_test, y_test) +
         0.16666667 * regression_models['huber'].score(X_test, y_test) +
@@ -60,7 +66,7 @@ final_score = (
         0.16666667 * regression_models['lightgbm'].score(X_test, y_test)
 )
 
-print('final score:', final_score)
+print('\nstarting score:', starting_score)
 
 
 x0 = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
@@ -79,7 +85,6 @@ def objective(x, sign=-1.0): # the sign makes this a maximized optimization inst
 
     return sign * final_score
 
-print(objective(x0))
 
 b = (0.0, 1.0)
 bnds = (b, b, b, b, b, b)
@@ -90,9 +95,9 @@ solution = minimize(objective, x0, bounds=bnds, constraints=cons, method='SLSQP'
 best_weights = solution.x
 print('best weights:\n', best_weights)
 
-print('best score:', -(solution.fun))
+# print('optimized score:', -(solution.fun))
 
-print('sum of weights:', np.sum(solution.x))
+# print('sum of weights:', np.sum(solution.x))
 
 # Now plug in the weights
 optimized_score = (
@@ -121,30 +126,45 @@ with open('multiple_models.pickle', 'wb') as f:
 
 pickle_object = open('multiple_models.pickle', 'rb')
 pickled_weights_and_models_dict = pickle.load(pickle_object)
-print('pickled weights and models dict:\n', pickled_weights_and_models_dict)
+pickle_object.close()
+# print('pickled weights and models dict:\n', pickled_weights_and_models_dict)
+weights = pickled_weights_and_models_dict.values()
+models = pickled_weights_and_models_dict.keys()
+# print(list(pickled_weights_and_models_dict.keys())[0])
+
+pickled_score = (
+    list(models)[0].score(X_test, y_test) * list(weights)[0] +
+    list(models)[1].score(X_test, y_test) * list(weights)[1] +
+    list(models)[2].score(X_test, y_test) * list(weights)[2] +
+    list(models)[3].score(X_test, y_test) * list(weights)[3] +
+    list(models)[4].score(X_test, y_test) * list(weights)[4] +
+    list(models)[5].score(X_test, y_test) * list(weights)[5]
+                )
+
+print('pickled score:', pickled_score)
+
+cross_model = (
+        list(models)[0] * list(weights)[0] +
+        list(models)[1] * list(weights)[1] +
+        list(models)[2] * list(weights)[2] +
+        list(models)[3] * list(weights)[3] +
+        list(models)[4] * list(weights)[4] +
+        list(models)[5] * list(weights)[5]
+)
+
+print(cross_model)
+
+
+results_dict = {}
+kf = KFold(n_splits=10)
+for name, model in regression_models.items():
+    model.fit(X, y)
+    pickle_cross_score = cross_val_score(model, X, y, cv=kf, scoring='r2').mean()
+    results_dict[name] = score
+
+print('pickle cross score:', pickle_cross_score)
+print('results')
 
 
 
-#
-# # Retrieval
-# models = []
-# with open('multiple_models.pickle', 'rb') as f:
-#     while True:
-#         try:
-#             models.append(pickle.load(f))
-#         except EOFError:
-#             break
-#
-# # Using the pickle model
-# print('models:', models)
-# new_score = (
-#     best_weights[0] * models[0].score(X_test, y_test) +
-#     best_weights[1] * models[1].score(X_test, y_test) +
-#     best_weights[2] * models[2].score(X_test, y_test) +
-#     best_weights[3] * models[3].score(X_test, y_test) +
-#     best_weights[4] * models[4].score(X_test, y_test) +
-#     best_weights[5] * models[5].score(X_test, y_test)
-#             )
-#
-# print('new score:', new_score)
 

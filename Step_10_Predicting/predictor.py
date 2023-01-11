@@ -11,6 +11,8 @@ import pandas as pd
 import seaborn as sns
 import sklearn
 from sklearn import metrics
+from sklearn.model_selection import KFold, cross_val_score
+
 
 
 class PredictorTreeviewPage:
@@ -673,17 +675,47 @@ class Predictor:
         # ToDo put in a quick predictor? Using the line below
         # finalized_predictor_array = Predictor.predictor_array_cleaner(self, shortened_dataframe, self.target_variable)
         pickle_in = open('../../saved_models/' + self.selected_training_model + '.pickle', 'rb')
-        regression_line = pickle.load(pickle_in)
+        pickled_weights_and_models_dict = pickle.load(pickle_in)
+        pickle_in.close()
+        models = pickled_weights_and_models_dict.keys()
+        weights = pickled_weights_and_models_dict.values()
+
+        # regression_line = pickle.load(pickle_in)
 
         runtimes = 100  # ToDo what should default runtimes be?
 
         total_predictions = total_score = total_mean_absolute_error = 0
         for i in range(runtimes):
             X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2)
-            regression_line.fit(X_train, y_train)
+            # regression_line.fit(X_train, y_train)
 
-            predictions = regression_line.predict(X_test)
-            score = regression_line.score(X_test, y_test)
+            results_dict = {}
+            kf = KFold(n_splits=10)
+            for model in pickled_weights_and_models_dict.keys():
+                model.fit(X, y)
+                # score = cross_val_score(model, X, y, cv=kf, scoring='r2').mean()
+                # results_dict[name] = score
+
+            predictions = (
+                    list(models)[0].predict(X_test) * list(weights)[0] +
+                    list(models)[1].predict(X_test) * list(weights)[1] +
+                    list(models)[2].predict(X_test) * list(weights)[2] +
+                    list(models)[3].predict(X_test) * list(weights)[3] +
+                    list(models)[4].predict(X_test) * list(weights)[4] +
+                    list(models)[5].predict(X_test) * list(weights)[5]
+                            )
+
+            score = (
+                    list(models)[0].score(X_test, y_test) * list(weights)[0] +
+                    list(models)[1].score(X_test, y_test) * list(weights)[1] +
+                    list(models)[2].score(X_test, y_test) * list(weights)[2] +
+                    list(models)[3].score(X_test, y_test) * list(weights)[3] +
+                    list(models)[4].score(X_test, y_test) * list(weights)[4] +
+                    list(models)[5].score(X_test, y_test) * list(weights)[5]
+                            )
+
+            # predictions = regression_line.predict(X_test)
+            # score = regression_line.score(X_test, y_test)
             mean_absolute_error = metrics.mean_absolute_error(y_test, predictions)
 
             total_predictions = np.add(predictions, total_predictions)
@@ -705,16 +737,30 @@ class Predictor:
     def predictor_split(self, scaled_df, scaled_df2):
         # Loads in the regression line using pickle
         pickle_in = open('../../Saved_Models/' + self.selected_training_model + '.pickle', 'rb')
-        regression_line = pickle.load(pickle_in)
+        pickled_weights_and_models_dict = pickle.load(pickle_in)
+        pickle_in.close()
+        models = pickled_weights_and_models_dict.keys()
+        weights = pickled_weights_and_models_dict.values()
+
+        # regression_line = pickle.load(pickle_in)
 
         scaled_df__selected = scaled_df[self.selected_features]
         scaled_df2__selected = scaled_df2[self.selected_features]
         finalized_predictor_array = Predictor.predictor_array_cleaner(self, scaled_df__selected, scaled_df2__selected)
 
-        runtimes = 100000
+        runtimes = 10000
         total_predictions = 0
         for i in range(runtimes):
-            predictions = regression_line.predict(finalized_predictor_array)
+            predictions = (
+                    list(models)[0].predict(finalized_predictor_array) * list(weights)[0] +
+                    list(models)[1].predict(finalized_predictor_array) * list(weights)[1] +
+                    list(models)[2].predict(finalized_predictor_array) * list(weights)[2] +
+                    list(models)[3].predict(finalized_predictor_array) * list(weights)[3] +
+                    list(models)[4].predict(finalized_predictor_array) * list(weights)[4] +
+                    list(models)[5].predict(finalized_predictor_array) * list(weights)[5]
+                            )
+
+            # predictions = regression_line.predict(finalized_predictor_array)
             total_predictions = np.add(predictions, total_predictions)
         self.average_predictions = total_predictions / runtimes
 
