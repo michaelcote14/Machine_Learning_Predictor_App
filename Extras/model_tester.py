@@ -28,9 +28,6 @@ regression_models = {
     'lightgbm': LGBMRegressor()
 }
 
-for model in regression_models.values():
-    print('model', model)
-
 warnings.filterwarnings('ignore')
 # Get the scores for each model
 results_dict = {}
@@ -56,6 +53,17 @@ starting_predictions = (
     0.16666667 * regression_models['omp'].predict(X_test) +
     0.16666667 * regression_models['lightgbm'].predict(X_test)
                     )
+
+# starting_score = (
+#         0.16666667 * regression_models['regression'].score(X_test, y_test) +
+#         0.16666667 * regression_models['br'].score(X_test, y_test) +
+#         0.16666667 * regression_models['huber'].score(X_test, y_test) +
+#         0.16666667 * regression_models['ridge'].score(X_test, y_test) +
+#         0.16666667 * regression_models['omp'].score(X_test, y_test) +
+#         0.16666667 * regression_models['lightgbm'].score(X_test, y_test)
+# )
+#
+# print('\nstarting score:', starting_score)
 
 starting_score = (
         0.16666667 * regression_models['regression'].score(X_test, y_test) +
@@ -143,16 +151,30 @@ pickled_score = (
 
 print('pickled score:', pickled_score)
 
-cross_model = (
-        list(models)[0] * list(weights)[0] +
-        list(models)[1] * list(weights)[1] +
-        list(models)[2] * list(weights)[2] +
-        list(models)[3] * list(weights)[3] +
-        list(models)[4] * list(weights)[4] +
-        list(models)[5] * list(weights)[5]
+ensemble_cross_val_score = (
+        cross_val_score(list(models)[0], X, y, cv=kf, scoring='r2').mean() * list(weights)[0] +
+        cross_val_score(list(models)[1], X, y, cv=kf, scoring='r2').mean() * list(weights)[1] +
+        cross_val_score(list(models)[2], X, y, cv=kf, scoring='r2').mean() * list(weights)[2] +
+        cross_val_score(list(models)[3], X, y, cv=kf, scoring='r2').mean() * list(weights)[3] +
+        cross_val_score(list(models)[4], X, y, cv=kf, scoring='r2').mean() * list(weights)[4] +
+        cross_val_score(list(models)[5], X, y, cv=kf, scoring='r2').mean() * list(weights)[5]
 )
 
-print(cross_model)
+print('Ensemble cross val score:', ensemble_cross_val_score)
+
+# this shows that the optimized method is better than the initial all are equal method
+
+equal_ensemble_cross_val_score = (
+        cross_val_score(list(models)[0], X, y, cv=kf, scoring='r2').mean() * (1/6) +
+        cross_val_score(list(models)[1], X, y, cv=kf, scoring='r2').mean() * (1/6) +
+        cross_val_score(list(models)[2], X, y, cv=kf, scoring='r2').mean() * (1/6) +
+        cross_val_score(list(models)[3], X, y, cv=kf, scoring='r2').mean() * (1/6) +
+        cross_val_score(list(models)[4], X, y, cv=kf, scoring='r2').mean() * (1/6) +
+        cross_val_score(list(models)[5], X, y, cv=kf, scoring='r2').mean() * (1/6)
+)
+
+print('equal ensemble cross val score:', equal_ensemble_cross_val_score)
+
 
 
 results_dict = {}
@@ -162,8 +184,6 @@ for name, model in regression_models.items():
     pickle_cross_score = cross_val_score(model, X, y, cv=kf, scoring='r2').mean()
     results_dict[name] = score
 
-print('pickle cross score:', pickle_cross_score)
-print('results')
 
 
 

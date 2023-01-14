@@ -636,7 +636,7 @@ class FeatureCombiner:
 
         elapsed_time = time.time() - start_time
 
-        if elapsed_time > 500:
+        if elapsed_time > 300:
             functions.email_or_text_alert('Trainer is done',
                                           'Elapsed Time: ' + str(
                                               time_formatter(elapsed_time)) + '\nBest Average Score: ' + str(

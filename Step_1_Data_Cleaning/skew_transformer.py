@@ -28,29 +28,32 @@ def full_transformer(dataframe, target_variable):
             sqr_root_transformed_df[column] = sqr_root_transformed_column
     sqr_root_df_skew_score = sqr_root_transformed_df.skew(numeric_only=True).sum()
 
-    for column in box_cox_transformed_df.columns:
-        if box_cox_transformed_df[column].dtypes != 'object':
-            if float(min(box_cox_transformed_df[column])) > 0:
-                box_cox_skew_score, box_cox_transformed_column, box_cox_lambda = box_cox_transformer(
-                    box_cox_transformed_df, column)
-                box_cox_transformed_df[column] = box_cox_transformed_column
-    box_cox_df_skew_score = box_cox_transformed_df.skew(numeric_only=True).sum()
+    try:
+        for column in box_cox_transformed_df.columns:
+            if box_cox_transformed_df[column].dtypes != 'object':
+                if float(min(box_cox_transformed_df[column])) > 0:
+                    box_cox_skew_score, box_cox_transformed_column, box_cox_lambda = box_cox_transformer(
+                        box_cox_transformed_df, column)
+                    box_cox_transformed_df[column] = box_cox_transformed_column
+        box_cox_df_skew_score = box_cox_transformed_df.skew(numeric_only=True).sum()
+    except:
+        box_cox_df_skew_score = 9999
 
     print('raw skew score:', raw_df_skew_score)
     print('log skew score:', log_df_skew_score)
     print('sqr root skew score:', sqr_root_df_skew_score)
     print('box cox skew score:', box_cox_df_skew_score)
 
-    if raw_df_skew_score < log_df_skew_score and raw_df_skew_score < sqr_root_df_skew_score and raw_df_skew_score < box_cox_df_skew_score:
+    if raw_df_skew_score <= log_df_skew_score and raw_df_skew_score <= sqr_root_df_skew_score and raw_df_skew_score <= box_cox_df_skew_score:
         return dataframe
 
-    if log_df_skew_score < sqr_root_df_skew_score and log_df_skew_score < box_cox_df_skew_score and log_df_skew_score < raw_df_skew_score:
+    if log_df_skew_score <= sqr_root_df_skew_score and log_df_skew_score <= box_cox_df_skew_score and log_df_skew_score <= raw_df_skew_score:
         return log_transformed_df
 
-    if sqr_root_df_skew_score < log_df_skew_score and sqr_root_df_skew_score < box_cox_df_skew_score and sqr_root_df_skew_score < raw_df_skew_score:
+    if sqr_root_df_skew_score <= log_df_skew_score and sqr_root_df_skew_score <= box_cox_df_skew_score and sqr_root_df_skew_score <= raw_df_skew_score:
         return sqr_root_transformed_df
 
-    if box_cox_df_skew_score < log_df_skew_score and box_cox_df_skew_score < sqr_root_df_skew_score and box_cox_df_skew_score < raw_df_skew_score:
+    if box_cox_df_skew_score <= log_df_skew_score and box_cox_df_skew_score <= sqr_root_df_skew_score and box_cox_df_skew_score <= raw_df_skew_score:
         return box_cox_transformed_df
 
 
@@ -71,18 +74,18 @@ def target_transformer(dataframe, target_variable):
         target_box_cox_skew_score = 999999999
 
     # Select the least skew score
-    if target_raw_skew_score < target_log_skew_score and target_raw_skew_score < target_sqr_root_skew_score and target_raw_skew_score < target_box_cox_skew_score:
+    if target_raw_skew_score <= target_log_skew_score and target_raw_skew_score <= target_sqr_root_skew_score and target_raw_skew_score <= target_box_cox_skew_score:
         target_winner = 'raw'
         return target_winner, dataframe[target_variable], None
-    if target_log_skew_score < target_sqr_root_skew_score and target_log_skew_score < target_box_cox_skew_score and target_log_skew_score < target_raw_skew_score:
+    if target_log_skew_score <= target_sqr_root_skew_score and target_log_skew_score <= target_box_cox_skew_score and target_log_skew_score <= target_raw_skew_score:
         target_winner = 'log transformer'
         dataframe[target_variable] = target_log_transformed_column
         return target_winner, dataframe[target_variable], None
-    if target_sqr_root_skew_score < target_log_skew_score and target_sqr_root_skew_score < target_box_cox_skew_score and target_sqr_root_skew_score < target_raw_skew_score:
+    if target_sqr_root_skew_score <= target_log_skew_score and target_sqr_root_skew_score <= target_box_cox_skew_score and target_sqr_root_skew_score <= target_raw_skew_score:
         target_winner = 'sqr root transformer'
         dataframe[target_variable] = target_sqr_root_transformed_column
         return target_winner, dataframe[target_variable], None
-    if target_box_cox_skew_score < target_log_skew_score and target_box_cox_skew_score < target_sqr_root_skew_score and target_box_cox_skew_score < target_raw_skew_score:
+    if target_box_cox_skew_score <= target_log_skew_score and target_box_cox_skew_score <= target_sqr_root_skew_score and target_box_cox_skew_score <= target_raw_skew_score:
         target_winner = 'box cox transformer'
         dataframe[target_variable] = target_box_cox_transformed_column
         return target_winner, dataframe[target_variable], target_box_cox_lambda
@@ -116,6 +119,7 @@ def sqr_root_transformer(dataframe, column):
 def box_cox_transformer(dataframe, column):
     # How to transform using the boxcox method
     minimum_value = float(min(dataframe[column]))
+
     box_cox_transformed_column, box_cox_lambda = stats.boxcox(dataframe[column], lmbda=None)
 
     skew_score = abs(pd.Series(box_cox_transformed_column).skew())

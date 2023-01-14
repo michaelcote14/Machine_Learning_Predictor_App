@@ -735,14 +735,15 @@ class Predictor:
         return self.average_predictions, self.all_actual_values
 
     def predictor_split(self, scaled_df, scaled_df2):
+        # Turn off warnings
+        warnings.filterwarnings('ignore')
+
         # Loads in the regression line using pickle
         pickle_in = open('../../Saved_Models/' + self.selected_training_model + '.pickle', 'rb')
         pickled_weights_and_models_dict = pickle.load(pickle_in)
         pickle_in.close()
         models = pickled_weights_and_models_dict.keys()
         weights = pickled_weights_and_models_dict.values()
-
-        # regression_line = pickle.load(pickle_in)
 
         scaled_df__selected = scaled_df[self.selected_features]
         scaled_df2__selected = scaled_df2[self.selected_features]

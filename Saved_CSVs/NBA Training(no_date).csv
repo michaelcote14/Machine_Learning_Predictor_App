@@ -1,0 +1,1251 @@
+﻿Team,Day of Week,Opponent,Home/Away,Wins,Losses,Total Games Played,Average Age of Team,Average Height (cm),Total Points
+Hawks,Wed,Houston,Home,1,0,1,25.23,199.7,224
+Hawks,Fri,Orlando,Home,2,0,2,25.23,199.7,206
+Hawks,Sun,Charlotte,Home,2,1,3,25.23,199.7,235
+Hawks,Wed,Detroit,Away,3,1,4,25.23,199.7,231
+Hawks,Fri,Detroit,Away,4,1,5,25.23,199.7,248
+Hawks,Sat,Milwaukee,Away,4,2,6,25.23,199.7,238
+Hawks,Mon,Toronto,Away,4,3,7,25.23,199.7,248
+Hawks,Wed,New York,Away,5,3,8,25.23,199.7,211
+Hawks,Sat,New Orleans,Home,6,3,9,25.23,199.7,245
+Hawks,Mon,Milwaukee,Home,7,3,10,25.23,199.7,215
+Hawks,Wed,Utah,Home,7,4,11,25.23,199.7,244
+Hawks,Thu,Philadelphia,Home,8,4,12,25.23,199.7,199
+Hawks,Sat,Philadelphia,Away,8,5,13,25.23,199.7,230
+Hawks,Mon,Milwaukee,Away,9,5,14,25.23,199.7,227
+Hawks,Wed,Boston,Home,9,6,15,25.23,199.7,227
+Hawks,Sat,Toronto,Home,10,6,16,25.23,199.7,246
+Hawks,Mon,Cleveland,Away,10,7,17,25.23,199.7,216
+Hawks,Wed,Sacramento,Home,11,7,18,25.23,199.7,221
+Hawks,Fri,Houston,Away,11,8,19,25.23,199.7,250
+Hawks,Sun,Miami,Home,11,9,20,25.23,199.7,204
+Hawks,Mon,Philadelphia,Away,11,10,21,25.23,199.7,205
+Hawks,Wed,Orlando,Away,12,10,22,25.23,199.7,233
+Hawks,Fri,Denver,Home,13,10,23,25.23,199.7,226
+Hawks,Mon,Oklahoma City,Home,13,11,24,25.23,199.7,235
+Hawks,Wed,New York,Away,13,12,25,25.23,199.7,202
+Hawks,Fri,Brooklyn,Away,13,13,26,25.23,199.7,236
+Hawks,Sun,Chicago,Home,14,13,27,25.23,199.7,245
+Hawks,Mon,Memphis,Away,14,14,28,25.23,199.7,231
+Hawks,Wed,Orlando,Away,14,15,29,25.23,199.7,259
+Hawks,Fri,Charlotte,Away,15,15,30,25.23,199.7,231
+Hawks,Mon,Orlando,Home,16,15,31,25.23,199.7,251
+Hawks,Wed,Chicago,Home,16,16,32,25.23,199.7,218
+Hawks,Fri,Detroit,Home,17,16,33,25.23,199.7,235
+Hawks,Tue,Indiana,Away,17,17,34,25.23,199.7,243
+Hawks,Wed,Brooklyn,Home,17,18,35,25.23,199.7,215
+Hawks,Fri,Los Angeles,Home,17,19,36,25.23,199.7,251
+Hawks,Mon,Golden State,Away,17,20,37,25.23,199.7,284
+Hawks,Wed,Sacramento,Away,18,20,38,25.23,199.7,237
+Hawks,Fri,Los Angeles,Away,18,21,39,25.23,199.7,244
+Hawks,Sun,A,Away,19,21,40,25.23,199.7,220
+Hawks,Wed,Milwaukee,Home,19,22,41,25.23,199.7,219
+Celtics,Tue,Philadelphia,Home,1,0,1,27.48,200.4,243
+Celtics,Fri,Miami,Away,2,0,2,27.48,200.4,215
+Celtics,Sat,Orlando,Away,3,0,3,27.48,200.4,246
+Celtics,Mon,Chicago,Away,3,1,4,27.48,200.4,222
+Celtics,Fri,Cleveland,Home,3,2,5,27.48,200.4,255
+Celtics,Sun,Washington,Home,4,2,6,27.48,200.4,206
+Celtics,Wed,Cleveland,Away,4,3,7,27.48,200.4,227
+Celtics,Fri,Chicago,Home,5,3,8,27.48,200.4,242
+Celtics,Sat,New York,Away,6,3,9,27.48,200.4,251
+Celtics,Mon,Memphis,Away,7,3,10,27.48,200.4,215
+Celtics,Wed,Detroit,Home,8,3,11,27.48,200.4,240
+Celtics,Fri,Denver,Home,9,3,12,27.48,200.4,243
+Celtics,Sat,Detroit,Away,10,3,13,27.48,200.4,225
+Celtics,Mon,Oklahoma City,Home,11,3,14,27.48,200.4,248
+Celtics,Wed,Atlanta,Away,12,3,15,27.48,200.4,227
+Celtics,Fri,New Orleans,Away,13,3,16,27.48,200.4,226
+Celtics,Mon,Chicago,Away,13,4,17,27.48,200.4,228
+Celtics,Wed,Dallas,Home,14,4,18,27.48,200.4,237
+Celtics,Fri,Sacramento,Home,15,4,19,27.48,200.4,226
+Celtics,Sun,Washington,Home,16,4,20,27.48,200.4,251
+Celtics,Mon,Charlotte,Home,17,4,21,27.48,200.4,245
+Celtics,Wed,Miami,Home,18,4,22,27.48,200.4,255
+Celtics,Fri,Miami,Home,18,5,23,27.48,200.4,236
+Celtics,Sun,Brooklyn,Away,19,5,24,27.48,200.4,195
+Celtics,Mon,Toronto,Away,20,5,25,27.48,200.4,226
+Celtics,Wed,Phoenix,Away,21,5,26,27.48,200.4,223
+Celtics,Sat,Golden State,Away,21,6,27,27.48,200.4,230
+Celtics,Mon,A,Away,21,7,28,27.48,200.4,206
+Celtics,Tue,Los Angeles,Away,22,7,29,27.48,200.4,240
+Celtics,Fri,Orlando,Home,22,8,30,27.48,200.4,226
+Celtics,Sun,Orlando,Home,22,9,31,27.48,200.4,187
+Celtics,Wed,Indiana,Home,22,10,32,27.48,200.4,229
+Celtics,Fri,Minnesota,Home,30,12,42,27.48,200.4,230
+Celtics,Sun,Milwaukee,Home,24,10,34,27.48,200.4,257
+Celtics,Tue,Houston,Home,25,10,35,27.48,200.4,228
+Celtics,Thu,A,Home,30,12,42,27.48,200.4,226
+Celtics,Sun,Denver,Away,26,11,37,27.48,200.4,234
+Celtics,Tue,Oklahoma City,Away,26,12,38,27.48,200.4,267
+Celtics,Thu,Dallas,Away,27,12,39,27.48,200.4,219
+Celtics,Sat,San Antonio,Away,28,12,40,27.48,200.4,237
+Celtics,Mon,Chicago,Home,29,12,41,27.48,200.4,206
+Celtics,Wed,New Orleans,Home,30,12,42,27.48,200.4,239
+Nets,Wed,New Orleans,Home,0,1,1,27.57,198.5,238
+Nets,Fri,Toronto,Home,1,1,2,27.57,198.5,214
+Nets,Mon,Memphis,Away,1,2,3,27.57,198.5,258
+Nets,Wed,Milwaukee,Away,1,3,4,27.57,198.5,209
+Nets,Thu,Dallas,Home,1,4,5,27.57,198.5,254
+Nets,Sat,Indiana,Home,1,5,6,27.57,198.5,241
+Nets,Mon,Indiana,Home,2,5,7,27.57,198.5,225
+Nets,Tue,Chicago,Home,2,6,8,27.57,198.5,207
+Nets,Fri,Washington,Away,3,6,9,27.57,198.5,214
+Nets,Sat,Charlotte,Away,4,6,10,27.57,198.5,192
+Nets,Mon,Dallas,Away,4,7,11,27.57,198.5,190
+Nets,Wed,New York,Home,5,7,12,27.57,198.5,197
+Nets,Sat,A,Away,6,7,13,27.57,198.5,205
+Nets,Sun,Los Angeles,Away,6,8,14,27.57,198.5,219
+Nets,Tue,Sacramento,Away,6,9,15,27.57,198.5,274
+Nets,Thu,Portland,Away,7,9,16,27.57,198.5,216
+Nets,Sun,Memphis,Home,8,9,17,27.57,198.5,242
+Nets,Tue,Philadelphia,Away,8,10,18,27.57,198.5,221
+Nets,Wed,Toronto,Away,9,10,19,27.57,198.5,210
+Nets,Fri,Indiana,Away,9,11,20,27.57,198.5,245
+Nets,Sun,Portland,Home,10,11,21,27.57,198.5,208
+Nets,Mon,Orlando,Home,11,11,22,27.57,198.5,211
+Nets,Wed,Washington,Home,12,11,23,27.57,198.5,220
+Nets,Fri,Toronto,Home,13,11,24,27.57,198.5,219
+Nets,Sun,Boston,Home,13,12,25,27.57,198.5,195
+Nets,Wed,Charlotte,Home,14,12,26,27.57,198.5,238
+Nets,Fri,Atlanta,Home,15,12,27,27.57,198.5,236
+Nets,Sat,Indiana,Away,16,12,28,27.57,198.5,269
+Nets,Mon,Washington,Away,17,12,29,27.57,198.5,212
+Nets,Fri,Toronto,Away,18,12,30,27.57,198.5,235
+Nets,Sun,Detroit,Away,19,12,31,27.57,198.5,245
+Nets,Wed,Golden State,Home,20,12,32,27.57,198.5,256
+Nets,Fri,Milwaukee,Home,21,12,33,27.57,198.5,218
+Nets,Mon,Cleveland,Away,22,12,34,27.57,198.5,242
+Nets,Wed,Atlanta,Away,23,12,35,27.57,198.5,215
+Nets,Sat,Charlotte,Away,24,12,36,27.57,198.5,229
+Nets,Mon,San Antonio,Home,25,12,37,27.57,198.5,242
+Nets,Wed,Chicago,Away,25,13,38,27.57,198.5,233
+Nets,Fri,New Orleans,Away,26,13,39,27.57,198.5,210
+Nets,Sun,Miami,Away,27,13,40,27.57,198.5,203
+Hornets,Wed,San Antonio,Away,1,0,1,24.6,202.8,231
+Hornets,Fri,New Orleans,Home,1,1,2,24.6,202.8,236
+Hornets,Sun,Atlanta,Away,2,1,3,24.6,202.8,235
+Hornets,Wed,New York,Away,2,2,4,24.6,202.8,265
+Hornets,Fri,Orlando,Away,2,3,5,24.6,202.8,206
+Hornets,Sat,Golden State,Home,3,3,6,24.6,202.8,233
+Hornets,Mon,Sacramento,Home,3,4,7,24.6,202.8,223
+Hornets,Wed,Chicago,Away,3,5,8,24.6,202.8,194
+Hornets,Fri,Memphis,Away,3,6,9,24.6,202.8,229
+Hornets,Sat,Brooklyn,Home,3,7,10,24.6,202.8,192
+Hornets,Mon,Washington,Home,3,8,11,24.6,202.8,208
+Hornets,Wed,Portland,Home,3,9,12,24.6,202.8,200
+Hornets,Thu,Miami,Away,3,10,13,24.6,202.8,229
+Hornets,Sat,Miami,Away,3,11,14,24.6,202.8,247
+Hornets,Mon,Orlando,Away,4,11,15,24.6,202.8,217
+Hornets,Wed,Indiana,Home,4,12,16,24.6,202.8,238
+Hornets,Fri,Cleveland,Away,4,13,17,24.6,202.8,254
+Hornets,Sun,Washington,Away,4,14,18,24.6,202.8,208
+Hornets,Wed,Philadelphia,Home,5,14,19,24.6,202.8,208
+Hornets,Fri,Minnesota,Home,6,14,20,24.6,202.8,218
+Hornets,Mon,Boston,Away,6,15,21,24.6,202.8,245
+Hornets,Fri,Washington,Home,7,15,22,24.6,202.8,233
+Hornets,Sat,Milwaukee,Home,7,16,23,24.6,202.8,201
+Hornets,Mon,A,Home,7,17,24,24.6,202.8,236
+Hornets,Wed,Brooklyn,Away,7,18,25,24.6,202.8,238
+Hornets,Fri,New York,Home,7,19,26,24.6,202.8,223
+Hornets,Sun,Philadelphia,Away,7,20,27,24.6,202.8,244
+Hornets,Wed,Detroit,Home,7,21,28,24.6,202.8,275
+Hornets,Fri,Atlanta,Home,7,22,29,24.6,202.8,231
+Hornets,Sun,Denver,Away,7,23,30,24.6,202.8,234
+Hornets,Mon,Sacramento,Away,8,23,31,24.6,202.8,244
+Hornets,Wed,A,Away,8,24,32,24.6,202.8,231
+Hornets,Fri,Los Angeles,Away,9,24,33,24.6,202.8,264
+Hornets,Mon,Portland,Away,9,25,34,24.6,202.8,237
+Hornets,Tue,Golden State,Away,9,26,35,24.6,202.8,215
+Hornets,Thu,Oklahoma City,Home,10,26,36,24.6,202.8,234
+Hornets,Sat,Brooklyn,Home,10,27,37,24.6,202.8,229
+Hornets,Mon,Los Angeles,Home,10,28,38,24.6,202.8,236
+Hornets,Wed,Memphis,Home,10,29,39,24.6,202.8,238
+Hornets,Fri,Milwaukee,Away,11,29,40,24.6,202.8,247
+Hornets,Sun,Indiana,Away,11,30,41,24.6,202.8,227
+Hornets,Tue,Toronto,Away,11,31,42,24.6,202.8,252
+Bulls,Wed,Miami,Away,1,0,1,26.67,200.3,224
+Bulls,Fri,Washington,Away,1,1,2,26.67,200.3,202
+Bulls,Sat,Cleveland,Home,1,2,3,26.67,200.3,224
+Bulls,Mon,Boston,Home,2,2,4,26.67,200.3,222
+Bulls,Wed,Indiana,Home,3,2,5,26.67,200.3,233
+Bulls,Fri,San Antonio,Away,3,3,6,26.67,200.3,253
+Bulls,Sat,Philadelphia,Home,3,4,7,26.67,200.3,223
+Bulls,Tue,Brooklyn,Away,4,4,8,26.67,200.3,207
+Bulls,Wed,Charlotte,Home,5,4,9,26.67,200.3,194
+Bulls,Fri,Boston,Away,5,5,10,26.67,200.3,242
+Bulls,Sun,Toronto,Away,5,6,11,26.67,200.3,217
+Bulls,Mon,Toronto,Home,6,6,12,26.67,200.3,208
+Bulls,Wed,New Orleans,Home,6,7,13,26.67,200.3,226
+Bulls,Sun,Denver,Home,6,8,14,26.67,200.3,229
+Bulls,Wed,New Orleans,Away,6,9,15,26.67,200.3,234
+Bulls,Fri,Orlando,Home,6,10,16,26.67,200.3,215
+Bulls,Mon,Boston,Home,7,10,17,26.67,200.3,228
+Bulls,Wed,Milwaukee,Away,8,10,18,26.67,200.3,231
+Bulls,Fri,Oklahoma City,Away,8,11,19,26.67,200.3,242
+Bulls,Mon,Utah,Away,9,11,20,26.67,200.3,221
+Bulls,Wed,Phoenix,Away,9,12,21,26.67,200.3,245
+Bulls,Fri,Golden State,Away,9,13,22,26.67,200.3,230
+Bulls,Sun,Sacramento,Away,9,14,23,26.67,200.3,211
+Bulls,Wed,Washington,Home,10,14,24,26.67,200.3,226
+Bulls,Sat,Dallas,Home,11,14,25,26.67,200.3,259
+Bulls,Sun,Atlanta,Away,11,15,26,26.67,200.3,245
+Bulls,Wed,New York,Home,11,16,27,26.67,200.3,248
+Bulls,Fri,New York,Home,11,17,28,26.67,200.3,205
+Bulls,Sun,Minnesota,Away,11,18,29,26.67,200.3,276
+Bulls,Tue,Miami,Away,12,18,30,26.67,200.3,216
+Bulls,Wed,Atlanta,Away,13,18,31,26.67,200.3,218
+Bulls,Fri,New York,Away,14,18,32,26.67,200.3,235
+Bulls,Mon,Houston,Home,14,19,33,26.67,200.3,251
+Bulls,Wed,Milwaukee,Home,15,19,34,26.67,200.3,232
+Bulls,Fri,Detroit,Home,16,19,35,26.67,200.3,250
+Bulls,Sat,Cleveland,Home,16,20,36,26.67,200.3,205
+Bulls,Mon,Cleveland,Away,16,21,37,26.67,200.3,279
+Bulls,Wed,Brooklyn,Home,17,21,38,26.67,200.3,233
+Bulls,Fri,Philadelphia,Away,18,21,39,26.67,200.3,238
+Bulls,Sat,Utah,Home,19,21,40,26.67,200.3,244
+Bulls,Mon,Boston,Away,19,22,41,26.67,200.3,206
+Bulls,Wed,Washington,Away,19,23,42,26.67,200.3,197
+Cavs,Wed,Toronto,Away,0,1,1,26.83,200.9,213
+Cavs,Sat,Chicago,Away,1,1,2,26.83,200.9,224
+Cavs,Sun,Washington,Home,2,1,3,26.83,200.9,224
+Cavs,Wed,Orlando,Home,3,1,4,26.83,200.9,195
+Cavs,Fri,Boston,Away,4,1,5,26.83,200.9,255
+Cavs,Sun,New York,Home,5,1,6,26.83,200.9,229
+Cavs,Wed,Boston,Home,6,1,7,26.83,200.9,227
+Cavs,Fri,Detroit,Away,7,1,8,26.83,200.9,200
+Cavs,Sun,Los Angeles,Away,8,1,9,26.83,200.9,214
+Cavs,Mon,A,Away,8,2,10,26.83,200.9,236
+Cavs,Wed,Sacramento,Away,8,3,11,26.83,200.9,247
+Cavs,Fri,Golden State,Away,8,4,12,26.83,200.9,207
+Cavs,Sun,Minnesota,Home,8,5,13,26.83,200.9,253
+Cavs,Wed,Milwaukee,Away,8,6,14,26.83,200.9,211
+Cavs,Fri,Charlotte,Home,9,6,15,26.83,200.9,254
+Cavs,Sun,Miami,Home,10,6,16,26.83,200.9,200
+Cavs,Mon,Atlanta,Home,11,6,17,26.83,200.9,216
+Cavs,Wed,Portland,Home,12,6,18,26.83,200.9,210
+Cavs,Fri,Milwaukee,Away,12,7,19,26.83,200.9,219
+Cavs,Sun,Detroit,Away,13,7,20,26.83,200.9,196
+Cavs,Mon,Toronto,Away,13,8,21,26.83,200.9,188
+Cavs,Wed,Philadelphia,Home,14,8,22,26.83,200.9,198
+Cavs,Fri,Orlando,Home,15,8,23,26.83,200.9,203
+Cavs,Sun,New York,Away,15,9,24,26.83,200.9,173
+Cavs,Tue,Los Angeles,Home,16,9,25,26.83,200.9,218
+Cavs,Fri,Sacramento,Home,16,10,26,26.83,200.9,201
+Cavs,Sat,Oklahoma City,Home,17,10,27,26.83,200.9,212
+Cavs,Mon,San Antonio,Away,17,11,28,26.83,200.9,223
+Cavs,Wed,Dallas,Away,18,11,29,26.83,200.9,195
+Cavs,Fri,Indiana,Home,19,11,30,26.83,200.9,230
+Cavs,Sat,Dallas,Home,20,11,31,26.83,200.9,199
+Cavs,Mon,Utah,Home,21,11,32,26.83,200.9,221
+Cavs,Wed,Milwaukee,Home,22,11,33,26.83,200.9,220
+Cavs,Fri,Toronto,Home,22,12,34,26.83,200.9,225
+Cavs,Mon,Brooklyn,Home,22,13,35,26.83,200.9,242
+Cavs,Thu,Indiana,Away,26,16,42,26.83,200.9,261
+Cavs,Sat,Chicago,Away,23,14,37,26.83,200.9,205
+Cavs,Mon,Chicago,Home,24,14,38,26.83,200.9,279
+Cavs,Wed,Phoenix,Home,26,16,42,26.83,200.9,178
+Cavs,Fri,Denver,Away,25,15,40,26.83,200.9,229
+Cavs,Sun,Phoenix,Away,26,15,41,26.83,200.9,210
+Cavs,Tue,Utah,Away,26,16,42,26.83,200.9,230
+Mavericks,Wed,Phoenix,Away,0,1,1,27.89,201.8,212
+Mavericks,Sat,Memphis,Home,1,1,2,27.89,201.8,233
+Mavericks,Tue,New Orleans,Away,1,2,3,27.89,201.8,224
+Mavericks,Thu,Brooklyn,Away,2,2,4,27.89,201.8,254
+Mavericks,Sat,Oklahoma City,Home,2,3,5,27.89,201.8,228
+Mavericks,Sun,Orlando,Home,3,3,6,27.89,201.8,219
+Mavericks,Wed,Utah,Home,4,3,7,27.89,201.8,203
+Mavericks,Fri,Toronto,Home,5,3,8,27.89,201.8,221
+Mavericks,Mon,Brooklyn,Home,6,3,9,27.89,201.8,190
+Mavericks,Wed,Orlando,Away,6,4,10,27.89,201.8,181
+Mavericks,Thu,Washington,Away,6,5,11,27.89,201.8,218
+Mavericks,Sat,Portland,Home,7,5,12,27.89,201.8,229
+Mavericks,Tue,A,Home,8,5,13,27.89,201.8,204
+Mavericks,Wed,Houston,Home,8,6,14,27.89,201.8,193
+Mavericks,Fri,Denver,Home,9,6,15,27.89,201.8,226
+Mavericks,Sun,Denver,Home,9,7,16,27.89,201.8,195
+Mavericks,Wed,Boston,Away,9,8,17,27.89,201.8,237
+Mavericks,Sat,Toronto,Away,9,9,18,27.89,201.8,205
+Mavericks,Sun,Milwaukee,Away,9,10,19,27.89,201.8,239
+Mavericks,Tue,Golden State,Home,10,10,20,27.89,201.8,229
+Mavericks,Thu,Detroit,Away,10,11,21,27.89,201.8,256
+Mavericks,Sat,New York,Away,11,11,22,27.89,201.8,221
+Mavericks,Mon,Phoenix,Home,12,11,23,27.89,201.8,241
+Mavericks,Tue,Denver,Away,13,11,24,27.89,201.8,231
+Mavericks,Fri,Milwaukee,Home,13,12,25,27.89,201.8,211
+Mavericks,Sat,Chicago,Away,13,13,26,27.89,201.8,259
+Mavericks,Mon,Oklahoma City,Home,14,13,27,27.89,201.8,235
+Mavericks,Wed,Cleveland,Home,14,14,28,27.89,201.8,195
+Mavericks,Fri,Portland,Home,15,14,29,27.89,201.8,240
+Mavericks,Sat,Cleveland,Away,15,15,30,27.89,201.8,199
+Mavericks,Mon,Minnesota,Away,15,16,31,27.89,201.8,222
+Mavericks,Wed,Minnesota,Away,16,16,32,27.89,201.8,203
+Mavericks,Fri,Houston,Away,17,16,33,27.89,201.8,218
+Mavericks,Sun,Los Angeles,Home,18,16,34,27.89,201.8,239
+Mavericks,Tue,New York,Home,19,16,35,27.89,201.8,247
+Mavericks,Thu,Houston,Home,20,16,36,27.89,201.8,243
+Mavericks,Sat,San Antonio,Away,21,16,37,27.89,201.8,251
+Mavericks,Mon,Houston,Away,22,16,38,27.89,201.8,217
+Mavericks,Thu,Boston,Home,22,17,39,27.89,201.8,219
+Mavericks,Sat,New Orleans,Home,23,17,40,27.89,201.8,244
+Mavericks,Sun,Oklahoma City,Away,23,18,41,27.89,201.8,229
+Mavericks,Tue,A,Away,23,19,42,27.89,201.8,214
+Nuggets,Wed,Utah,Away,0,1,1,26.59,200.5,225
+Nuggets,Fri,Golden State,Away,1,1,2,26.59,200.5,251
+Nuggets,Sat,Oklahoma City,Home,2,1,3,26.59,200.5,239
+Nuggets,Mon,Portland,Away,2,2,4,26.59,200.5,245
+Nuggets,Wed,Los Angeles,Home,3,2,5,26.59,200.5,209
+Nuggets,Fri,Utah,Home,4,2,6,26.59,200.5,218
+Nuggets,Sun,Los Angeles,Away,4,3,7,26.59,200.5,231
+Nuggets,Thu,Oklahoma City,Away,5,3,8,26.59,200.5,232
+Nuggets,Sat,San Antonio,Home,6,3,9,26.59,200.5,227
+Nuggets,Mon,San Antonio,Away,7,3,10,26.59,200.5,224
+Nuggets,Wed,Indiana,Away,8,3,11,26.59,200.5,241
+Nuggets,Fri,Boston,Away,8,4,12,26.59,200.5,243
+Nuggets,Sun,Chicago,Away,9,4,13,26.59,200.5,229
+Nuggets,Wed,New York,Home,9,5,14,26.59,200.5,209
+Nuggets,Fri,Dallas,Away,9,6,15,26.59,200.5,226
+Nuggets,Sun,Dallas,Away,10,6,16,26.59,200.5,195
+Nuggets,Tue,Detroit,Home,10,7,17,26.59,200.5,218
+Nuggets,Wed,Oklahoma City,Away,11,7,18,26.59,200.5,257
+Nuggets,Fri,A,Away,12,7,19,26.59,200.5,218
+Nuggets,Mon,Houston,Home,13,7,20,26.59,200.5,242
+Nuggets,Wed,Houston,Home,14,7,21,26.59,200.5,220
+Nuggets,Fri,Atlanta,Away,14,8,22,26.59,200.5,226
+Nuggets,Sun,New Orleans,Away,14,9,23,26.59,200.5,227
+Nuggets,Tue,Dallas,Home,14,10,24,26.59,200.5,231
+Nuggets,Thu,Portland,Away,15,10,25,26.59,200.5,241
+Nuggets,Sat,Utah,Home,16,10,26,26.59,200.5,225
+Nuggets,Wed,Washington,Home,17,10,27,26.59,200.5,269
+Nuggets,Fri,Los Angeles,Away,17,11,28,26.59,200.5,234
+Nuggets,Sun,Charlotte,Home,18,11,29,26.59,200.5,234
+Nuggets,Tue,Memphis,Home,19,11,30,26.59,200.5,196
+Nuggets,Fri,Portland,Home,20,11,31,26.59,200.5,227
+Nuggets,Sun,Phoenix,Home,21,11,32,26.59,200.5,253
+Nuggets,Tue,Sacramento,Away,22,11,33,26.59,200.5,219
+Nuggets,Wed,Sacramento,Away,22,12,34,26.59,200.5,253
+Nuggets,Fri,Miami,Home,23,12,35,26.59,200.5,243
+Nuggets,Sun,Boston,Home,24,12,36,26.59,200.5,234
+Nuggets,Mon,Minnesota,Away,24,13,37,26.59,200.5,235
+Nuggets,Thu,A,Home,25,13,38,26.59,200.5,213
+Nuggets,Fri,Cleveland,Home,26,13,39,26.59,200.5,229
+Nuggets,Mon,Los Angeles,Home,27,13,40,26.59,200.5,231
+Nuggets,Wed,Phoenix,Home,28,13,41,26.59,200.5,223
+Pistons,Wed,Orlando,Home,1,0,1,25.08,200,222
+Pistons,Fri,New York,Away,1,1,2,25.08,200,236
+Pistons,Sat,Indiana,Away,1,2,3,25.08,200,239
+Pistons,Tue,Washington,Away,1,3,4,25.08,200,219
+Pistons,Wed,Atlanta,Home,1,4,5,25.08,200,231
+Pistons,Fri,Atlanta,Home,1,5,6,25.08,200,248
+Pistons,Sun,Golden State,Home,2,5,7,25.08,200,242
+Pistons,Mon,Milwaukee,Away,2,6,8,25.08,200,218
+Pistons,Wed,Milwaukee,Away,2,7,9,25.08,200,207
+Pistons,Fri,Cleveland,Home,2,8,10,25.08,200,200
+Pistons,Mon,Oklahoma City,Home,3,8,11,25.08,200,215
+Pistons,Wed,Boston,Away,3,9,12,25.08,200,240
+Pistons,Fri,New York,Away,3,10,13,25.08,200,233
+Pistons,Sat,Boston,Home,3,11,14,25.08,200,225
+Pistons,Mon,Toronto,Home,3,12,15,25.08,200,226
+Pistons,Thu,A,Away,3,13,16,25.08,200,187
+Pistons,Fri,Los Angeles,Away,3,14,17,25.08,200,249
+Pistons,Sun,Sacramento,Away,3,15,18,25.08,200,266
+Pistons,Tue,Denver,Away,4,15,19,25.08,200,218
+Pistons,Wed,Utah,Away,5,15,20,25.08,200,241
+Pistons,Fri,Phoenix,Away,5,16,21,25.08,200,210
+Pistons,Sun,Cleveland,Home,5,17,22,25.08,200,196
+Pistons,Tue,New York,Home,5,18,23,25.08,200,250
+Pistons,Thu,Dallas,Home,6,18,24,25.08,200,256
+Pistons,Sun,Memphis,Home,6,19,25,25.08,200,234
+Pistons,Tue,Miami,Away,7,19,26,25.08,200,212
+Pistons,Wed,New Orleans,Away,7,20,27,25.08,200,202
+Pistons,Fri,Memphis,Away,7,21,28,25.08,200,217
+Pistons,Sun,Los Angeles,Home,7,22,29,25.08,200,241
+Pistons,Wed,Charlotte,Away,8,22,30,25.08,200,275
+Pistons,Fri,Sacramento,Home,8,23,31,25.08,200,235
+Pistons,Sun,Brooklyn,Home,8,24,32,25.08,200,245
+Pistons,Tue,Utah,Home,8,25,33,25.08,200,237
+Pistons,Wed,Philadelphia,Away,8,26,34,25.08,200,206
+Pistons,Fri,Atlanta,Away,8,27,35,25.08,200,235
+Pistons,Mon,A,Home,8,28,36,25.08,200,273
+Pistons,Wed,Orlando,Home,9,28,37,25.08,200,222
+Pistons,Fri,Chicago,Away,9,29,38,25.08,200,250
+Pistons,Sat,Minnesota,Away,10,29,39,25.08,200,220
+Pistons,Mon,Portland,Away,10,30,40,25.08,200,241
+Pistons,Wed,Golden State,Away,11,30,41,25.08,200,241
+Pistons,Fri,San Antonio,Away,11,31,42,25.08,200,230
+Pistons,Sun,Philadelphia,Home,11,32,43,25.08,200,234
+Pistons,Tue,Philadelphia,Away,11,33,44,25.08,200,263
+Pistons,Wed,Minnesota,Home,12,33,45,25.08,200,253
+Warriors,Tue,Los Angeles,Home,1,0,1,26.66,199.3,232
+Warriors,Fri,Denver,Home,1,1,2,26.66,199.3,251
+Warriors,Sun,Sacramento,Home,2,1,3,26.66,199.3,255
+Warriors,Tue,Phoenix,Away,2,2,4,26.66,199.3,239
+Warriors,Thu,Miami,Home,3,2,5,26.66,199.3,233
+Warriors,Sat,Charlotte,Away,3,3,6,26.66,199.3,233
+Warriors,Sun,Detroit,Away,3,4,7,26.66,199.3,242
+Warriors,Tue,Miami,Away,3,5,8,26.66,199.3,225
+Warriors,Thu,Orlando,Away,3,6,9,26.66,199.3,259
+Warriors,Fri,New Orleans,Away,3,7,10,26.66,199.3,219
+Warriors,Mon,Sacramento,Home,4,7,11,26.66,199.3,229
+Warriors,Fri,Cleveland,Home,5,7,12,26.66,199.3,207
+Warriors,Sun,Sacramento,Away,5,8,13,26.66,199.3,237
+Warriors,Mon,San Antonio,Home,6,8,14,26.66,199.3,227
+Warriors,Wed,Phoenix,Away,6,9,15,26.66,199.3,249
+Warriors,Fri,New York,Home,7,9,16,26.66,199.3,212
+Warriors,Sun,Houston,Away,8,9,17,26.66,199.3,247
+Warriors,Mon,New Orleans,Away,8,10,18,26.66,199.3,211
+Warriors,Wed,A,Home,9,10,19,26.66,199.3,231
+Warriors,Fri,Utah,Home,10,10,20,26.66,199.3,247
+Warriors,Sun,Minnesota,Away,11,10,21,26.66,199.3,251
+Warriors,Tue,Dallas,Away,11,11,22,26.66,199.3,229
+Warriors,Fri,Chicago,Home,12,11,23,26.66,199.3,230
+Warriors,Sat,Houston,Home,13,11,24,26.66,199.3,221
+Warriors,Mon,Indiana,Home,13,12,25,26.66,199.3,216
+Warriors,Wed,Utah,Away,13,13,26,26.66,199.3,247
+Warriors,Sat,Boston,Home,14,13,27,26.66,199.3,230
+Warriors,Tue,Milwaukee,Away,14,14,28,26.66,199.3,239
+Warriors,Wed,Indiana,Away,14,15,29,26.66,199.3,244
+Warriors,Fri,Philadelphia,Away,14,16,30,26.66,199.3,224
+Warriors,Sun,Toronto,Away,15,16,31,26.66,199.3,236
+Warriors,Tue,New York,Away,15,17,32,26.66,199.3,226
+Warriors,Wed,Brooklyn,Away,15,18,33,26.66,199.3,256
+Warriors,Sun,Memphis,Home,16,18,34,26.66,199.3,232
+Warriors,Tue,Charlotte,Home,17,18,35,26.66,199.3,215
+Warriors,Wed,Utah,Home,18,18,36,26.66,199.3,219
+Warriors,Fri,Portland,Home,19,18,37,26.66,199.3,230
+Warriors,Mon,Atlanta,Home,20,18,38,26.66,199.3,284
+Warriors,Wed,Detroit,Home,20,19,39,26.66,199.3,241
+Warriors,Sat,Orlando,Home,20,20,40,26.66,199.3,216
+Warriors,Tue,Phoenix,Home,20,21,41,26.66,199.3,238
+Rockets,Wed,Atlanta,Away,0,1,1,23.58,198.6,224
+Rockets,Fri,Memphis,Home,0,2,2,23.58,198.6,251
+Rockets,Sat,Milwaukee,Away,0,3,3,23.58,198.6,230
+Rockets,Mon,Utah,Home,1,3,4,23.58,198.6,222
+Rockets,Wed,Utah,Away,1,4,5,23.58,198.6,210
+Rockets,Fri,Portland,Away,1,5,6,23.58,198.6,236
+Rockets,Sun,Phoenix,Away,1,6,7,23.58,198.6,233
+Rockets,Mon,A,Away,1,7,8,23.58,198.6,188
+Rockets,Wed,A,Home,1,8,9,23.58,198.6,210
+Rockets,Sat,Minnesota,Away,1,9,10,23.58,198.6,246
+Rockets,Mon,Orlando,Away,2,9,11,23.58,198.6,261
+Rockets,Wed,Toronto,Away,2,10,12,23.58,198.6,225
+Rockets,Sat,New Orleans,Away,2,11,13,23.58,198.6,225
+Rockets,Mon,A,Home,2,12,14,23.58,198.6,228
+Rockets,Wed,Dallas,Away,3,12,15,23.58,198.6,193
+Rockets,Fri,Indiana,Home,3,13,16,23.58,198.6,190
+Rockets,Sun,Golden State,Home,3,14,17,23.58,198.6,247
+Rockets,Fri,Atlanta,Home,4,14,18,23.58,198.6,250
+Rockets,Sat,Oklahoma City,Home,5,14,19,23.58,198.6,223
+Rockets,Mon,Denver,Away,5,15,20,23.58,198.6,242
+Rockets,Wed,Denver,Away,5,16,21,23.58,198.6,220
+Rockets,Fri,Phoenix,Away,6,16,22,23.58,198.6,243
+Rockets,Sat,Golden State,Away,6,17,23,23.58,198.6,221
+Rockets,Mon,Philadelphia,Home,7,17,24,23.58,198.6,255
+Rockets,Thu,San Antonio,Away,7,18,25,23.58,198.6,227
+Rockets,Sun,Milwaukee,Home,8,18,26,23.58,198.6,189
+Rockets,Tue,Phoenix,Home,9,18,27,23.58,198.6,208
+Rockets,Thu,Miami,Home,9,19,28,23.58,198.6,219
+Rockets,Sat,Portland,Home,9,20,29,23.58,198.6,202
+Rockets,Mon,San Antonio,Home,9,21,30,23.58,198.6,229
+Rockets,Wed,Orlando,Home,9,22,31,23.58,198.6,226
+Rockets,Fri,Dallas,Home,9,23,32,23.58,198.6,218
+Rockets,Mon,Chicago,Away,10,23,33,23.58,198.6,251
+Rockets,Tue,Boston,Away,10,24,34,23.58,198.6,228
+Rockets,Thu,Dallas,Away,10,25,35,23.58,198.6,243
+Rockets,Sat,New York,Home,10,26,36,23.58,198.6,196
+Rockets,Mon,Dallas,Home,10,27,37,23.58,198.6,217
+Rockets,Wed,New Orleans,Away,10,28,38,23.58,198.6,227
+Rockets,Thu,Utah,Home,10,29,39,23.58,198.6,245
+Rockets,Sun,Minnesota,Home,10,30,40,23.58,198.6,200
+Rockets,Wed,Sacramento,Away,10,31,41,23.58,198.6,250
+Pacers,Wed,Washington,Home,0,1,1,25.08,200.4,221
+Pacers,Fri,San Antonio,Home,0,2,2,25.08,200.4,271
+Pacers,Sat,Detroit,Home,1,2,3,25.08,200.4,239
+Pacers,Mon,Philadelphia,Away,1,3,4,25.08,200.4,226
+Pacers,Wed,Chicago,Away,1,4,5,25.08,200.4,233
+Pacers,Fri,Washington,Away,2,4,6,25.08,200.4,244
+Pacers,Sat,Brooklyn,Away,3,4,7,25.08,200.4,241
+Pacers,Mon,Brooklyn,Away,3,5,8,25.08,200.4,225
+Pacers,Fri,Miami,Home,4,5,9,25.08,200.4,200
+Pacers,Mon,New Orleans,Home,5,5,10,25.08,200.4,251
+Pacers,Wed,Denver,Home,5,6,11,25.08,200.4,241
+Pacers,Sat,Toronto,Home,6,6,12,25.08,200.4,222
+Pacers,Wed,Charlotte,Away,7,6,13,25.08,200.4,238
+Pacers,Fri,Houston,Away,8,6,14,25.08,200.4,190
+Pacers,Sat,Orlando,Home,9,6,15,25.08,200.4,227
+Pacers,Mon,Orlando,Home,10,6,16,25.08,200.4,225
+Pacers,Wed,Minnesota,Home,10,7,17,25.08,200.4,216
+Pacers,Fri,Brooklyn,Home,11,7,18,25.08,200.4,245
+Pacers,Sun,A,Away,11,8,19,25.08,200.4,214
+Pacers,Mon,Los Angeles,Away,12,8,20,25.08,200.4,231
+Pacers,Wed,Sacramento,Away,12,9,21,25.08,200.4,251
+Pacers,Fri,Utah,Away,12,10,22,25.08,200.4,258
+Pacers,Sun,Portland,Away,12,11,23,25.08,200.4,216
+Pacers,Mon,Golden State,Away,13,11,24,25.08,200.4,216
+Pacers,Wed,Minnesota,Away,13,12,25,25.08,200.4,236
+Pacers,Fri,Washington,Home,14,12,26,25.08,200.4,232
+Pacers,Sat,Brooklyn,Home,14,13,27,25.08,200.4,269
+Pacers,Mon,Miami,Home,14,14,28,25.08,200.4,169
+Pacers,Wed,Golden State,Home,15,14,29,25.08,200.4,244
+Pacers,Fri,Cleveland,Away,15,15,30,25.08,200.4,230
+Pacers,Sun,New York,Home,15,16,31,25.08,200.4,215
+Pacers,Wed,Boston,Away,16,16,32,25.08,200.4,229
+Pacers,Fri,Miami,Away,17,16,33,25.08,200.4,219
+Pacers,Mon,New Orleans,Away,17,17,34,25.08,200.4,206
+Pacers,Tue,Atlanta,Home,18,17,35,25.08,200.4,243
+Pacers,Thu,Cleveland,Home,23,19,42,25.08,200.4,261
+Pacers,Sat,A,Home,20,17,37,25.08,200.4,261
+Pacers,Mon,Toronto,Home,21,17,38,25.08,200.4,236
+Pacers,Wed,Philadelphia,Away,21,18,39,25.08,200.4,255
+Pacers,Fri,Portland,Home,22,18,40,25.08,200.4,207
+Pacers,Sun,Charlotte,Home,23,18,41,25.08,200.4,227
+Pacers,Wed,New York,Away,23,19,42,25.08,200.4,232
+Clippers,Thu,Los Angeles,Away,1,0,1,27.98,199.3,200
+Clippers,Sat,Sacramento,Away,2,0,2,27.98,199.3,220
+Clippers,Sun,Phoenix,Home,2,1,3,27.98,199.3,207
+Clippers,Tue,Oklahoma City,Away,2,2,4,27.98,199.3,202
+Clippers,Thu,Oklahoma City,Away,2,3,5,27.98,199.3,228
+Clippers,Sun,New Orleans,Home,2,4,6,27.98,199.3,203
+Clippers,Mon,Houston,Home,3,4,7,27.98,199.3,188
+Clippers,Wed,Houston,Away,4,4,8,27.98,199.3,210
+Clippers,Fri,San Antonio,Away,5,4,9,27.98,199.3,219
+Clippers,Sun,Utah,Home,5,5,10,27.98,199.3,212
+Clippers,Mon,Cleveland,Home,6,5,11,27.98,199.3,236
+Clippers,Wed,Los Angeles,Home,7,5,12,27.98,199.3,215
+Clippers,Sat,Brooklyn,Home,7,6,13,27.98,199.3,205
+Clippers,Mon,Houston,Away,8,6,14,27.98,199.3,228
+Clippers,Tue,Dallas,Away,8,7,15,27.98,199.3,204
+Clippers,Thu,Detroit,Home,9,7,16,27.98,199.3,187
+Clippers,Sat,San Antonio,Home,10,7,17,27.98,199.3,216
+Clippers,Mon,Utah,Home,11,7,18,27.98,199.3,235
+Clippers,Wed,Golden State,Away,11,8,19,27.98,199.3,231
+Clippers,Fri,Denver,Home,11,9,20,27.98,199.3,218
+Clippers,Sun,Indiana,Home,12,9,21,27.98,199.3,214
+Clippers,Tue,Portland,Away,13,9,22,27.98,199.3,230
+Clippers,Wed,Utah,Away,13,10,23,27.98,199.3,237
+Clippers,Sat,Sacramento,Home,13,11,24,27.98,199.3,219
+Clippers,Mon,Charlotte,Away,14,11,25,27.98,199.3,236
+Clippers,Wed,Orlando,Away,14,12,26,27.98,199.3,227
+Clippers,Thu,Miami,Away,14,13,27,27.98,199.3,225
+Clippers,Sat,Washington,Away,15,13,28,27.98,199.3,221
+Clippers,Mon,Boston,Home,16,13,29,27.98,199.3,206
+Clippers,Wed,Minnesota,Home,17,13,30,27.98,199.3,187
+Clippers,Thu,Phoenix,Home,17,14,31,27.98,199.3,206
+Clippers,Sat,Washington,Home,18,14,32,27.98,199.3,195
+Clippers,Wed,Charlotte,Home,19,14,33,27.98,199.3,231
+Clippers,Fri,Philadelphia,Away,19,15,34,27.98,199.3,233
+Clippers,Mon,Detroit,Away,20,15,35,27.98,199.3,273
+Clippers,Tue,Toronto,Away,21,15,36,27.98,199.3,237
+Clippers,Thu,Boston,Away,22,21,43,27.98,199.3,226
+Clippers,Sat,Indiana,Away,21,17,38,27.98,199.3,261
+Clippers,Mon,Miami,Home,21,18,39,27.98,199.3,210
+Clippers,Thu,Denver,Away,21,19,40,27.98,199.3,213
+Clippers,Fri,Minnesota,Away,21,20,41,27.98,199.3,243
+Clippers,Sun,Atlanta,Home,21,21,42,27.98,199.3,220
+Clippers,Tue,Dallas,Home,22,21,43,27.98,199.3,214
+Lakers,Tue,Golden State,Away,0,1,1,27.15,199.1,232
+Lakers,Thu,A,Home,0,2,2,27.15,199.1,200
+Lakers,Sun,Portland,Home,0,3,3,27.15,199.1,210
+Lakers,Wed,Denver,Away,0,4,4,27.15,199.1,209
+Lakers,Fri,Minnesota,Away,0,5,5,27.15,199.1,213
+Lakers,Sun,Denver,Home,1,5,6,27.15,199.1,231
+Lakers,Wed,New Orleans,Home,2,5,7,27.15,199.1,237
+Lakers,Fri,Utah,Home,2,6,8,27.15,199.1,246
+Lakers,Sun,Cleveland,Home,2,7,9,27.15,199.1,214
+Lakers,Mon,Utah,Away,2,8,10,27.15,199.1,255
+Lakers,Wed,A,Away,2,9,11,27.15,199.1,215
+Lakers,Fri,Sacramento,Home,2,10,12,27.15,199.1,234
+Lakers,Sun,Brooklyn,Home,3,10,13,27.15,199.1,219
+Lakers,Fri,Detroit,Home,4,10,14,27.15,199.1,249
+Lakers,Sun,San Antonio,Home,5,10,15,27.15,199.1,215
+Lakers,Tue,Phoenix,Away,5,11,16,27.15,199.1,220
+Lakers,Fri,San Antonio,Away,6,11,17,27.15,199.1,199
+Lakers,Sat,San Antonio,Away,7,11,18,27.15,199.1,281
+Lakers,Mon,Indiana,Home,7,12,19,27.15,199.1,231
+Lakers,Wed,Portland,Home,8,12,20,27.15,199.1,237
+Lakers,Fri,Milwaukee,Away,9,12,21,27.15,199.1,262
+Lakers,Sun,Washington,Away,10,12,22,27.15,199.1,249
+Lakers,Tue,Cleveland,Away,10,13,23,27.15,199.1,218
+Lakers,Wed,Toronto,Away,10,14,24,27.15,199.1,239
+Lakers,Fri,Philadelphia,Away,10,15,25,27.15,199.1,255
+Lakers,Sun,Detroit,Away,11,15,26,27.15,199.1,241
+Lakers,Tue,Boston,Home,11,16,27,27.15,199.1,240
+Lakers,Fri,Denver,Home,12,16,28,27.15,199.1,234
+Lakers,Sun,Washington,Home,13,16,29,27.15,199.1,236
+Lakers,Mon,Phoenix,Away,13,17,30,27.15,199.1,234
+Lakers,Wed,Sacramento,Away,13,18,31,27.15,199.1,254
+Lakers,Fri,Charlotte,Home,13,19,32,27.15,199.1,264
+Lakers,Sun,Dallas,Away,13,20,33,27.15,199.1,239
+Lakers,Tue,Orlando,Away,14,20,34,27.15,199.1,239
+Lakers,Wed,Miami,Away,14,21,35,27.15,199.1,210
+Lakers,Fri,Atlanta,Away,15,21,36,27.15,199.1,251
+Lakers,Mon,Charlotte,Away,16,21,37,27.15,199.1,236
+Lakers,Wed,Miami,Home,17,21,38,27.15,199.1,221
+Lakers,Fri,Atlanta,Home,18,21,39,27.15,199.1,244
+Lakers,Sat,Sacramento,Away,19,21,40,27.15,199.1,270
+Lakers,Mon,Denver,Away,19,22,41,27.15,199.1,231
+Grizzlies,Wed,New York,Home,1,0,1,24.27,199.8,227
+Grizzlies,Fri,Houston,Away,2,0,2,24.27,199.8,251
+Grizzlies,Sat,Dallas,Away,2,1,3,24.27,199.8,233
+Grizzlies,Mon,Brooklyn,Home,3,1,4,24.27,199.8,258
+Grizzlies,Thu,Sacramento,Away,4,1,5,24.27,199.8,235
+Grizzlies,Sat,Utah,Away,4,2,6,24.27,199.8,247
+Grizzlies,Mon,Utah,Away,4,3,7,24.27,199.8,226
+Grizzlies,Wed,Portland,Away,5,3,8,24.27,199.8,217
+Grizzlies,Fri,Charlotte,Home,6,3,9,24.27,199.8,229
+Grizzlies,Sun,Washington,Home,7,3,10,24.27,199.8,200
+Grizzlies,Mon,Boston,Home,7,4,11,24.27,199.8,215
+Grizzlies,Wed,San Antonio,Away,8,4,12,24.27,199.8,246
+Grizzlies,Fri,Minnesota,Home,9,4,13,24.27,199.8,217
+Grizzlies,Sun,Washington,Away,9,5,14,24.27,199.8,194
+Grizzlies,Tue,New Orleans,Away,9,6,15,24.27,199.8,215
+Grizzlies,Fri,Oklahoma City,Home,10,6,16,24.27,199.8,231
+Grizzlies,Sun,Brooklyn,Away,10,7,17,24.27,199.8,242
+Grizzlies,Tue,Sacramento,Home,10,8,18,24.27,199.8,222
+Grizzlies,Fri,New Orleans,Home,11,8,19,24.27,199.8,243
+Grizzlies,Sun,New York,Away,12,8,20,24.27,199.8,250
+Grizzlies,Wed,Minnesota,Away,12,9,21,24.27,199.8,210
+Grizzlies,Fri,Philadelphia,Home,13,9,22,24.27,199.8,226
+Grizzlies,Sun,Detroit,Away,14,9,23,24.27,199.8,234
+Grizzlies,Mon,Miami,Home,15,9,24,24.27,199.8,194
+Grizzlies,Wed,Oklahoma City,Home,16,9,25,24.27,199.8,225
+Grizzlies,Fri,Detroit,Home,17,9,26,24.27,199.8,217
+Grizzlies,Mon,Atlanta,Home,18,9,27,24.27,199.8,231
+Grizzlies,Thu,Milwaukee,Home,19,9,28,24.27,199.8,243
+Grizzlies,Sat,Oklahoma City,Away,19,10,29,24.27,199.8,224
+Grizzlies,Tue,Denver,Away,19,11,30,24.27,199.8,196
+Grizzlies,Fri,Phoenix,Away,20,11,31,24.27,199.8,225
+Grizzlies,Sun,Golden State,Away,20,12,32,24.27,199.8,232
+Grizzlies,Tue,Phoenix,Home,20,13,33,24.27,199.8,233
+Grizzlies,Thu,Toronto,Away,21,13,34,24.27,199.8,225
+Grizzlies,Sat,New Orleans,Home,22,13,35,24.27,199.8,217
+Grizzlies,Sun,Sacramento,Home,23,13,36,24.27,199.8,226
+Grizzlies,Wed,Charlotte,Away,24,13,37,24.27,199.8,238
+Grizzlies,Thu,Orlando,Away,25,13,38,24.27,199.8,238
+Grizzlies,Sun,Utah,Home,26,13,39,24.27,199.8,241
+Grizzlies,Mon,San Antonio,Home,27,13,40,24.27,199.8,234
+Grizzlies,Wed,San Antonio,Home,28,13,41,24.27,199.8,264
+Heat,Wed,Chicago,Home,0,1,1,28.13,200,224
+Heat,Fri,Boston,Home,0,2,2,28.13,200,215
+Heat,Sat,Toronto,Home,1,2,3,28.13,200,221
+Heat,Mon,Toronto,Home,1,3,4,28.13,200,188
+Heat,Wed,Portland,Away,2,3,5,28.13,200,217
+Heat,Thu,Golden State,Away,2,4,6,28.13,200,233
+Heat,Sat,Sacramento,Away,2,5,7,28.13,200,232
+Heat,Tue,Golden State,Home,3,5,8,28.13,200,225
+Heat,Wed,Sacramento,Home,4,5,9,28.13,200,217
+Heat,Fri,Indiana,Away,4,6,10,28.13,200,200
+Heat,Mon,Portland,Home,4,7,11,28.13,200,217
+Heat,Thu,Charlotte,Home,5,7,12,28.13,200,229
+Heat,Sat,Charlotte,Home,6,7,13,28.13,200,247
+Heat,Mon,Phoenix,Home,7,7,14,28.13,200,225
+Heat,Wed,Toronto,Away,7,8,15,28.13,200,216
+Heat,Fri,Washington,Away,7,9,16,28.13,200,213
+Heat,Sun,Cleveland,Away,7,10,17,28.13,200,200
+Heat,Mon,Minnesota,Away,7,11,18,28.13,200,206
+Heat,Wed,Washington,Home,8,11,19,28.13,200,218
+Heat,Fri,Washington,Home,9,11,20,28.13,200,217
+Heat,Sun,Atlanta,Away,10,11,21,28.13,200,204
+Heat,Wed,Boston,Away,10,12,22,28.13,200,255
+Heat,Fri,Boston,Away,11,12,23,28.13,200,236
+Heat,Mon,Memphis,Away,11,13,24,28.13,200,194
+Heat,Tue,Detroit,Home,11,14,25,28.13,200,212
+Heat,Thu,A,Home,12,14,26,28.13,200,225
+Heat,Sat,San Antonio,Home,12,15,27,28.13,200,226
+Heat,Mon,Indiana,Away,13,15,28,28.13,200,169
+Heat,Wed,Oklahoma City,Away,14,15,29,28.13,200,218
+Heat,Thu,Houston,Away,15,15,30,28.13,200,219
+Heat,Sat,San Antonio,Away,16,15,31,28.13,200,212
+Heat,Tue,Chicago,Home,16,16,32,28.13,200,216
+Heat,Fri,Indiana,Home,16,17,33,28.13,200,219
+Heat,Mon,Minnesota,Home,17,17,34,28.13,200,223
+Heat,Wed,Los Angeles,Home,18,17,35,28.13,200,210
+Heat,Fri,Denver,Away,18,18,36,28.13,200,243
+Heat,Sat,Utah,Away,19,18,37,28.13,200,249
+Heat,Mon,A,Away,20,18,38,28.13,200,210
+Heat,Wed,Los Angeles,Away,20,19,39,28.13,200,221
+Heat,Fri,Phoenix,Away,21,19,40,28.13,200,200
+Heat,Sun,Brooklyn,Home,21,20,41,28.13,200,203
+Heat,Tue,Oklahoma City,Home,22,20,42,28.13,200,223
+Bucks,Thu,Philadelphia,Away,1,0,1,29.47,197.6,178
+Bucks,Sat,Houston,Home,2,0,2,29.47,197.6,230
+Bucks,Wed,Brooklyn,Home,3,0,3,29.47,197.6,209
+Bucks,Fri,New York,Home,4,0,4,29.47,197.6,227
+Bucks,Sat,Atlanta,Home,5,0,5,29.47,197.6,238
+Bucks,Mon,Detroit,Home,6,0,6,29.47,197.6,218
+Bucks,Wed,Detroit,Home,7,0,7,29.47,197.6,207
+Bucks,Fri,Minnesota,Away,8,0,8,29.47,197.6,217
+Bucks,Sat,Oklahoma City,Home,9,0,9,29.47,197.6,202
+Bucks,Mon,Atlanta,Away,9,1,10,29.47,197.6,215
+Bucks,Wed,Oklahoma City,Away,10,1,11,29.47,197.6,268
+Bucks,Fri,San Antonio,Away,10,2,12,29.47,197.6,204
+Bucks,Mon,Atlanta,Home,10,3,13,29.47,197.6,227
+Bucks,Wed,Cleveland,Home,11,3,14,29.47,197.6,211
+Bucks,Fri,Philadelphia,Away,11,4,15,29.47,197.6,212
+Bucks,Mon,Portland,Home,12,4,16,29.47,197.6,230
+Bucks,Wed,Chicago,Home,12,5,17,29.47,197.6,231
+Bucks,Fri,Cleveland,Home,13,5,18,29.47,197.6,219
+Bucks,Sun,Dallas,Home,14,5,19,29.47,197.6,239
+Bucks,Wed,New York,Away,15,5,20,29.47,197.6,212
+Bucks,Fri,Los Angeles,Home,15,6,21,29.47,197.6,262
+Bucks,Sat,Charlotte,Away,16,6,22,29.47,197.6,201
+Bucks,Mon,Orlando,Away,17,6,23,29.47,197.6,211
+Bucks,Wed,Sacramento,Home,18,6,24,29.47,197.6,239
+Bucks,Fri,Dallas,Away,19,6,25,29.47,197.6,211
+Bucks,Sun,Houston,Away,19,7,26,29.47,197.6,189
+Bucks,Tue,Golden State,Home,20,7,27,29.47,197.6,239
+Bucks,Thu,Memphis,Away,20,8,28,29.47,197.6,243
+Bucks,Sat,Utah,Home,21,8,29,29.47,197.6,220
+Bucks,Mon,New Orleans,Away,22,8,30,29.47,197.6,247
+Bucks,Wed,Cleveland,Away,22,9,31,29.47,197.6,220
+Bucks,Fri,Brooklyn,Away,22,10,32,29.47,197.6,218
+Bucks,Sun,Boston,Away,22,11,33,29.47,197.6,257
+Bucks,Wed,Chicago,Away,22,12,34,29.47,197.6,232
+Bucks,Fri,Minnesota,Home,23,12,35,29.47,197.6,237
+Bucks,Sun,Washington,Home,23,13,36,29.47,197.6,213
+Bucks,Tue,Washington,Home,24,13,37,29.47,197.6,236
+Bucks,Wed,Toronto,Away,25,13,38,29.47,197.6,205
+Bucks,Fri,Charlotte,Home,25,14,39,29.47,197.6,247
+Bucks,Mon,New York,Away,26,14,40,29.47,197.6,218
+Bucks,Wed,Atlanta,Away,27,14,41,29.47,197.6,219
+Timberwolves,Wed,Oklahoma City,Home,1,0,1,25.44,199.6,223
+Timberwolves,Fri,Utah,Home,1,1,2,25.44,199.6,258
+Timberwolves,Sun,Oklahoma City,Away,2,1,3,25.44,199.6,222
+Timberwolves,Mon,San Antonio,Home,2,2,4,25.44,199.6,221
+Timberwolves,Wed,San Antonio,Home,3,2,5,25.44,199.6,256
+Timberwolves,Fri,Los Angeles,Home,4,2,6,25.44,199.6,213
+Timberwolves,Sun,San Antonio,Away,4,3,7,25.44,199.6,205
+Timberwolves,Tue,Phoenix,Away,4,4,8,25.44,199.6,223
+Timberwolves,Fri,Milwaukee,Home,4,5,9,25.44,199.6,217
+Timberwolves,Sat,Houston,Home,5,5,10,25.44,199.6,246
+Timberwolves,Mon,New York,Home,5,6,11,25.44,199.6,227
+Timberwolves,Wed,Phoenix,Home,5,7,12,25.44,199.6,246
+Timberwolves,Fri,Memphis,Away,5,8,13,25.44,199.6,217
+Timberwolves,Sun,Cleveland,Away,6,8,14,25.44,199.6,253
+Timberwolves,Wed,Orlando,Away,7,8,15,25.44,199.6,234
+Timberwolves,Sat,Philadelphia,Away,8,8,16,25.44,199.6,221
+Timberwolves,Mon,Miami,Home,9,8,17,25.44,199.6,206
+Timberwolves,Wed,Indiana,Away,10,8,18,25.44,199.6,216
+Timberwolves,Fri,Charlotte,Away,10,9,19,25.44,199.6,218
+Timberwolves,Sun,Golden State,Home,10,10,20,25.44,199.6,251
+Timberwolves,Mon,Washington,Away,10,11,21,25.44,199.6,269
+Timberwolves,Wed,Memphis,Home,11,11,22,25.44,199.6,210
+Timberwolves,Sat,Oklahoma City,Home,11,12,23,25.44,199.6,263
+Timberwolves,Wed,Indiana,Home,12,12,24,25.44,199.6,236
+Timberwolves,Fri,Utah,Away,13,12,25,25.44,199.6,226
+Timberwolves,Sat,Portland,Away,13,13,26,25.44,199.6,242
+Timberwolves,Mon,Portland,Away,13,14,27,25.44,199.6,245
+Timberwolves,Wed,A,Away,13,15,28,25.44,199.6,187
+Timberwolves,Fri,Oklahoma City,Away,14,15,29,25.44,199.6,222
+Timberwolves,Sun,Chicago,Home,15,15,30,25.44,199.6,276
+Timberwolves,Mon,Dallas,Home,16,15,31,25.44,199.6,222
+Timberwolves,Wed,Dallas,Home,16,16,32,25.44,199.6,203
+Timberwolves,Fri,Boston,Away,20,22,42,25.44,199.6,230
+Timberwolves,Mon,Miami,Away,16,18,34,25.44,199.6,223
+Timberwolves,Wed,New Orleans,Away,16,19,35,25.44,199.6,237
+Timberwolves,Fri,Milwaukee,Away,16,20,36,25.44,199.6,237
+Timberwolves,Sat,Detroit,Home,16,21,37,25.44,199.6,220
+Timberwolves,Mon,Denver,Home,17,21,38,25.44,199.6,235
+Timberwolves,Wed,Portland,Home,18,21,39,25.44,199.6,219
+Timberwolves,Fri,A,Home,19,21,40,25.44,199.6,243
+Timberwolves,Sun,Houston,Away,20,21,41,25.44,199.6,200
+Timberwolves,Wed,Detroit,Away,20,22,42,25.44,199.6,253
+Pelicans,Wed,Brooklyn,Away,1,0,1,25.56,199.1,238
+Pelicans,Fri,Charlotte,Away,2,0,2,25.56,199.1,236
+Pelicans,Sun,Utah,Home,2,1,3,25.56,199.1,243
+Pelicans,Tue,Dallas,Home,3,1,4,25.56,199.1,224
+Pelicans,Fri,Phoenix,Away,3,2,5,25.56,199.1,235
+Pelicans,Sun,A,Away,4,2,6,25.56,199.1,203
+Pelicans,Wed,Los Angeles,Away,4,3,7,25.56,199.1,237
+Pelicans,Fri,Golden State,Home,5,3,8,25.56,199.1,219
+Pelicans,Sat,Atlanta,Away,5,4,9,25.56,199.1,245
+Pelicans,Mon,Indiana,Away,5,5,10,25.56,199.1,251
+Pelicans,Wed,Chicago,Away,6,5,11,25.56,199.1,226
+Pelicans,Thu,Portland,Home,6,6,12,25.56,199.1,201
+Pelicans,Sat,Houston,Home,7,6,13,25.56,199.1,225
+Pelicans,Tue,Memphis,Home,8,6,14,25.56,199.1,215
+Pelicans,Wed,Chicago,Home,9,6,15,25.56,199.1,234
+Pelicans,Fri,Boston,Home,9,7,16,25.56,199.1,226
+Pelicans,Mon,Golden State,Home,10,7,17,25.56,199.1,211
+Pelicans,Wed,San Antonio,Away,11,7,18,25.56,199.1,239
+Pelicans,Fri,Memphis,Away,11,8,19,25.56,199.1,243
+Pelicans,Mon,Oklahoma City,Home,12,8,20,25.56,199.1,206
+Pelicans,Wed,Toronto,Home,13,8,21,25.56,199.1,234
+Pelicans,Fri,San Antonio,Away,14,8,22,25.56,199.1,216
+Pelicans,Sun,Denver,Home,15,8,23,25.56,199.1,227
+Pelicans,Wed,Detroit,Home,16,8,24,25.56,199.1,202
+Pelicans,Fri,Phoenix,Home,17,8,25,25.56,199.1,245
+Pelicans,Sun,Phoenix,Home,18,8,26,25.56,199.1,253
+Pelicans,Tue,Utah,Away,18,9,27,25.56,199.1,221
+Pelicans,Thu,Utah,Away,18,10,28,25.56,199.1,261
+Pelicans,Sat,Phoenix,Away,18,11,29,25.56,199.1,232
+Pelicans,Mon,Milwaukee,Home,18,12,30,25.56,199.1,247
+Pelicans,Thu,San Antonio,Home,19,12,31,25.56,199.1,243
+Pelicans,Fri,Oklahoma City,Away,20,12,32,25.56,199.1,253
+Pelicans,Mon,Indiana,Home,21,12,33,25.56,199.1,206
+Pelicans,Wed,Minnesota,Home,22,12,34,25.56,199.1,237
+Pelicans,Fri,Philadelphia,Home,23,12,35,25.56,199.1,243
+Pelicans,Sat,Memphis,Away,23,13,36,25.56,199.1,217
+Pelicans,Mon,Philadelphia,Away,23,14,37,25.56,199.1,231
+Pelicans,Wed,Houston,Home,24,14,38,25.56,199.1,227
+Pelicans,Fri,Brooklyn,Home,24,15,39,25.56,199.1,210
+Pelicans,Sat,Dallas,Away,24,16,40,25.56,199.1,244
+Pelicans,Mon,Washington,Away,25,16,41,25.56,199.1,244
+Pelicans,Wed,Boston,Away,25,17,42,25.56,199.1,239
+Knicks,Wed,Memphis,Away,0,1,1,25.02,199.5,227
+Knicks,Fri,Detroit,Home,1,1,2,25.02,199.5,236
+Knicks,Mon,Orlando,Home,2,1,3,25.02,199.5,217
+Knicks,Wed,Charlotte,Home,3,1,4,25.02,199.5,265
+Knicks,Fri,Milwaukee,Away,3,2,5,25.02,199.5,227
+Knicks,Sun,Cleveland,Away,3,3,6,25.02,199.5,229
+Knicks,Wed,Atlanta,Home,3,4,7,25.02,199.5,211
+Knicks,Fri,Philadelphia,Away,4,4,8,25.02,199.5,210
+Knicks,Sat,Boston,Home,4,5,9,25.02,199.5,251
+Knicks,Mon,Minnesota,Away,5,5,10,25.02,199.5,227
+Knicks,Wed,Brooklyn,Away,5,6,11,25.02,199.5,197
+Knicks,Fri,Detroit,Home,6,6,12,25.02,199.5,233
+Knicks,Sun,Oklahoma City,Home,6,7,13,25.02,199.5,280
+Knicks,Tue,Utah,Away,7,7,14,25.02,199.5,229
+Knicks,Wed,Denver,Away,8,7,15,25.02,199.5,209
+Knicks,Fri,Golden State,Away,8,8,16,25.02,199.5,212
+Knicks,Sun,Phoenix,Away,8,9,17,25.02,199.5,211
+Knicks,Mon,Oklahoma City,Away,9,9,18,25.02,199.5,248
+Knicks,Fri,Portland,Home,9,10,19,25.02,199.5,261
+Knicks,Sun,Memphis,Home,9,11,20,25.02,199.5,250
+Knicks,Tue,Detroit,Away,10,11,21,25.02,199.5,250
+Knicks,Wed,Milwaukee,Home,10,12,22,25.02,199.5,212
+Knicks,Sat,Dallas,Home,10,13,23,25.02,199.5,221
+Knicks,Sun,Cleveland,Home,11,13,24,25.02,199.5,173
+Knicks,Wed,Atlanta,Home,12,13,25,25.02,199.5,202
+Knicks,Fri,Charlotte,Away,13,13,26,25.02,199.5,223
+Knicks,Sun,Sacramento,Home,14,13,27,25.02,199.5,211
+Knicks,Wed,Chicago,Away,15,13,28,25.02,199.5,248
+Knicks,Fri,Chicago,Away,16,13,29,25.02,199.5,205
+Knicks,Sun,Indiana,Away,17,13,30,25.02,199.5,215
+Knicks,Tue,Golden State,Home,18,13,31,25.02,199.5,226
+Knicks,Wed,Toronto,Home,18,14,32,25.02,199.5,219
+Knicks,Fri,Chicago,Home,18,15,33,25.02,199.5,235
+Knicks,Sun,Philadelphia,Home,18,16,34,25.02,199.5,231
+Knicks,Tue,Dallas,Away,18,17,35,25.02,199.5,247
+Knicks,Thu,San Antonio,Away,18,18,36,25.02,199.5,237
+Knicks,Sat,Houston,Away,19,18,37,25.02,199.5,196
+Knicks,Mon,Phoenix,Home,20,18,38,25.02,199.5,185
+Knicks,Wed,San Antonio,Home,21,18,39,25.02,199.5,231
+Knicks,Fri,Toronto,Away,22,18,40,25.02,199.5,220
+Knicks,Mon,Milwaukee,Home,22,19,41,25.02,199.5,218
+Knicks,Wed,Indiana,Home,23,19,42,25.02,199.5,232
+Thunder,Wed,Minnesota,Away,0,1,1,23.14,201.7,223
+Thunder,Sat,Denver,Away,0,2,2,23.14,201.7,239
+Thunder,Sun,Minnesota,Home,0,3,3,23.14,201.7,222
+Thunder,Tue,A,Home,1,3,4,23.14,201.7,202
+Thunder,Thu,A,Home,2,3,5,23.14,201.7,228
+Thunder,Sat,Dallas,Away,3,3,6,23.14,201.7,228
+Thunder,Tue,Orlando,Home,4,3,7,23.14,201.7,224
+Thunder,Thu,Denver,Home,4,4,8,23.14,201.7,232
+Thunder,Sat,Milwaukee,Away,4,5,9,23.14,201.7,202
+Thunder,Mon,Detroit,Away,4,6,10,23.14,201.7,215
+Thunder,Wed,Milwaukee,Home,4,7,11,23.14,201.7,268
+Thunder,Fri,Toronto,Home,5,7,12,23.14,201.7,245
+Thunder,Sun,New York,Away,6,7,13,23.14,201.7,280
+Thunder,Mon,Boston,Away,6,8,14,23.14,201.7,248
+Thunder,Wed,Washington,Away,7,8,15,23.14,201.7,241
+Thunder,Fri,Memphis,Away,7,9,16,23.14,201.7,231
+Thunder,Mon,New York,Home,7,10,17,23.14,201.7,248
+Thunder,Wed,Denver,Home,7,11,18,23.14,201.7,257
+Thunder,Fri,Chicago,Home,8,11,19,23.14,201.7,242
+Thunder,Sat,Houston,Away,8,12,20,23.14,201.7,223
+Thunder,Mon,New Orleans,Away,8,13,21,23.14,201.7,206
+Thunder,Wed,San Antonio,Home,9,13,22,23.14,201.7,230
+Thunder,Sat,Minnesota,Away,10,13,23,23.14,201.7,263
+Thunder,Mon,Atlanta,Away,11,13,24,23.14,201.7,235
+Thunder,Wed,Memphis,Away,11,14,25,23.14,201.7,225
+Thunder,Sat,Cleveland,Away,11,15,26,23.14,201.7,212
+Thunder,Mon,Dallas,Away,11,16,27,23.14,201.7,235
+Thunder,Wed,Miami,Home,11,17,28,23.14,201.7,218
+Thunder,Fri,Minnesota,Home,11,18,29,23.14,201.7,222
+Thunder,Sat,Memphis,Home,12,18,30,23.14,201.7,224
+Thunder,Mon,Portland,Home,13,18,31,23.14,201.7,244
+Thunder,Wed,Portland,Home,14,18,32,23.14,201.7,199
+Thunder,Fri,New Orleans,Home,14,19,33,23.14,201.7,253
+Thunder,Tue,San Antonio,Home,15,19,34,23.14,201.7,244
+Thunder,Thu,Charlotte,Away,15,20,35,23.14,201.7,234
+Thunder,Sat,Philadelphia,Home,15,21,36,23.14,201.7,211
+Thunder,Tue,Boston,Home,16,21,37,23.14,201.7,267
+Thunder,Wed,Orlando,Away,16,22,38,23.14,201.7,241
+Thunder,Fri,Washington,Home,17,22,39,23.14,201.7,237
+Thunder,Sun,Dallas,Home,18,22,40,23.14,201.7,229
+Thunder,Tue,Miami,Away,18,23,41,23.14,201.7,223
+Magic,Wed,Detroit,Away,0,1,1,23.94,201.9,222
+Magic,Fri,Atlanta,Away,0,2,2,23.94,201.9,206
+Magic,Sat,Boston,Home,0,3,3,23.94,201.9,246
+Magic,Mon,New York,Away,0,4,4,23.94,201.9,217
+Magic,Wed,Cleveland,Away,0,5,5,23.94,201.9,195
+Magic,Fri,Charlotte,Home,1,5,6,23.94,201.9,206
+Magic,Sun,Dallas,Away,1,6,7,23.94,201.9,219
+Magic,Tue,Oklahoma City,Away,1,7,8,23.94,201.9,224
+Magic,Thu,Golden State,Home,2,7,9,23.94,201.9,259
+Magic,Sat,Sacramento,Home,2,8,10,23.94,201.9,249
+Magic,Mon,Houston,Home,2,9,11,23.94,201.9,261
+Magic,Wed,Dallas,Home,3,9,12,23.94,201.9,181
+Magic,Fri,Phoenix,Home,4,9,13,23.94,201.9,211
+Magic,Mon,Charlotte,Home,4,10,14,23.94,201.9,217
+Magic,Wed,Minnesota,Home,4,11,15,23.94,201.9,234
+Magic,Fri,Chicago,Away,5,11,16,23.94,201.9,215
+Magic,Sat,Indiana,Away,5,12,17,23.94,201.9,227
+Magic,Mon,Indiana,Away,5,13,18,23.94,201.9,225
+Magic,Fri,Philadelphia,Home,5,14,19,23.94,201.9,206
+Magic,Sun,Philadelphia,Home,5,15,20,23.94,201.9,236
+Magic,Mon,Brooklyn,Away,5,16,21,23.94,201.9,211
+Magic,Wed,Atlanta,Home,5,17,22,23.94,201.9,233
+Magic,Fri,Cleveland,Away,5,18,23,23.94,201.9,203
+Magic,Sat,Toronto,Away,5,19,24,23.94,201.9,229
+Magic,Mon,Milwaukee,Home,5,20,25,23.94,201.9,211
+Magic,Wed,A,Home,6,20,26,23.94,201.9,227
+Magic,Fri,Toronto,Home,7,20,27,23.94,201.9,222
+Magic,Sun,Toronto,Home,8,20,28,23.94,201.9,210
+Magic,Wed,Atlanta,Home,9,20,29,23.94,201.9,259
+Magic,Fri,Boston,Away,10,20,30,23.94,201.9,226
+Magic,Sun,Boston,Away,11,20,31,23.94,201.9,187
+Magic,Mon,Atlanta,Away,11,21,32,23.94,201.9,251
+Magic,Wed,Houston,Away,12,21,33,23.94,201.9,226
+Magic,Fri,San Antonio,Home,13,21,34,23.94,201.9,246
+Magic,Tue,Los Angeles,Home,13,22,35,23.94,201.9,239
+Magic,Wed,Detroit,Away,13,23,36,23.94,201.9,222
+Magic,Fri,Washington,Home,13,24,37,23.94,201.9,219
+Magic,Wed,Oklahoma City,Home,14,24,38,23.94,201.9,241
+Magic,Thu,Memphis,Home,14,25,39,23.94,201.9,238
+Magic,Sat,Golden State,Away,15,25,40,23.94,201.9,216
+Magic,Mon,Sacramento,Away,15,26,41,23.94,201.9,247
+Magic,Tue,Portland,Away,16,26,42,23.94,201.9,215
+76ers,Tue,Boston,Away,0,1,1,26.54,198.8,243
+76ers,Thu,Milwaukee,Home,0,2,2,26.54,198.8,178
+76ers,Sat,San Antonio,Home,0,3,3,26.54,198.8,219
+76ers,Mon,Indiana,Home,1,3,4,26.54,198.8,226
+76ers,Wed,Toronto,Away,1,4,5,26.54,198.8,228
+76ers,Fri,Toronto,Away,2,4,6,26.54,198.8,202
+76ers,Sat,Chicago,Away,3,4,7,26.54,198.8,223
+76ers,Mon,Washington,Away,4,4,8,26.54,198.8,229
+76ers,Wed,Washington,Home,4,5,9,26.54,198.8,232
+76ers,Fri,New York,Home,4,6,10,26.54,198.8,210
+76ers,Mon,Phoenix,Home,5,6,11,26.54,198.8,188
+76ers,Thu,Atlanta,Away,5,7,12,26.54,198.8,199
+76ers,Sat,Atlanta,Home,6,7,13,26.54,198.8,230
+76ers,Sun,Utah,Home,7,7,14,26.54,198.8,203
+76ers,Fri,Milwaukee,Home,8,7,15,26.54,198.8,212
+76ers,Sat,Minnesota,Home,8,8,16,26.54,198.8,221
+76ers,Tue,Brooklyn,Home,9,8,17,26.54,198.8,221
+76ers,Wed,Charlotte,Away,9,9,18,26.54,198.8,208
+76ers,Fri,Orlando,Away,10,9,19,26.54,198.8,206
+76ers,Sun,Orlando,Away,11,9,20,26.54,198.8,236
+76ers,Mon,Atlanta,Home,12,9,21,26.54,198.8,205
+76ers,Wed,Cleveland,Away,12,10,22,26.54,198.8,198
+76ers,Fri,Memphis,Away,12,11,23,26.54,198.8,226
+76ers,Mon,Houston,Away,12,12,24,26.54,198.8,255
+76ers,Fri,Los Angeles,Home,13,12,25,26.54,198.8,255
+76ers,Sun,Charlotte,Home,14,12,26,26.54,198.8,244
+76ers,Tue,Sacramento,Home,15,12,27,26.54,198.8,226
+76ers,Fri,Golden State,Home,16,12,28,26.54,198.8,224
+76ers,Mon,Toronto,Home,17,12,29,26.54,198.8,205
+76ers,Wed,Detroit,Home,18,12,30,26.54,198.8,206
+76ers,Fri,A,Home,19,12,31,26.54,198.8,233
+76ers,Sun,New York,Away,20,12,32,26.54,198.8,231
+76ers,Tue,Washington,Away,20,13,33,26.54,198.8,227
+76ers,Fri,New Orleans,Away,20,14,34,26.54,198.8,243
+76ers,Sat,Oklahoma City,Away,21,14,35,26.54,198.8,211
+76ers,Mon,New Orleans,Home,22,14,36,26.54,198.8,231
+76ers,Wed,Indiana,Home,23,14,37,26.54,198.8,255
+76ers,Fri,Chicago,Home,23,15,38,26.54,198.8,238
+76ers,Sun,Detroit,Away,24,15,39,26.54,198.8,234
+76ers,Tue,Detroit,Home,25,15,40,26.54,198.8,263
+Suns,Wed,Dallas,Home,1,0,1,28.05,199.1,212
+Suns,Fri,Portland,Away,1,1,2,28.05,199.1,224
+Suns,Sun,A,Away,2,1,3,28.05,199.1,207
+Suns,Tue,Golden State,Home,3,1,4,28.05,199.1,239
+Suns,Fri,New Orleans,Home,4,1,5,28.05,199.1,235
+Suns,Sun,Houston,Home,5,1,6,28.05,199.1,233
+Suns,Tue,Minnesota,Home,6,1,7,28.05,199.1,223
+Suns,Fri,Portland,Home,6,2,8,28.05,199.1,214
+Suns,Sat,Portland,Home,7,2,9,28.05,199.1,184
+Suns,Mon,Philadelphia,Away,7,3,10,28.05,199.1,188
+Suns,Wed,Minnesota,Away,8,3,11,28.05,199.1,246
+Suns,Fri,Orlando,Away,8,4,12,28.05,199.1,211
+Suns,Mon,Miami,Away,8,5,13,28.05,199.1,225
+Suns,Wed,Golden State,Home,9,5,14,28.05,199.1,249
+Suns,Fri,Utah,Away,9,6,15,28.05,199.1,267
+Suns,Sun,New York,Home,10,6,16,28.05,199.1,211
+Suns,Tue,Los Angeles,Home,11,6,17,28.05,199.1,220
+Suns,Fri,Detroit,Home,12,6,18,28.05,199.1,210
+Suns,Sat,Utah,Home,13,6,19,28.05,199.1,225
+Suns,Mon,Sacramento,Away,14,6,20,28.05,199.1,239
+Suns,Wed,Chicago,Home,15,6,21,28.05,199.1,245
+Suns,Fri,Houston,Home,15,7,22,28.05,199.1,243
+Suns,Sun,San Antonio,Away,16,7,23,28.05,199.1,228
+Suns,Mon,Dallas,Away,16,8,24,28.05,199.1,241
+Suns,Wed,Boston,Home,16,9,25,28.05,199.1,223
+Suns,Fri,New Orleans,Away,16,10,26,28.05,199.1,245
+Suns,Sun,New Orleans,Away,16,11,27,28.05,199.1,253
+Suns,Tue,Houston,Away,16,12,28,28.05,199.1,208
+Suns,Thu,A,Away,17,12,29,28.05,199.1,206
+Suns,Sat,New Orleans,Home,18,12,30,28.05,199.1,232
+Suns,Mon,Los Angeles,Home,19,12,31,28.05,199.1,234
+Suns,Tue,Washington,Home,19,13,32,28.05,199.1,223
+Suns,Fri,Memphis,Home,19,14,33,28.05,199.1,225
+Suns,Sun,Denver,Away,19,15,34,28.05,199.1,253
+Suns,Tue,Memphis,Away,20,15,35,28.05,199.1,233
+Suns,Wed,Washington,Away,20,16,36,28.05,199.1,229
+Suns,Fri,Toronto,Away,20,17,37,28.05,199.1,217
+Suns,Mon,New York,Away,20,18,38,28.05,199.1,185
+Suns,Wed,Cleveland,Away,21,22,43,28.05,199.1,178
+Suns,Fri,Miami,Home,20,20,40,28.05,199.1,200
+Suns,Sun,Cleveland,Home,20,21,41,28.05,199.1,210
+Suns,Tue,Golden State,Away,21,21,42,28.05,199.1,238
+Suns,Wed,Denver,Away,21,22,43,28.05,199.1,223
+Trail Blazers,Wed,Sacramento,Away,1,0,1,24.78,198.7,223
+Trail Blazers,Fri,Phoenix,Home,2,0,2,24.78,198.7,224
+Trail Blazers,Sun,Los Angeles,Away,3,0,3,24.78,198.7,210
+Trail Blazers,Mon,Denver,Home,4,0,4,24.78,198.7,245
+Trail Blazers,Wed,Miami,Home,4,1,5,24.78,198.7,217
+Trail Blazers,Fri,Houston,Home,5,1,6,24.78,198.7,236
+Trail Blazers,Wed,Memphis,Home,5,2,7,24.78,198.7,217
+Trail Blazers,Fri,Phoenix,Away,6,2,8,24.78,198.7,214
+Trail Blazers,Sat,Phoenix,Away,6,3,9,24.78,198.7,184
+Trail Blazers,Mon,Miami,Away,7,3,10,24.78,198.7,217
+Trail Blazers,Wed,Charlotte,Away,8,3,11,24.78,198.7,200
+Trail Blazers,Thu,New Orleans,Away,9,3,12,24.78,198.7,201
+Trail Blazers,Sat,Dallas,Away,9,4,13,24.78,198.7,229
+Trail Blazers,Tue,San Antonio,Home,10,4,14,24.78,198.7,227
+Trail Blazers,Thu,Brooklyn,Home,10,5,15,24.78,198.7,216
+Trail Blazers,Sat,Utah,Home,10,6,16,24.78,198.7,231
+Trail Blazers,Mon,Milwaukee,Away,10,7,17,24.78,198.7,230
+Trail Blazers,Wed,Cleveland,Away,10,8,18,24.78,198.7,210
+Trail Blazers,Fri,New York,Away,11,8,19,24.78,198.7,261
+Trail Blazers,Sun,Brooklyn,Away,11,9,20,24.78,198.7,208
+Trail Blazers,Tue,A,Home,11,10,21,24.78,198.7,230
+Trail Blazers,Wed,Los Angeles,Away,11,11,22,24.78,198.7,237
+Trail Blazers,Sat,Utah,Away,12,11,23,24.78,198.7,227
+Trail Blazers,Sun,Indiana,Home,13,11,24,24.78,198.7,216
+Trail Blazers,Thu,Denver,Home,13,12,25,24.78,198.7,241
+Trail Blazers,Sat,Minnesota,Home,14,12,26,24.78,198.7,242
+Trail Blazers,Mon,Minnesota,Home,15,12,27,24.78,198.7,245
+Trail Blazers,Wed,San Antonio,Away,16,12,28,24.78,198.7,240
+Trail Blazers,Fri,Dallas,Away,16,13,29,24.78,198.7,240
+Trail Blazers,Sat,Houston,Away,17,13,30,24.78,198.7,202
+Trail Blazers,Mon,Oklahoma City,Away,17,14,31,24.78,198.7,244
+Trail Blazers,Wed,Oklahoma City,Away,17,15,32,24.78,198.7,199
+Trail Blazers,Fri,Denver,Away,17,16,33,24.78,198.7,227
+Trail Blazers,Mon,Charlotte,Home,18,16,34,24.78,198.7,237
+Trail Blazers,Fri,Golden State,Away,18,17,35,24.78,198.7,230
+Trail Blazers,Mon,Detroit,Home,19,17,36,24.78,198.7,241
+Trail Blazers,Wed,Minnesota,Away,19,18,37,24.78,198.7,219
+Trail Blazers,Fri,Indiana,Away,19,19,38,24.78,198.7,207
+Trail Blazers,Sun,Toronto,Away,19,20,39,24.78,198.7,222
+Trail Blazers,Tue,Orlando,Home,19,21,40,24.78,198.7,215
+Kings,Wed,Portland,Home,0,1,1,25.97,201.1,223
+Kings,Sat,A,Home,0,2,2,25.97,201.1,220
+Kings,Sun,Golden State,Away,0,3,3,25.97,201.1,255
+Kings,Thu,Memphis,Home,0,4,4,25.97,201.1,235
+Kings,Sat,Miami,Home,1,4,5,25.97,201.1,232
+Kings,Mon,Charlotte,Away,2,4,6,25.97,201.1,223
+Kings,Wed,Miami,Away,2,5,7,25.97,201.1,217
+Kings,Sat,Orlando,Away,3,5,8,25.97,201.1,249
+Kings,Mon,Golden State,Away,3,6,9,25.97,201.1,229
+Kings,Wed,Cleveland,Home,4,6,10,25.97,201.1,247
+Kings,Fri,Los Angeles,Away,5,6,11,25.97,201.1,234
+Kings,Sun,Golden State,Home,6,6,12,25.97,201.1,237
+Kings,Tue,Brooklyn,Home,7,6,13,25.97,201.1,274
+Kings,Thu,San Antonio,Home,8,6,14,25.97,201.1,242
+Kings,Sun,Detroit,Home,9,6,15,25.97,201.1,266
+Kings,Tue,Memphis,Away,10,6,16,25.97,201.1,222
+Kings,Wed,Atlanta,Away,10,7,17,25.97,201.1,221
+Kings,Fri,Boston,Away,10,8,18,25.97,201.1,226
+Kings,Mon,Phoenix,Home,10,9,19,25.97,201.1,239
+Kings,Wed,Indiana,Home,11,9,20,25.97,201.1,251
+Kings,Sat,A,Away,12,9,21,25.97,201.1,219
+Kings,Sun,Chicago,Home,13,9,22,25.97,201.1,211
+Kings,Wed,Milwaukee,Away,13,10,23,25.97,201.1,239
+Kings,Fri,Cleveland,Away,14,10,24,25.97,201.1,201
+Kings,Sun,New York,Away,14,11,25,25.97,201.1,211
+Kings,Tue,Philadelphia,Away,14,12,26,25.97,201.1,226
+Kings,Wed,Toronto,Away,15,12,27,25.97,201.1,247
+Kings,Fri,Detroit,Away,16,12,28,25.97,201.1,235
+Kings,Mon,Charlotte,Home,16,13,29,25.97,201.1,244
+Kings,Wed,Los Angeles,Home,17,13,30,25.97,201.1,254
+Kings,Fri,Washington,Home,17,14,31,25.97,201.1,236
+Kings,Tue,Denver,Home,17,15,32,25.97,201.1,219
+Kings,Wed,Denver,Home,18,15,33,25.97,201.1,253
+Kings,Fri,Utah,Home,19,15,34,25.97,201.1,251
+Kings,Sun,Memphis,Away,19,16,35,25.97,201.1,226
+Kings,Tue,Utah,Away,20,16,36,25.97,201.1,232
+Kings,Wed,Atlanta,Home,20,17,37,25.97,201.1,237
+Kings,Sat,Los Angeles,Home,20,18,38,25.97,201.1,270
+Kings,Mon,Orlando,Home,21,18,39,25.97,201.1,247
+Kings,Wed,Houston,Home,22,18,40,25.97,201.1,250
+Spurs,Wed,Charlotte,Home,0,1,1,23.84,201,231
+Spurs,Fri,Indiana,Away,1,1,2,23.84,201,271
+Spurs,Sat,Philadelphia,Away,2,1,3,23.84,201,219
+Spurs,Mon,Minnesota,Away,3,1,4,23.84,201,221
+Spurs,Wed,Minnesota,Away,3,2,5,23.84,201,256
+Spurs,Fri,Chicago,Home,4,2,6,23.84,201,253
+Spurs,Sun,Minnesota,Home,5,2,7,23.84,201,205
+Spurs,Wed,Toronto,Home,5,3,8,23.84,201,243
+Spurs,Fri,A,Home,5,4,9,23.84,201,219
+Spurs,Sat,Denver,Away,5,5,10,23.84,201,227
+Spurs,Mon,Denver,Home,5,6,11,23.84,201,224
+Spurs,Wed,Memphis,Home,5,7,12,23.84,201,246
+Spurs,Fri,Milwaukee,Home,6,7,13,23.84,201,204
+Spurs,Mon,Golden State,Away,6,8,14,23.84,201,227
+Spurs,Tue,Portland,Away,6,9,15,23.84,201,227
+Spurs,Thu,Sacramento,Away,6,10,16,23.84,201,242
+Spurs,Sat,A,Away,6,11,17,23.84,201,216
+Spurs,Sun,Los Angeles,Away,6,12,18,23.84,201,215
+Spurs,Wed,New Orleans,Home,6,13,19,23.84,201,239
+Spurs,Fri,Los Angeles,Home,6,14,20,23.84,201,199
+Spurs,Sat,Los Angeles,Home,6,15,21,23.84,201,281
+Spurs,Wed,Oklahoma City,Away,6,16,22,23.84,201,230
+Spurs,Fri,New Orleans,Home,6,17,23,23.84,201,216
+Spurs,Sun,Phoenix,Home,6,18,24,23.84,201,228
+Spurs,Thu,Houston,Home,7,18,25,23.84,201,227
+Spurs,Sat,Miami,Away,8,18,26,23.84,201,226
+Spurs,Mon,Cleveland,Home,9,18,27,23.84,201,223
+Spurs,Wed,Portland,Home,9,19,28,23.84,201,240
+Spurs,Sat,Miami,Home,9,20,29,23.84,201,212
+Spurs,Mon,Houston,Away,10,20,30,23.84,201,229
+Spurs,Thu,New Orleans,Away,10,21,31,23.84,201,243
+Spurs,Fri,Orlando,Away,10,22,32,23.84,201,246
+Spurs,Mon,Utah,Home,11,22,33,23.84,201,248
+Spurs,Tue,Oklahoma City,Away,11,23,34,23.84,201,244
+Spurs,Thu,New York,Home,12,23,35,23.84,201,237
+Spurs,Sat,Dallas,Home,12,24,36,23.84,201,251
+Spurs,Mon,Brooklyn,Away,12,25,37,23.84,201,242
+Spurs,Wed,New York,Away,12,26,38,23.84,201,231
+Spurs,Fri,Detroit,Home,13,26,39,23.84,201,230
+Spurs,Sat,Boston,Home,13,27,40,23.84,201,237
+Spurs,Mon,Memphis,Away,13,28,41,23.84,201,234
+Spurs,Wed,Memphis,Away,13,29,42,23.84,201,264
+Raptors,Wed,Cleveland,Home,1,0,1,25.88,199.6,213
+Raptors,Fri,Brooklyn,Away,1,1,2,25.88,199.6,214
+Raptors,Sat,Miami,Away,1,2,3,25.88,199.6,221
+Raptors,Mon,Miami,Away,2,2,4,25.88,199.6,188
+Raptors,Wed,Philadelphia,Home,3,2,5,25.88,199.6,228
+Raptors,Fri,Philadelphia,Home,3,3,6,25.88,199.6,202
+Raptors,Mon,Atlanta,Home,4,3,7,25.88,199.6,248
+Raptors,Wed,San Antonio,Away,5,3,8,25.88,199.6,243
+Raptors,Fri,Dallas,Away,5,4,9,25.88,199.6,221
+Raptors,Sun,Chicago,Home,6,4,10,25.88,199.6,217
+Raptors,Mon,Chicago,Away,6,5,11,25.88,199.6,208
+Raptors,Wed,Houston,Home,7,5,12,25.88,199.6,225
+Raptors,Fri,Oklahoma City,Away,7,6,13,25.88,199.6,245
+Raptors,Sat,Indiana,Away,7,7,14,25.88,199.6,222
+Raptors,Mon,Detroit,Away,8,7,15,25.88,199.6,226
+Raptors,Wed,Miami,Home,9,7,16,25.88,199.6,216
+Raptors,Sat,Atlanta,Away,9,8,17,25.88,199.6,246
+Raptors,Wed,Brooklyn,Home,9,9,18,25.88,199.6,210
+Raptors,Sat,Dallas,Home,10,9,19,25.88,199.6,205
+Raptors,Mon,Cleveland,Home,11,9,20,25.88,199.6,188
+Raptors,Wed,New Orleans,Away,11,10,21,25.88,199.6,234
+Raptors,Fri,Brooklyn,Away,11,11,22,25.88,199.6,219
+Raptors,Sat,Orlando,Home,12,11,23,25.88,199.6,229
+Raptors,Mon,Boston,Home,12,12,24,25.88,199.6,226
+Raptors,Wed,Los Angeles,Home,13,12,25,25.88,199.6,239
+Raptors,Fri,Orlando,Away,13,13,26,25.88,199.6,222
+Raptors,Sun,Orlando,Away,13,14,27,25.88,199.6,210
+Raptors,Wed,Sacramento,Home,13,15,28,25.88,199.6,247
+Raptors,Fri,Brooklyn,Home,13,16,29,25.88,199.6,235
+Raptors,Sun,Golden State,Home,13,17,30,25.88,199.6,236
+Raptors,Mon,Philadelphia,Away,13,18,31,25.88,199.6,205
+Raptors,Wed,New York,Away,14,18,32,25.88,199.6,219
+Raptors,Fri,Cleveland,Away,15,18,33,25.88,199.6,225
+Raptors,Tue,A,Home,15,19,34,25.88,199.6,237
+Raptors,Thu,Memphis,Home,15,20,35,25.88,199.6,225
+Raptors,Fri,Phoenix,Home,16,20,36,25.88,199.6,217
+Raptors,Mon,Indiana,Away,16,21,37,25.88,199.6,236
+Raptors,Wed,Milwaukee,Home,16,22,38,25.88,199.6,205
+Raptors,Fri,New York,Home,16,23,39,25.88,199.6,220
+Raptors,Sun,Portland,Home,17,23,40,25.88,199.6,222
+Raptors,Tue,Charlotte,Home,18,23,41,25.88,199.6,252
+Jazz,Wed,Denver,Home,1,0,1,25.86,197.4,225
+Jazz,Fri,Minnesota,Away,2,0,2,25.86,197.4,258
+Jazz,Sun,New Orleans,Away,3,0,3,25.86,197.4,243
+Jazz,Mon,Houston,Away,3,1,4,25.86,197.4,222
+Jazz,Wed,Houston,Home,4,1,5,25.86,197.4,210
+Jazz,Fri,Denver,Away,4,2,6,25.86,197.4,218
+Jazz,Sat,Memphis,Home,5,2,7,25.86,197.4,247
+Jazz,Mon,Memphis,Home,6,2,8,25.86,197.4,226
+Jazz,Wed,Dallas,Away,6,3,9,25.86,197.4,203
+Jazz,Fri,Los Angeles,Away,7,3,10,25.86,197.4,246
+Jazz,Sun,A,Away,8,3,11,25.86,197.4,212
+Jazz,Mon,Los Angeles,Home,9,3,12,25.86,197.4,255
+Jazz,Wed,Atlanta,Away,10,3,13,25.86,197.4,244
+Jazz,Sat,Washington,Away,10,4,14,25.86,197.4,233
+Jazz,Sun,Philadelphia,Away,10,5,15,25.86,197.4,203
+Jazz,Tue,New York,Home,10,6,16,25.86,197.4,229
+Jazz,Fri,Phoenix,Home,11,6,17,25.86,197.4,267
+Jazz,Sat,Portland,Away,12,6,18,25.86,197.4,231
+Jazz,Mon,A,Away,12,7,19,25.86,197.4,235
+Jazz,Wed,Detroit,Home,12,8,20,25.86,197.4,241
+Jazz,Fri,Golden State,Away,12,9,21,25.86,197.4,247
+Jazz,Sat,Phoenix,Away,12,10,22,25.86,197.4,225
+Jazz,Mon,Chicago,Home,12,11,23,25.86,197.4,221
+Jazz,Wed,A,Home,13,11,24,25.86,197.4,237
+Jazz,Fri,Indiana,Home,14,11,25,25.86,197.4,258
+Jazz,Sat,Portland,Home,14,12,26,25.86,197.4,227
+Jazz,Wed,Golden State,Home,15,12,27,25.86,197.4,247
+Jazz,Fri,Minnesota,Home,15,13,28,25.86,197.4,226
+Jazz,Sat,Denver,Away,15,14,29,25.86,197.4,225
+Jazz,Tue,New Orleans,Home,16,14,30,25.86,197.4,221
+Jazz,Thu,New Orleans,Home,17,14,31,25.86,197.4,261
+Jazz,Sat,Milwaukee,Away,17,15,32,25.86,197.4,220
+Jazz,Mon,Cleveland,Away,17,16,33,25.86,197.4,221
+Jazz,Tue,Detroit,Away,18,16,34,25.86,197.4,237
+Jazz,Thu,Washington,Home,19,16,35,25.86,197.4,232
+Jazz,Mon,San Antonio,Away,19,17,36,25.86,197.4,248
+Jazz,Wed,Golden State,Away,19,18,37,25.86,197.4,219
+Jazz,Fri,Sacramento,Away,19,19,38,25.86,197.4,251
+Jazz,Sat,Miami,Home,19,20,39,25.86,197.4,249
+Jazz,Tue,Sacramento,Home,19,21,40,25.86,197.4,232
+Jazz,Thu,Houston,Away,20,21,41,25.86,197.4,245
+Jazz,Sat,Chicago,Away,20,22,42,25.86,197.4,244
+Jazz,Sun,Memphis,Away,20,23,43,25.86,197.4,241
+Jazz,Tue,Cleveland,Home,21,23,44,25.86,197.4,230
+Wizards,Wed,Indiana,Away,1,0,1,26.26,202.4,221
+Wizards,Fri,Chicago,Home,2,0,2,26.26,202.4,202
+Wizards,Sun,Cleveland,Away,2,1,3,26.26,202.4,224
+Wizards,Tue,Detroit,Home,3,1,4,26.26,202.4,219
+Wizards,Fri,Indiana,Home,3,2,5,26.26,202.4,244
+Wizards,Sun,Boston,Away,3,3,6,26.26,202.4,206
+Wizards,Mon,Philadelphia,Home,3,4,7,26.26,202.4,229
+Wizards,Wed,Philadelphia,Away,4,4,8,26.26,202.4,232
+Wizards,Fri,Brooklyn,Home,4,5,9,26.26,202.4,214
+Wizards,Sun,Memphis,Away,4,6,10,26.26,202.4,200
+Wizards,Mon,Charlotte,Away,5,6,11,26.26,202.4,208
+Wizards,Thu,Dallas,Home,6,6,12,26.26,202.4,218
+Wizards,Sat,Utah,Home,7,6,13,26.26,202.4,233
+Wizards,Sun,Memphis,Home,8,6,14,26.26,202.4,194
+Wizards,Wed,Oklahoma City,Home,8,7,15,26.26,202.4,241
+Wizards,Fri,Miami,Home,9,7,16,26.26,202.4,213
+Wizards,Sun,Charlotte,Home,10,7,17,26.26,202.4,208
+Wizards,Wed,Miami,Away,10,8,18,26.26,202.4,218
+Wizards,Fri,Miami,Away,10,9,19,26.26,202.4,217
+Wizards,Sun,Boston,Away,10,10,20,26.26,202.4,251
+Wizards,Mon,Minnesota,Home,11,10,21,26.26,202.4,269
+Wizards,Wed,Brooklyn,Away,11,11,22,26.26,202.4,220
+Wizards,Fri,Charlotte,Away,11,12,23,26.26,202.4,233
+Wizards,Sun,Los Angeles,Home,11,13,24,26.26,202.4,249
+Wizards,Wed,Chicago,Away,11,14,25,26.26,202.4,226
+Wizards,Fri,Indiana,Away,11,15,26,26.26,202.4,232
+Wizards,Sat,A,Home,11,16,27,26.26,202.4,221
+Wizards,Mon,Brooklyn,Home,11,17,28,26.26,202.4,212
+Wizards,Wed,Denver,Away,11,18,29,26.26,202.4,269
+Wizards,Sat,A,Away,11,19,30,26.26,202.4,195
+Wizards,Sun,Los Angeles,Away,11,20,31,26.26,202.4,236
+Wizards,Tue,Phoenix,Away,12,20,32,26.26,202.4,223
+Wizards,Thu,Utah,Away,12,21,33,26.26,202.4,232
+Wizards,Fri,Sacramento,Away,13,21,34,26.26,202.4,236
+Wizards,Tue,Philadelphia,Home,14,21,35,26.26,202.4,227
+Wizards,Wed,Phoenix,Home,15,21,36,26.26,202.4,229
+Wizards,Fri,Orlando,Away,16,21,37,26.26,202.4,219
+Wizards,Sun,Milwaukee,Away,17,21,38,26.26,202.4,213
+Wizards,Tue,Milwaukee,Away,17,22,39,26.26,202.4,236
+Wizards,Fri,Oklahoma City,Away,17,23,40,26.26,202.4,237
+Wizards,Mon,New Orleans,Home,17,24,41,26.26,202.4,244
+Wizards,Wed,Chicago,Home,18,24,42,26.26,202.4,197

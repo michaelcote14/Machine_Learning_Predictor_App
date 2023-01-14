@@ -510,32 +510,34 @@ class Trainer():
 
         # split_object = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
 
+        # ToDo figure out how to do stratified shuffle split
+        # # Splits the data set
+        # for train_index, test_index in split_object.split(df, df[target_variable]):
+        #     stratified_training_set = df.loc[train_index]
+        #     stratified_testing_set = df.loc[test_index]
+        # X_train = stratified_training_set.drop([target_variable])
+        # y_train = stratified_training_set[target_variable]
+        # X_test = stratified_testing_set.drop([target_variable])
+        # y_test = stratified_testing_set[target_variable]
+
+        regression_models = {
+            'regression': LinearRegression(),
+            'br': BayesianRidge(),
+            'huber': HuberRegressor(),
+            'ridge': Ridge(),
+            'omp': OrthogonalMatchingPursuit(),
+            'lightgbm': LGBMRegressor()
+                            }
+
         self.upgrades_to_pickle_model = 0
         for lap in range(int(trainer_runtimes)):
+            # Update the progress bar
             training_progress_bar['value'] += (1 / int(trainer_runtimes) * 100)
             self.training_progress_label.config(text=str(format(training_progress_bar['value'], '.2f')) + '%')
             training_progress_window.update_idletasks()
 
             current_model_total_score, old_pickled_model_total_score = 0, 0
             for _ in range(small_loops):
-                # ToDo figure out how to do stratified shuffle split
-                # # Splits the data set
-                # for train_index, test_index in split_object.split(df, df[target_variable]):
-                #     stratified_training_set = df.loc[train_index]
-                #     stratified_testing_set = df.loc[test_index]
-                # X_train = stratified_training_set.drop([target_variable])
-                # y_train = stratified_training_set[target_variable]
-                # X_test = stratified_testing_set.drop([target_variable])
-                # y_test = stratified_testing_set[target_variable]
-
-                regression_models = {
-                    'regression': LinearRegression(),
-                    'br': BayesianRidge(),
-                    'huber': HuberRegressor(),
-                    'ridge': Ridge(),
-                    'omp': OrthogonalMatchingPursuit(),
-                    'lightgbm': LGBMRegressor()
-                }
 
                 # Split the data
                 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
@@ -544,86 +546,98 @@ class Trainer():
                 for model in regression_models.values():
                     model.fit(X_train, y_train)
 
+                # Optimize the weights of each regression model
+                starting_weights = [1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6]
+
+                score = (
+                    regression_models['regression'].score(X_test, y_test) * starting_weights[0] +
+                    regression_models['br'].score(X_test, y_test) * starting_weights[1] +
+                    regression_models['huber'].score(X_test, y_test) * starting_weights[2] +
+                    regression_models['ridge'].score(X_test, y_test) * starting_weights[3] +
+                    regression_models['omp'].score(X_test, y_test) * starting_weights[4] +
+                    regression_models['lightgbm'].score(X_test, y_test) * starting_weights[5]
+                        )
+                #
+                # def objective(x, sign=-1.0):  # the -1.0 makes this into a maximization optimization
+                #     score = (
+                #             regression_models['regression'].score(X_test, y_test) * x[0] +
+                #             regression_models['br'].score(X_test, y_test) * x[1] +
+                #             regression_models['huber'].score(X_test, y_test) * x[2] +
+                #             regression_models['ridge'].score(X_test, y_test) * x[3] +
+                #             regression_models['omp'].score(X_test, y_test) * x[4] +
+                #             regression_models['lightgbm'].score(X_test, y_test) * x[5]
+                #     )
+                #     return sign * score
+
+                # boundary = (0.0, 1.0)  # This helps the max optimizer know the limits that each weight can go to
+                # all_boundaries = (boundary, boundary, boundary, boundary, boundary,
+                #                   boundary)  # assigns each boundary to each optimizer variable
+                # # Creates the constraint that all weights added together cannot exceed 1
+                # constraint1 = ({'type': 'eq', 'fun': lambda x: x[0] + x[1] + x[2] + x[3] + x[4] + x[5] - 1})
+                # constraints_list = [constraint1]
+                # solution = minimize(objective, starting_weights, bounds=all_boundaries, constraints=constraints_list,
+                #                     method='SLSQP')
+
+
                 # ToDo add in cross validation to the ensemble
 
-                # Optimize the weights of each regression model
-                starting_weights = [1/6, 1/6, 1/6, 1/6, 1/6, 1/6]
-
-                def objective(x, sign=-1.0): # the -1.0 makes this into a maximization optimization
-                    score = (
-                        regression_models['regression'].score(X_test, y_test) * x[0] +
-                        regression_models['br'].score(X_test, y_test) * x[1] +
-                        regression_models['huber'].score(X_test, y_test) * x[2] +
-                        regression_models['ridge'].score(X_test, y_test) * x[3] +
-                        regression_models['omp'].score(X_test, y_test) * x[4] +
-                        regression_models['lightgbm'].score(X_test, y_test) * x[5]
-                            )
-                    return sign * score
-
-                boundary = (0.0, 1.0) # This helps the max optimizer know the limits that each weight can go to
-                all_boundaries = (boundary, boundary, boundary, boundary, boundary, boundary) # assigns each boundary to each optimizer variable
-                # Creates the constraint that all weights added together cannot exceed 1
-                constraint1 = ({'type': 'eq', 'fun': lambda x: x[0] + x[1] + x[2] + x[3] + x[4] + x[5] - 1})
-                constraints_list = [constraint1]
-                solution = minimize(objective, starting_weights, bounds=all_boundaries, constraints=constraints_list, method='SLSQP')
-
-                current_model_weights = solution.x
+                # current_model_weights = solution.x
                 # print('current model weights:', current_model_weights)
-                current_model_score = -(solution.fun)
+                # current_model_score = -(solution.fun)
                 # print('current model score:', current_model_score)
+                current_model_score = score
                 current_model_total_score += current_model_score
 
-
                 if os.path.exists(save_pickle_to):
-                    pickle_in = open(save_pickle_to, 'r+b')
-                    pickled_weights_and_models_dict = pickle.load(pickle_in)
-                    pickle_in.close()
-                    models = pickled_weights_and_models_dict.keys()
-                    weights = pickled_weights_and_models_dict.values()
-                    for model in models:
-                        model.fit(X_train, y_train)
+                    pickle_object = open(save_pickle_to, 'r+b')
+                    pickled_weights_and_models_dict =   pickle.load(pickle_object)
+                    pickle_object.close()
+
+                    pickled_weights = pickled_weights_and_models_dict.values()
+                    pickled_models = pickled_weights_and_models_dict.keys()
 
                     old_pickled_model_score = (
-                            list(models)[0].score(X_test, y_test) * list(weights)[0] +
-                            list(models)[1].score(X_test, y_test) * list(weights)[1] +
-                            list(models)[2].score(X_test, y_test) * list(weights)[2] +
-                            list(models)[3].score(X_test, y_test) * list(weights)[3] +
-                            list(models)[4].score(X_test, y_test) * list(weights)[4] +
-                            list(models)[5].score(X_test, y_test) * list(weights)[5]
-                                                )
-                    # old_pickled_regression_line = pickle.load(pickle_in)
-                    old_pickled_model_total_score += old_pickled_model_score
-                    # print('old pickled model score:', old_pickled_model_score)
+                        list(pickled_models)[0].score(X_test, y_test) * list(pickled_weights)[0] +
+                        list(pickled_models)[1].score(X_test, y_test) * list(pickled_weights)[1] +
+                        list(pickled_models)[2].score(X_test, y_test) * list(pickled_weights)[2] +
+                        list(pickled_models)[3].score(X_test, y_test) * list(pickled_weights)[3] +
+                        list(pickled_models)[4].score(X_test, y_test) * list(pickled_weights)[4] +
+                        list(pickled_models)[5].score(X_test, y_test) * list(pickled_weights)[5]
+                                            )
 
-                    # old_pickled_model_score = old_pickled_regression_line.score(X_test, y_test)
-                    # old_pickled_model_total_score += old_pickled_model_score
+                    old_pickled_model_total_score += old_pickled_model_score
+
+
                 else:
-                    old_pickled_model_score = -1000000
+                    old_pickled_model_score = -999999
                     old_pickled_model_total_score += old_pickled_model_score
 
             global current_model_average_score
             current_model_average_score = current_model_total_score / small_loops
-            print('current model average score:', current_model_average_score)
             old_pickled_model_average_score = old_pickled_model_total_score / small_loops
-            print('old pickled model average score:', old_pickled_model_average_score)
+
+
 
             if current_model_average_score > old_pickled_model_average_score:
                 print('\033[32m' + '\n=======================Model Updated=======================')
                 print('Runtime:', lap)
+                print('Current model average score:', current_model_average_score)
+                print('Old pickled model average score:', old_pickled_model_average_score)
                 # resets the coloring
                 print('\033[39m')
 
+
                 # Put current model weights and models into pickle
+                current_model_weights = starting_weights
                 current_weights_and_models_dict = {
                     regression_models['regression']: current_model_weights[0],
-                   regression_models['br']: current_model_weights[1],
-                   regression_models['huber']: current_model_weights[2],
-                   regression_models['ridge']: current_model_weights[3],
-                   regression_models['omp']: current_model_weights[4],
-                   regression_models['lightgbm']: current_model_weights[5]}
+                    regression_models['br']: current_model_weights[1],
+                    regression_models['huber']: current_model_weights[2],
+                    regression_models['ridge']: current_model_weights[3],
+                    regression_models['omp']: current_model_weights[4],
+                    regression_models['lightgbm']: current_model_weights[5]}
 
-                old_pickled_model_average_score = current_model_average_score
-                self.best_average_score = current_model_average_score
+                self.best_average_score = current_model_total_score / small_loops
                 self.best_score_runtimes = trainer_runtimes
                 self.upgrades_to_pickle_model = self.upgrades_to_pickle_model + 1
                 self.exact_upgrade_runtimes = lap
@@ -632,9 +646,11 @@ class Trainer():
 
             else:
                 self.best_average_score = old_pickled_model_average_score
+
                 if self.state == 'existing':
                     selected_row = self.selected_treeview_row
                     self.best_score_runtimes = self.training_model_tree.item(selected_row, 'values')[6]
+
 
         try:
             self.model_upgrades_label.config(text='Upgrades to Selected Model: ' + str(self.upgrades_to_pickle_model))
