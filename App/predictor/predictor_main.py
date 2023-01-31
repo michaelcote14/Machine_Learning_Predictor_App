@@ -3,10 +3,8 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
-
 import pandas as pd
 from PIL import ImageTk, Image
-
 from Step_2_Visualizing.visualization import Grapher
 
 LARGE_FONT = ('Arial', 11, 'bold')
@@ -347,7 +345,7 @@ class PredictorPage(tk.Frame):
         self.image_changer('../../Images/green_checkmark.png', self.green_check_label_trainer, 24, 24)
 
     def on_view_data_button(self):
-        ViewDataPage(self.csv_location)
+        ViewDataPage(self.csv_location, 'viewing')
 
     def scalar_runtime_entry_clearer(self, e):
         self.scaler_runtimes_entry.delete(0, END)

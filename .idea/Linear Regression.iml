@@ -6,6 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Guides" />
     <orderEntry type="module" module-name="PyCharmLearningProject" />
+    <orderEntry type="module" module-name="Tkinter_Tutorial" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="renderExternalDocumentation" value="true" />

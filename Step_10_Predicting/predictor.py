@@ -12,6 +12,7 @@ import seaborn as sns
 import sklearn
 from sklearn import metrics
 from sklearn.model_selection import KFold, cross_val_score
+import warnings
 
 
 
@@ -663,6 +664,9 @@ class Predictor:
         return finalized_predictor_array
 
     def predictor(self, dataframe):
+        # Turn off warnings
+        warnings.filterwarnings('ignore')
+
         selected_features = self.selected_features
         selected_features.append(self.target_variable)
 
@@ -735,9 +739,6 @@ class Predictor:
         return self.average_predictions, self.all_actual_values
 
     def predictor_split(self, scaled_df, scaled_df2):
-        # Turn off warnings
-        warnings.filterwarnings('ignore')
-
         # Loads in the regression line using pickle
         pickle_in = open('../../Saved_Models/' + self.selected_training_model + '.pickle', 'rb')
         pickled_weights_and_models_dict = pickle.load(pickle_in)
