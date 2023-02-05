@@ -172,9 +172,6 @@ class PredictorPage(tk.Frame):
                                                                                self.fully_cleaned_df2,
                                                                                single_encoded_df2)
 
-        # Makes the graph button clickable
-        self.graph_button.config(state=NORMAL)
-
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_clean['text'] == 'green':
             self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
@@ -186,7 +183,7 @@ class PredictorPage(tk.Frame):
         self.image_changer('../../Images/green_checkmark.png', self.green_check_label_clean, 24, 24)
 
     def on_graph_button(self):
-        Grapher.main_visualizer(self, self.fully_cleaned_df, self.target_variable)
+        Grapher.main_visualizer(self, self.original_df, self.target_variable)
 
     def on_predict_button(self):
         # Add the target variable column back to the multiple encoded df
@@ -321,6 +318,9 @@ class PredictorPage(tk.Frame):
 
     def on_target_variable_combo_box_click(self, event):
         self.target_variable = self.target_variable_combo_box.get()
+
+        # Makes the graph button clickable
+        self.graph_button.config(state=NORMAL)
 
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_target['text'] == 'green':

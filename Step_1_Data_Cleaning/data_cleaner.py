@@ -12,7 +12,6 @@ def boolean_cleaner(dataframe):
 
     return bool_free_df
 
-
 def full_cleaner(dataframe, target_variable=None):
     # Convert the entire dataframe to uppercase
     for column in dataframe.columns:

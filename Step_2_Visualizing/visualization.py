@@ -58,9 +58,10 @@ class Grapher:
         x = type_clean_df[target_variable].values
         figure, ax = plt.subplots(figsize=(20, 10))
         graph = sns.histplot(x, kde=True, color='black')
-        plt.axvline(mean, 0, 1, color='red')
+        plt.axvline(mean, 0, 1, color='red', label=str(mean))
         plt.ylabel('# of category')
         plt.xlabel(target_variable)
+        plt.legend(loc='upper right')
         # shows values on the top of each bar
         show_values(graph)
 
@@ -105,7 +106,7 @@ class Grapher:
             plt.text(column, type_clean_df.nunique()[column],
                      'Max: ' + str(type_clean_df.max(numeric_only=False)[column]) +
                      '\nMode: ' + str(type_clean_df.mode(numeric_only=False).iloc[0][column]) +
-                     '\nMin: ' + str(type_clean_df.min(numeric_only=False)[0]), ha='center', va='bottom')
+                     '\nMin: ' + str(type_clean_df.min(numeric_only=False).iloc[0][column]), ha='center', va='bottom')
         # This labels the target variable as blue
         for xtick in cp.get_xticklabels():
             if xtick.get_text() == target_variable:
@@ -114,8 +115,8 @@ class Grapher:
 
         return figure
 
-    def main_visualizer(self, type_clean_df, target_variable):
-        Grapher.box_and_whisker(self, type_clean_df, target_variable)
+    def main_visualizer(self, dataframe, target_variable):
+        Grapher.box_and_whisker(self, dataframe, target_variable)
 
         def show_graph(event=None):
             try:
@@ -148,25 +149,25 @@ class Grapher:
             self.full_window_canvas.create_window((0, 0), window=self.full_window_frame2, anchor='nw')
 
             if graph_selection_combo_box.get() == 'Target Correlation':
-                target_correlation_graph = Grapher.heatmap(self, type_clean_df, target_variable)
+                target_correlation_graph = Grapher.heatmap(self, dataframe, target_variable)
 
                 self.selected_graph_canvas = FigureCanvasTkAgg(target_correlation_graph, self.full_window_frame2)
                 self.selected_graph_canvas.get_tk_widget().pack(fill=BOTH, expand=1)
 
             if graph_selection_combo_box.get() == 'All Data Distribution':
-                all_data_distribution_graph = Grapher.box_and_whisker(self, type_clean_df, target_variable)
+                all_data_distribution_graph = Grapher.box_and_whisker(self, dataframe, target_variable)
 
                 self.selected_graph_canvas = FigureCanvasTkAgg(all_data_distribution_graph, self.full_window_frame2)
                 self.selected_graph_canvas.get_tk_widget().pack(fill=BOTH, expand=1)
 
             if graph_selection_combo_box.get() == 'Target Distribution':
-                target_distribution_graph = Grapher.histogram(self, type_clean_df, target_variable)
+                target_distribution_graph = Grapher.histogram(self, dataframe, target_variable)
 
                 self.selected_graph_canvas = FigureCanvasTkAgg(target_distribution_graph, self.full_window_frame2)
                 self.selected_graph_canvas.get_tk_widget().pack(fill=BOTH, expand=1)
 
             if graph_selection_combo_box.get() == 'Unique Values':
-                unique_value_graph = Grapher.unique_value_plot(self, type_clean_df, target_variable)
+                unique_value_graph = Grapher.unique_value_plot(self, dataframe, target_variable)
 
                 self.selected_graph_canvas = FigureCanvasTkAgg(unique_value_graph, self.full_window_frame2)
                 self.selected_graph_canvas.get_tk_widget().pack(fill=BOTH, expand=1)

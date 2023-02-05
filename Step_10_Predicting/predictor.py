@@ -726,7 +726,6 @@ class Predictor:
             total_score += score
             total_mean_absolute_error += mean_absolute_error
 
-            # self.data_known_prediction = regression_line.predict(finalized_predictor_array)[0]
             # ToDo make sure raw doesn't win everytime in the future
 
         self.average_predictions = total_predictions / runtimes
