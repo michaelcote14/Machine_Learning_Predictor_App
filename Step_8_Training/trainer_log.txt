@@ -1,5 +1,0 @@
-Pickle Model Average Accuracy: 0.6938051038683164
-Date Ran: Tue Nov 15 14:52:42 2022 
-Features Used: ['comb_pass_rush_play', 'Humidity', 'pass_hurried', 'offense', 'Over_Under', 'pass_long', 'Opponent_abbrev_BAL', 'Wind_Speed', 'pass_poor_throws', 'rush_long', 'vis_score', 'rush_scrambles', 'home_score', 'rush_att', 'pass_int', 'fumbles_lost', 'pass_rating', 'Total_DKP', 'Surface_grass', 'vis_team_BUF', 'Total_SDP', 'vis_team_DEN']
-
-

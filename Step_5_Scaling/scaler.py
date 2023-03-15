@@ -85,7 +85,6 @@ class Scaler:
         raw_accuracy = Scaler.raw(self, runtimes, X, y, scaler_progressbar, master_frame)
         standardized_accuracy, standardized_df = Scaler.standardizer(self, runtimes, X, y, dataframe,
                                                                      scaler_progressbar, master_frame)
-        standardized_accuracy = 99999999999999999999999999999
         normalized_accuracy, normalized_df = Scaler.normalizer(self, runtimes, X, y, dataframe, scaler_progressbar,
                                                                master_frame)
 

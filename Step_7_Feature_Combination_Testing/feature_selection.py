@@ -33,16 +33,16 @@ class FeatureSelectionPage:
             if feature_selection_window.state() == 'normal': feature_selection_window.focus()
         except:
             # Create window
-            feature_selection_window = Toplevel()
+            feature_selection_window = Toplevel(bg='gray10')
             feature_selection_window.title('Feature Selection')
             feature_selection_window.geometry('1300x350')
 
             # Create a frame for tree
-            feature_selection_tree_frame = Frame(feature_selection_window)
-            feature_selection_tree_frame.pack(ipadx=200)
+            feature_selection_tree_frame = Frame(feature_selection_window, bg='gray10')
+            feature_selection_tree_frame.pack(ipadx=250)
             # Create a frame for buttons
-            self.feature_selection_button_frame = Frame(feature_selection_window)
-            self.feature_selection_button_frame.pack(ipadx=200)
+            self.feature_selection_button_frame = Frame(feature_selection_window, bg='gray10')
+            self.feature_selection_button_frame.pack(ipadx=300, fill='x', expand=True)
 
             # Create tree
             self.feature_selection_tree = ttk.Treeview(feature_selection_tree_frame)
@@ -102,13 +102,16 @@ class FeatureSelectionPage:
 
             # Locations
             self.feature_selection_tree.pack(expand=True, fill=BOTH)
-            use_selected_features_button.grid(row=1, column=0)
-            save_row_order_button.grid(row=2, column=0)
-            delete_selected_button.grid(row=3, column=0)
-            create_new_features_button.grid(row=1, column=1)
-            up_button.grid(row=2, column=1)
-            down_button.grid(row=3, column=1)
-            self.filter_current_dataframe_checkbox.grid(row=1, column=2, padx=5)
+
+            create_new_features_button.grid(row=1, column=0, padx=20, pady=5)
+            use_selected_features_button.grid(row=2, column=0, padx=20, pady=5)
+
+            up_button.grid(row=1, column=1, padx=20, pady=5)
+            down_button.grid(row=2, column=1, padx=20, pady=5)
+            save_row_order_button.grid(row=3, column=1, padx=20, pady=5)
+
+            delete_selected_button.grid(row=3, column=0, padx=20, pady=5)
+            self.filter_current_dataframe_checkbox.grid(row=1, column=2, padx=20, pady=5)
 
             self.query_database()
 

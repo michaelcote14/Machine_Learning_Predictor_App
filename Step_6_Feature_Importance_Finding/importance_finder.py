@@ -52,7 +52,7 @@ class ImportanceFeaturesFinder:
         most_important_features = []
         for n in range(int(feature_length_wanted)):
             new_corr_list = list(sorted_dict)
-            # print('new corr list:', new_corr_list)
+            print('new corr list:', new_corr_list)
             most_important_features.append(new_corr_list[n])
         most_important_values = list(sorted_dict.values())
         print('Most Important Values:', most_important_values)
@@ -79,6 +79,5 @@ class ImportanceFeaturesFinder:
         plt.show()
 
 
-
-
-
+Best Average Accuracy: 0.42163469465356973
+Best Features: ['Temperature', 'Wind_Speed', 'Temperature', 'Vegas_Line', 'Vegas_Line', 'Over_Under', 'Temperature']

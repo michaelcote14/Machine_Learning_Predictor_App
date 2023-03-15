@@ -70,6 +70,7 @@ def target_transformer(dataframe, target_variable):
     if float(min(target_box_cox_transformed_df[target_variable])) > 0:
         target_box_cox_skew_score, target_box_cox_transformed_column, target_box_cox_lambda = box_cox_transformer(
             target_box_cox_transformed_df, target_variable)
+        target_box_cox_skew_score = 999999
     else:
         target_box_cox_skew_score = 999999999
 

@@ -97,18 +97,19 @@ class Grapher:
             graph_width = 15
 
         figure, ax = plt.subplots(figsize=(graph_width, 10))
-        cp = type_clean_df.nunique().plot(kind='bar', color='orange')
+        barplot = type_clean_df.nunique().plot(kind='bar', color='green')
         plt.xticks(rotation=25)
         ax.grid(axis='y')
 
-        # This adds min/max/mode labels to the top of each bar
-        for column in range(len(type_clean_df.nunique())):
-            plt.text(column, type_clean_df.nunique()[column],
-                     'Max: ' + str(type_clean_df.max(numeric_only=False)[column]) +
-                     '\nMode: ' + str(type_clean_df.mode(numeric_only=False).iloc[0][column]) +
-                     '\nMin: ' + str(type_clean_df.min(numeric_only=False).iloc[0][column]), ha='center', va='bottom')
+        # This puts text labels on each bar
+        for i in range(len(type_clean_df.columns)):
+            if type_clean_df.iloc[:, i].dtype != 'object':
+                plt.text(x=i-0.25, y=type_clean_df.nunique()[i], s='Min: ' + str(type_clean_df.iloc[:, i].min()) +
+                                                    '\nMax: ' + str(type_clean_df.iloc[:, i].max()) +
+                                                    '\nMode: ' + str(type_clean_df.iloc[:, i].mode()[0]))
+
         # This labels the target variable as blue
-        for xtick in cp.get_xticklabels():
+        for xtick in barplot.get_xticklabels():
             if xtick.get_text() == target_variable:
                 xtick.set_fontweight('bold')
                 xtick.set_color('blue')

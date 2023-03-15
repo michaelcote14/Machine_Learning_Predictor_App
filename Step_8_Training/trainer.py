@@ -45,15 +45,15 @@ class TrainingModelPage:
             if training_model_window.state() == 'normal': training_model_window.focus()
         except:
             # Create window
-            training_model_window = Toplevel()
+            training_model_window = Toplevel(bg='gray10')
             training_model_window.title('Training Models')
             training_model_window.geometry('1100x350')
 
             # Create frame for tree
-            training_model_tree_frame = Frame(training_model_window)
+            training_model_tree_frame = Frame(training_model_window, bg='gray10')
             training_model_tree_frame.pack(ipadx=200)
             # Create frame for buttons
-            self.training_model_button_frame = Frame(training_model_window)
+            self.training_model_button_frame = Frame(training_model_window, bg='gray10')
             self.training_model_button_frame.pack(ipadx=200)
 
             # Create tree
@@ -133,14 +133,16 @@ class TrainingModelPage:
 
             # Locations
             self.training_model_tree.pack(expand=True, fill=BOTH, padx=5)
-            use_selected_training_model_button.grid(row=1, column=0)
-            create_new_training_model_button.grid(row=1, column=1)
-            delete_selected_model_button.grid(row=3, column=1)
-            up_button.grid(row=2, column=0)
-            down_button.grid(row=3, column=0)
-            further_training_button.grid(row=2, column=1)
-            row_order_saver_button.grid(row=4, column=1)
-            self.filter_current_features_checkbox.grid(row=1, column=2)
+            create_new_training_model_button.grid(row=1, column=0, padx=20, pady=5)
+            use_selected_training_model_button.grid(row=2, column=0, padx=20, pady=5)
+            further_training_button.grid(row=3, column=0, padx=20, pady=5)
+
+            up_button.grid(row=1, column=1, padx=20, pady=5)
+            down_button.grid(row=2, column=1, padx=20, pady=5)
+            row_order_saver_button.grid(row=3, column=1, padx=20, pady=5)
+
+            delete_selected_model_button.grid(row=2, column=2, padx=20, pady=5)
+            self.filter_current_features_checkbox.grid(row=1, column=2, padx=20, pady=5)
 
             self.query_database()
 
@@ -618,7 +620,7 @@ class Trainer():
             if new_training_progress_window.state() == 'normal': new_training_progress_window.focus()
         except:
             # Create window
-            new_training_progress_window = Toplevel(training_model_window)
+            new_training_progress_window = Toplevel(training_model_window, bg='gray10')
             new_training_progress_window.title('Training Progress')
             new_training_progress_window.geometry('350x170')
 
