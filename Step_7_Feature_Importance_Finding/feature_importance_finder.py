@@ -17,7 +17,7 @@ from Extras import functions
 from Extras.functions import time_formatter
 
 
-class FeatureSelectionPage:
+class MostImportantFeaturesPage:
     def __init__(self, target_variable, scaled_df, csv_name, image_changer, green_check_label_features):
         self.target_variable = target_variable
         self.scaled_df = scaled_df
@@ -55,24 +55,20 @@ class FeatureSelectionPage:
 
             # Define columns
             self.feature_selection_tree['columns'] = (
-                'Date_Created', 'Target', 'Dataframe', 'Features', 'R2_Score', 'Runtimes')
+                'Date_Created', 'Target', 'Dataframe', 'Most_Important_Features')
 
             # Format columns
             self.feature_selection_tree.column('#0', width=0, stretch=NO)
             self.feature_selection_tree.column('Date_Created', anchor=W, width=120, stretch=NO)
             self.feature_selection_tree.column('Target', anchor=W, width=110, stretch=NO)
-            self.feature_selection_tree.column('Dataframe', anchor=W, width=180, stretch=NO)
-            self.feature_selection_tree.column('Features', anchor=CENTER, minwidth=850)
-            self.feature_selection_tree.column('R2_Score', anchor=W, width=105, stretch=NO)
-            self.feature_selection_tree.column('Runtimes', anchor=W, width=90, stretch=NO)
+            self.feature_selection_tree.column('Dataframe', anchor=W, width=210, stretch=NO)
+            self.feature_selection_tree.column('Most_Important_Features', anchor=CENTER, minwidth=850)
 
             # Create headings
             self.feature_selection_tree.heading('Date_Created', text='Date_Created', anchor=W)
             self.feature_selection_tree.heading('Target', text='Target', anchor=W)
             self.feature_selection_tree.heading('Dataframe', text='Dataframe', anchor=W)
-            self.feature_selection_tree.heading('Features', text='Features', anchor=CENTER)
-            self.feature_selection_tree.heading('R2_Score', text='R2_Score', anchor=W)
-            self.feature_selection_tree.heading('Runtimes', text='Runtimes', anchor=W)
+            self.feature_selection_tree.heading('Most_Important_Features', text='Most_Important_Features', anchor=CENTER)
 
             # Bind treeview
             self.feature_selection_tree.bind('<Double-Button-1>', self.use_selected_features)
@@ -199,25 +195,23 @@ class FeatureSelectionPage:
 
     def current_row_saver(self):
         # Connect to database
-        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
+        conn = sqlite3.connect('../../Databases/Most_Important_Features_Database')
 
         # Create cursor
         cursor = conn.cursor()
 
         # Delete old data order
-        cursor.execute('DELETE FROM feature_selection_table')
+        cursor.execute('DELETE FROM most_important_features_table')
 
         # Add new record
         for record in self.feature_selection_tree.get_children():
             # Insert new reordered data into table
             cursor.execute(
-                "INSERT INTO feature_selection_table VALUES (:Date_Created, :Dataframe, :Features, :R2_Score, :Runtimes)",
+                "INSERT INTO most_important_features_table VALUES (:Date_Created, :Dataframe, :Most_Important_Features)",
                 {'Date_Created': self.feature_selection_tree.item(record[0], 'values')[0],
                  'Target': self.feature_selection_tree.item(record[0], 'values')[1],
                  'Dataframe': self.feature_selection_tree.item(record[0], 'values')[2],
-                 'Features': self.feature_selection_tree.item(record[0], 'values')[3],
-                 'R2_Score': self.feature_selection_tree(record[0], 'values'[4]),
-                 'Runtimes': self.feature_selection_tree.item(record[0], 'values')[5],
+                 'Most_Important_Features': self.feature_selection_tree.item(record[0], 'values')[3],
                  })
 
         # Commit changes
@@ -242,13 +236,13 @@ class FeatureSelectionPage:
 
         # creates a database if one doesn't already exist, otherwise it connects to it
         conn = sqlite3.connect(
-            '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
+            '../../Databases/Most_Important_Features_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
 
         # Grab only data you want
-        cursor.execute('SELECT * FROM feature_selection_table WHERE Dataframe = :Dataframe AND Target = :Target',
+        cursor.execute('SELECT * FROM most_important_features_table WHERE Dataframe = :Dataframe AND Target = :Target',
                        {'Dataframe': self.csv_name,
                         'Target': self.target_variable})
 
@@ -265,7 +259,7 @@ class FeatureSelectionPage:
         for record in fetched_records:
             self.feature_selection_tree.insert(parent='', index='end', iid=count, text='',
                                                values=(
-                                                   record[0], record[1], record[2], record[3], record[4], record[5]))
+                                                   record[0], record[1], record[2], record[3]))
             # Increment counter
             count += 1
 
@@ -298,13 +292,13 @@ class FeatureSelectionPage:
             self.feature_selection_tree.heading(column_clicked_name, text=column_clicked_name + ' ' * 3 + 'V')
 
             conn = sqlite3.connect(
-                '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
+                '../../Databases/Most_Important_Features_Database')  # creates a database file and puts it in the directory
 
             # creates a cursor that does all the editing
             cursor = conn.cursor()
 
             # query the database (which means save) addresses=the table, oid = unique original id number
-            cursor.execute('SELECT *, oid FROM feature_selection_table ORDER BY ' + column_clicked_name + ' DESC')
+            cursor.execute('SELECT *, oid FROM most_important_features_table ORDER BY ' + column_clicked_name + ' DESC')
             fetched_records = cursor.fetchall()  # fetchone() brings back one record, fetchmany() brings many, fetchall() brings all records
 
             # Commit changes
@@ -335,6 +329,7 @@ class FeatureSelectionPage:
             self.sorted_state = 'off'
 
     def query_database(self):
+        # The below lines must be commented out to recreate the database
         if self.filter_current_dataframe_checkbox.instate(['selected']) == True:
             self.filter_dataframe()
             return
@@ -343,22 +338,20 @@ class FeatureSelectionPage:
 
         # creates a database if one doesn't already exist, otherwise it connects to it
         conn = sqlite3.connect(
-            '../../Databases/Feature_Selection_Database')  # creates a database file and puts it in the directory
+            '../../Databases/Most_Important_Features_Database')  # creates a database file and puts it in the directory
 
         # creates a cursor that does all the editing
         cursor = conn.cursor()
 
         # Create table in database if it doesn't already exist
-        cursor.execute("""CREATE TABLE if not exists feature_selection_table (
+        cursor.execute("""CREATE TABLE if not exists most_important_features_table (
                 Date_Created DATE,
                 Target text,
                 Dataframe text,
-                Features text,
-                R2_Score real,
-                Runtimes integer)""")
+                Most_Important_Features text)""")
 
         # query the database (which means save) addresses=the table, oid = unique original id number
-        cursor.execute('SELECT *, oid FROM feature_selection_table')
+        cursor.execute('SELECT *, oid FROM most_important_features_table')
         fetched_records = cursor.fetchall()  # fetchone() brings back one record, fetchmany() brings many, fetchall() brings all records
 
         # Commit changes
@@ -375,7 +368,7 @@ class FeatureSelectionPage:
         for record in fetched_records:
             self.feature_selection_tree.insert(parent='', index='end', iid=count, text='',
                                                values=(
-                                                   record[0], record[1], record[2], record[3], record[4], record[5]))
+                                                   record[0], record[1], record[2], record[3]))
             # Increment counter
             count += 1
 
@@ -383,21 +376,19 @@ class FeatureSelectionPage:
         selected = self.feature_selection_tree.selection()[0]
         tree_values = self.feature_selection_tree.item(selected, 'values')
         # Create a database or connect to one that exists
-        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
+        conn = sqlite3.connect('../../Databases/Most_Important_Features_Database')
 
         # Create a cursor instance
         cursor = conn.cursor()
 
         # Delete from database
         cursor.execute(
-            'DELETE from feature_selection_table WHERE Date_Created = :Date_Created AND Features = :Features AND R2_Score = :R2_Score AND Runtimes = :Runtimes',
+            'DELETE from most_important_features_table WHERE Date_Created = :Date_Created AND Most_Important_Features = :Most_Important_Features',
             {
                 'Date_Created': tree_values[0],
                 'Target': tree_values[1],
                 'Dataframe': tree_values[2],
-                'Features': tree_values[3],
-                'R2_Score': tree_values[4],
-                'Runtimes': tree_values[5]
+                'Most_Important_Features': tree_values[3],
             })
 
         # Commit changes
@@ -412,42 +403,6 @@ class FeatureSelectionPage:
 
         # Remove selection from treeview
         self.feature_selection_tree.delete(selected)
-
-    def step_two(self):
-        # Get rid of the first steps items
-        self.importance_finder_caution_label.destroy()
-        self.importance_finder_yes_button.destroy()
-        self.importance_finder_no_button.destroy()
-
-        self.feature_selection_progressbar.stop()
-        self.feature_selection_progressbar.config(mode='determinate')
-
-        # Run feature combiner on new important features
-        predicted_combiner_time = FeatureCombiner.combination_time_predictor(self, self.most_important_features,
-                                                                             self.scaled_df)
-
-        # Widgets
-        self.feature_combiner_caution_label = Label(feature_selection_progress_window,
-                                                    text='Step 2 will take approximately\n'
-                                                         + predicted_combiner_time + '\nto run, are you sure you wan to continue?')
-        self.feature_combiner_yes_button = ttk.Button(feature_selection_progress_window, text='Yes',
-                                                      command=threading.Thread(
-                                                          target=lambda: FeatureCombiner.feature_combiner(self,
-                                                                                                          self.target_variable,
-                                                                                                          self.most_important_features,
-                                                                                                          self.scaled_df,
-                                                                                                          'yes')).start)
-        self.feature_combiner_no_button = ttk.Button(feature_selection_progress_window, text='No',
-                                                     command=lambda: FeatureCombiner.feature_combiner(self,
-                                                                                                      self.target_variable,
-                                                                                                      self.most_important_features,
-                                                                                                      self.scaled_df,
-                                                                                                      'no'))
-
-        # Locations
-        self.feature_combiner_caution_label.grid(row=6, column=1)
-        self.feature_combiner_yes_button.grid(row=7, column=1, padx=(0, 80))
-        self.feature_combiner_no_button.grid(row=7, column=1, padx=(80, 0))
 
     def use_selected_features(self, e=None):
         selected = self.feature_selection_tree.selection()[0]
@@ -468,6 +423,36 @@ class FeatureSelectionPage:
 
 
 class ImportantFeaturesFinder:
+    def important_features_database_inserter(self, most_important_features):
+        # Connect to database
+        conn = sqlite3.connect('../../Databases/Most_Important_Features_Database')
+
+        # Create cursor
+        cursor = conn.cursor()
+
+        # Add new record
+        cursor.execute(
+            "INSERT INTO most_important_features_table VALUES (:Date_Created, :Target, :Dataframe, :Most_Important_Features)",
+            {
+                'Date_Created': datetime.date.today(),
+                'Dataframe': str(self.csv_name),
+                'Target': self.target_variable,
+                'Most_Important_Features': ', '.join(most_important_features)
+            })
+
+        # Commit changes
+        conn.commit()
+
+        # Close connection
+        conn.close()
+
+        # Clear the treeview table
+        self.feature_selection_tree.delete(*self.feature_selection_tree.get_children())
+
+        # Reset tree by querying the database again
+        self.query_database()
+
+        feature_selection_progress_window.destroy()
     def importance_time_predictor(self, runtimes, amount_of_features_selected, scaled_df):
         dataframe_column_length = scaled_df.shape[1]
         dataframe_row_length = scaled_df.shape[0]
@@ -527,126 +512,5 @@ class ImportantFeaturesFinder:
         self.feature_selection_progress_label.config(text='Completed')
 
         self.most_important_features = most_important_features
-        self.step_two()
 
-
-class FeatureCombiner:
-    def best_features_database_inserter(self):
-        # Connect to database
-        conn = sqlite3.connect('../../Databases/Feature_Selection_Database')
-
-        # Create cursor
-        cursor = conn.cursor()
-
-        # Add new record
-        cursor.execute(
-            "INSERT INTO feature_selection_table VALUES (:Date_Created, :Target, :Dataframe, :Features, :R2_Score, :Runtimes)",
-            {
-                'Date_Created': datetime.date.today(),
-                'Dataframe': str(self.csv_name),
-                'Target': self.target_variable,
-                'Features': ', '.join(self.best_features),
-                'R2_Score': round(self.r2_score, 13),
-                'Runtimes': self.feature_selection_runtimes_spinbox.get(),
-            })
-
-        # Commit changes
-        conn.commit()
-
-        # Close connection
-        conn.close()
-
-        # Clear the treeview table
-        self.feature_selection_tree.delete(*self.feature_selection_tree.get_children())
-
-        # Reset tree by querying the database again
-        self.query_database()
-
-        feature_selection_progress_window.destroy()
-
-    def combination_time_predictor(self, most_important_features, scaled_df):
-
-        dataframe = scaled_df[most_important_features]
-        all_data_columns = dataframe.columns
-
-        runtimes = 5  # default should be 5
-
-        global combination_max
-        combination_max = (((2 ** (
-                len(dataframe.columns) - 1)) * runtimes) - runtimes)  # 22 is max amount of columns to reasonably take
-        time_per_1combination = 0.00288095
-        predicted_time = time_per_1combination * combination_max
-
-        return time_formatter(predicted_time)
-
-    def feature_combiner(self, target_variable, most_important_features, scaled_df, choice):
-        if choice.lower() == 'yes':
-            pass
-        else:
-            feature_selection_progress_window.destroy()
-            return
-
-        # Clear the progressbar label
-        self.feature_selection_progress_label.config(text='')
-
-        # Delete the labels and buttons in the progress window
-        self.feature_combiner_caution_label.destroy()
-        self.feature_combiner_yes_button.destroy()
-        self.feature_combiner_no_button.destroy()
-
-        start_time = time.time()
-
-        dataframe = scaled_df[most_important_features]
-        all_data_columns = dataframe.columns
-
-        picked_dataframe_columns = all_data_columns.drop(target_variable)
-        picked_dataframe_columns_list = picked_dataframe_columns.tolist()
-        best_average_score = 0
-        combinations = 0
-        total_score = 0
-        runtimes = 5  # default should be 5
-        for loop in picked_dataframe_columns_list:
-            result = itertools.combinations(picked_dataframe_columns_list,
-                                            picked_dataframe_columns_list.index(loop) + 1)
-            for item in result:
-                for i in range(runtimes):
-                    combinations = combinations + 1
-
-                    self.feature_selection_progressbar['value'] = (combinations / combination_max) * 100
-                    self.feature_selection_progress_label.config(
-                        text=str(format(self.feature_selection_progressbar['value'], '.2f')) + '%')
-                    feature_selection_progress_window.update_idletasks()
-
-                    newdata = list(item)
-
-                    X = np.array(dataframe[newdata])
-                    y = np.array(dataframe[target_variable])
-
-                    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y,
-                                                                                                test_size=0.2)  # add in randomstate= a # to stop randomly changing your arrays
-
-                    MyLinearRegression = linear_model.LinearRegression().fit(X_train, y_train)
-
-                    total_score = total_score + MyLinearRegression.score(X_test, y_test)
-
-                average_score = total_score / runtimes
-                total_score = 0
-                if average_score > best_average_score:
-                    best_average_score = average_score
-                    best_features = newdata
-
-        self.feature_selection_progress_label.config(text='Completed')
-
-        elapsed_time = time.time() - start_time
-
-        if elapsed_time > 300:
-            functions.email_or_text_alert('Trainer is done',
-                                          'Elapsed Time: ' + str(
-                                              time_formatter(elapsed_time)) + '\nBest Average Score: ' + str(
-                                              format(best_average_score, '.4f')), '4052198820@mms.att.net')
-
-        self.best_features = best_features
-        self.r2_score = best_average_score
-
-        # Put features and other data into database
-        FeatureCombiner.best_features_database_inserter(self)
+        ImportantFeaturesFinder.important_features_database_inserter(self, most_important_features)

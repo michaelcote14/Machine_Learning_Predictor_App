@@ -323,12 +323,8 @@ class PredictorTreeviewPage:
     def on_show_current_lines_error_graph(self):
         # Get all predicted and test values from treeview (these are hidden and are not displayed in the treeview)
         selected = self.predictor_tree.selection()[0]
-        print('selected:', selected)
-        print('all items:', self.predictor_tree.item(selected, 'values'))
         tree_all_predicted_values = self.predictor_tree.item(selected, 'values')[7]
-        print('tree all predicted values:', tree_all_predicted_values)
         tree_all_actual_values = self.predictor_tree.item(selected, 'values')[8]
-        print('tree tested actual values:', tree_all_actual_values)
 
         # Split long string from treeview into a list
         tree_all_predicted_values = tree_all_predicted_values.split(', ')
@@ -516,14 +512,10 @@ class PredictorTreeviewPage:
                 file_saved_label = Label(train_df_predictions_button_frame, text='File Saved Successfully', fg='green')
                 file_saved_label.grid(row=3, column=0, pady=5)
 
-            print('tree all predicted values list:', tree_all_predicted_values_list)
-            print('tree all actual values list:', tree_all_actual_values_list)
             differences_list = []
             for row in range(len(tree_all_predicted_values_list)):
-                print(float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
                 differences_list.append(
                     float(tree_all_predicted_values_list[row]) - float(tree_all_actual_values_list[row]))
-            print('differences list:', differences_list)
 
             train_file_data = list(zip(tree_all_predicted_values_list, tree_all_actual_values_list, differences_list))
 
@@ -786,9 +778,7 @@ class Predictor:
 
                 total = 0
                 for coef in sorted_model_and_coefs_list:
-                    print(coef[0], ':', round(coef[1], 3))
                     total += round(coef[1], 3)
-                print('Total:', total)
             except:
                 continue
 

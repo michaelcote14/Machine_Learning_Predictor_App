@@ -3,15 +3,13 @@ from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 
 
-def full_cleaner(dataframe, is_test_df, target_variable=None):
+def full_cleaner(dataframe, target_variable=None):
     # null_free_rows_df = null_row_cleaner(duplicate_free_df)
-    # if is_test_df == True:
-    #     dataframe = test_df_empty_row_averager(dataframe)
     fully_named_df = unnamed_column_cleaner(dataframe)
     non_empty_columns_df = null_columns_cleaner(fully_named_df)
     # outlier_free_df = outlier_cleaner(non_empty_columns_df)
-    from Step_1_Data_Cleaning.skew_transformer import full_transformer, target_transformer
-    unskewed_df = full_transformer(non_empty_columns_df, target_variable)
+    from Step_1_Data_Cleaning.skew_transformer import full_skew_transformer, target_transformer
+    unskewed_df = full_skew_transformer(non_empty_columns_df, target_variable)
     fully_cleaned_df = unskewed_df
 
     # ToDo find out how to re-add the marked out functions
@@ -114,7 +112,6 @@ def outlier_cleaner(dataframe):
 def test_df_empty_row_averager(train_df, test_df):
     # This replaces each null value and replaces it with its column (mean + median) / 2
     for column in train_df.columns:
-        print('\nColumn:', column)
         if column in test_df.columns:
             pass
         else:

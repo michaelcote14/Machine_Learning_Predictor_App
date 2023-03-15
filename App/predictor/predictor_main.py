@@ -78,10 +78,6 @@ class PredictorPage(tk.Frame):
         self.target_variable_combo_box = ttk.Combobox(self, width=21, font=('Ariel', 11))
         self.target_variable_combo_box.bind('<<ComboboxSelected>>', self.on_target_variable_combo_box_click)
         clean_button = ttk.Button(self, text='Clean', width=30, command=self.on_clean_button)
-        spinbox_variable = StringVar(self)
-        self.scaler_runtimes_spinbox = Spinbox(self, from_=500, to=100000, increment=500, textvariable=spinbox_variable,
-                                               font=('Ariel', 13, 'bold'), width=13)
-        spinbox_variable.set('Runtimes')
         self.graph_button = ttk.Button(self, text='Graph', width=21, command=self.on_graph_button, state=DISABLED)
         self.view_train_dataframe_button = ttk.Button(self, text='View Train Dataframe', width=23, command=self.on_view_train_dataframe_button,
                                            state=DISABLED)
@@ -89,7 +85,6 @@ class PredictorPage(tk.Frame):
         predict_button = ttk.Button(self, text='Predict', width=30, command=self.on_predict_button)
         feature_selection_button = ttk.Button(self, text='Select Features', width=30,
                                               command=self.on_select_features_button)
-        scale_button = ttk.Button(self, text='Scale', command=self.on_scale_button, width=7)
         self.quick_predict_checkbox = ttk.Checkbutton(self, text='      Quick Predict', command=self.on_quick_predict, width=21)
         self.quick_predict_checkbox.state(['disabled'])
         or_label = Label(self, text='OR', width=3, anchor=CENTER, bg='gray10', fg='white')
@@ -99,17 +94,15 @@ class PredictorPage(tk.Frame):
         self.select_model_combo_box.grid(sticky=W, row=1, column=0)
         self.select_train_data_button.grid(sticky=W, row=2, column=0, pady=(5))
         self.select_test_data_button.grid(sticky=W, row=3, column=0, pady=(5))
+        or_label.grid(sticky=W, row=3, column=0, pady=5, padx=(195, 0))
+        self.quick_predict_checkbox.grid(sticky=W, row=3, column=0, pady=5, padx=(230, 0))
         self.target_variable_combo_box.grid(sticky=W, row=4, column=0, pady=5)
         clean_button.grid(sticky=W, row=5, column=0, pady=5)
-        scale_button.grid(sticky=W, row=6, column=0, pady=5, padx=(139, 0))
-        self.scaler_runtimes_spinbox.grid(sticky=W, row=6, column=0, pady=5)
-        feature_selection_button.grid(sticky=W, row=7, column=0, pady=5)
-        select_model_button.grid(sticky=W, row=8, column=0, pady=5)
+        feature_selection_button.grid(sticky=W, row=6, column=0, pady=5)
+        select_model_button.grid(sticky=W, row=7, column=0, pady=5)
         self.view_train_dataframe_button.grid(sticky=W, row=1, column=0, pady=5, padx=(230, 0))
-        self.quick_predict_checkbox.grid(sticky=W, row=3, column=0, pady=5, padx=(230, 0))
-        self.graph_button.grid(sticky=W, row=9, column=0, padx=(230, 0))
-        predict_button.grid(sticky=W, row=9, column=0, pady=5)
-        or_label.grid(sticky=W, row=3, column=0, pady=5, padx=(195, 0))
+        self.graph_button.grid(sticky=W, row=8, column=0, padx=(230, 0))
+        predict_button.grid(sticky=W, row=8, column=0, pady=5)
 
 
         # Images
@@ -118,10 +111,8 @@ class PredictorPage(tk.Frame):
         self.green_check_label_test_data = self.image_creator('../../Images/red_x.png', 24, 24)
         self.green_check_label_target = self.image_creator('../../Images/red_x.png', 24, 24)
         self.green_check_label_clean = self.image_creator('../../Images/red_x.png', 24, 24)
-        self.green_check_label_scale = self.image_creator('../../Images/red_x.png', 24, 24)
         self.green_check_label_features = self.image_creator('../../Images/red_x.png', 24, 24)
         self.green_check_label_trainer = self.image_creator('../../Images/red_x.png', 24, 24)
-        self.green_check_label_predict = self.image_creator('../../Images/red_x.png', 24, 24)
 
         # Image Locations
         self.green_check_label_model.grid(row=1, column=0, sticky=W, padx=(195, 10))
@@ -129,10 +120,8 @@ class PredictorPage(tk.Frame):
         self.green_check_label_test_data.grid(row=3, column=0, sticky=W, padx=(383, 10))
         self.green_check_label_target.grid(row=4, column=0, sticky=W, padx=(195, 10))
         self.green_check_label_clean.grid(row=5, column=0, sticky=W, padx=(195, 10))
-        self.green_check_label_scale.grid(row=6, column=0, sticky=W, padx=(195, 10))
-        self.green_check_label_features.grid(row=7, column=0, sticky=W, padx=(195, 10))
-        self.green_check_label_trainer.grid(row=8, column=0, sticky=W, padx=(195, 10))
-        self.green_check_label_predict.grid(row=9, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_features.grid(row=6, column=0, sticky=W, padx=(195, 10))
+        self.green_check_label_trainer.grid(row=7, column=0, sticky=W, padx=(195, 10))
 
     def feature_combination_chooser(self):
         FeatureCombinationPage(self.target_variable, self.selected_important_features, self.scaled_train_df, self.data_name,
@@ -163,8 +152,10 @@ class PredictorPage(tk.Frame):
         self.filled_test_df = test_df_empty_row_averager(self.train_df, self.test_df)
 
 
-        self.fully_cleaned_train_df, columns_removed, rows_removed = full_cleaner(self.train_df, is_test_df=False, target_variable=self.target_variable)
-        self.fully_cleaned_test_df, columns_removed, rows_removed = full_cleaner(self.filled_test_df, is_test_df=True)
+        print('Train_df skew scores:')
+        self.fully_cleaned_train_df, columns_removed, rows_removed = full_cleaner(self.train_df, self.target_variable)
+        print('\nTest_df skew scores:')
+        self.fully_cleaned_test_df, columns_removed, rows_removed = full_cleaner(self.filled_test_df)
 
         # A popup info box that shows how many columns and rows were removed from cleaning
         messagebox.showinfo('Cleaning Results', 'CLEANING RESULTS:' +
@@ -178,12 +169,25 @@ class PredictorPage(tk.Frame):
         self.multiple_encoded_train_df, self.multiple_encoded_test_df = multiple_encoder(self.fully_cleaned_train_df, single_encoded_train_df,
                                                                                self.fully_cleaned_test_df,
                                                                                single_encoded_test_df)
+
+        # Drop the target variable from multiple encoded df
+        target_column = self.multiple_encoded_train_df[self.target_variable]
+        self.multiple_encoded_train_df.drop(self.target_variable, axis=1, inplace=True)
+
+        from sklearn.preprocessing import StandardScaler
+        scaler = StandardScaler()
+        scaler.fit(self.multiple_encoded_train_df)
+        self.scaled_train_df = pd.DataFrame(scaler.transform(self.multiple_encoded_train_df), index=self.multiple_encoded_train_df.index, columns=self.multiple_encoded_train_df.columns)
+        scaler.fit(self.multiple_encoded_test_df)
+        self.scaled_test_df = pd.DataFrame(scaler.transform(self.multiple_encoded_test_df), index=self.multiple_encoded_test_df.index, columns=self.multiple_encoded_test_df.columns)
+
+        # Add the target variable back to the dataframe
+        self.scaled_train_df[self.target_variable] = target_column
+
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_clean['text'] == 'green':
-            self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
         # Changes the red x to a green checkmark
         self.image_changer('../../Images/green_checkmark.png', self.green_check_label_clean, 24, 24)
@@ -197,10 +201,6 @@ class PredictorPage(tk.Frame):
 
         from Step_10_Predicting.predictor import PredictorTreeviewPage
         PredictorTreeviewPage(self.scaled_train_df, self.target_variable, self.data_name, self.test_df, self.scaled_test_df)
-
-
-        # Changes the red x to a green checkmark
-        self.image_changer('../../Images/green_checkmark.png', self.green_check_label_predict, 24, 24)
 
     def on_quick_predict(self):
         def clear_quick_predict_entry_box(event):
@@ -239,10 +239,8 @@ class PredictorPage(tk.Frame):
             if self.green_check_label_test_data['text'] == 'green':
                 self.image_changer('../../Images/red_x.png', self.green_check_label_target, 24, 24)
                 self.image_changer('../../Images/red_x.png', self.green_check_label_clean, 24, 24)
-                self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
                 self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
                 self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-                self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
 
         # Check the state of the quick predict checkbutton
@@ -315,55 +313,14 @@ class PredictorPage(tk.Frame):
                 quick_predict_entry.grid(row=1, column=0 + index, padx=(0, 10))
                 predict_button.grid(row=2, column=2, pady=(10, 0), columnspan=2)
 
-
-    def on_scale_button(self):
-        scaler_runtimes = int(self.scaler_runtimes_spinbox.get())
-
-        from Step_5_Scaling.scaler import Scaler
-        scaler_predicted_time = Scaler.scaler_time_predictor(self, scaler_runtimes, self.multiple_encoded_train_df)
-        scaler_response = messagebox.askyesno('Caution', 'Scaler will take about\n' + str(scaler_predicted_time) +
-                                              '\nto run, are you sure you want to continue?')
-        if scaler_response == True:
-            pass
-        else:
-            return
-
-        scaler_progressbar = ttk.Progressbar(self, orient=HORIZONTAL, length=150, mode='determinate')
-        scaler_progressbar.grid(row=6, column=0, padx=(230, 0))
-
-        # ToDo fix the scaling situation
-        # Drop the target variable from multiple encoded df
-        target_column = self.multiple_encoded_train_df[self.target_variable]
-        self.multiple_encoded_train_df.drop(self.target_variable, axis=1, inplace=True)
-
-        from sklearn.preprocessing import StandardScaler
-        scaler = StandardScaler()
-        scaler.fit(self.multiple_encoded_train_df)
-        self.scaled_train_df = pd.DataFrame(scaler.transform(self.multiple_encoded_train_df), index=self.multiple_encoded_train_df.index, columns=self.multiple_encoded_train_df.columns)
-        scaler.fit(self.multiple_encoded_test_df)
-        self.scaled_test_df = pd.DataFrame(scaler.transform(self.multiple_encoded_test_df), index=self.multiple_encoded_test_df.index, columns=self.multiple_encoded_test_df.columns)
-
-        # Add the target variable back to the dataframe
-        self.scaled_train_df[self.target_variable] = target_column
-
-        # Checks the status of the green check image and changes images after button click
-        if self.green_check_label_scale['text'] == 'green':
-            self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
-
-        # Changes the red x to a green checkmark
-        self.image_changer('../../Images/green_checkmark.png', self.green_check_label_scale, 24, 24)
-
     def on_select_features_button(self):
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_features['text'] == 'green':
             self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
-        from Step_7_Feature_Combination_Testing.feature_selection import FeatureSelectionPage
-        FeatureSelectionPage(self.target_variable, self.scaled_train_df, self.data_name, self.image_changer,
-                             self.green_check_label_features)
+        from Step_7_Feature_Importance_Finding.feature_importance_finder import MostImportantFeaturesPage
+        MostImportantFeaturesPage(self.target_variable, self.scaled_train_df, self.data_name, self.image_changer,
+                                  self.green_check_label_features)
 
     def on_select_train_data_button(self):
         self.train_df_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV or Pickle File',
@@ -414,10 +371,8 @@ class PredictorPage(tk.Frame):
             self.image_changer('../../Images/red_x.png', self.green_check_label_test_data, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_target, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_clean, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
     def on_select_test_data_button(self):
         self.test_df_location = filedialog.askopenfilename(initialdir='/', title='Select A CSV File',
@@ -441,10 +396,8 @@ class PredictorPage(tk.Frame):
         if self.green_check_label_test_data['text'] == 'green':
             self.image_changer('../../Images/red_x.png', self.green_check_label_target, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_clean, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
     def on_target_variable_combo_box_click(self, event):
         self.target_variable = self.target_variable_combo_box.get()
@@ -455,21 +408,14 @@ class PredictorPage(tk.Frame):
         # Checks the status of the green check image and changes images after button click
         if self.green_check_label_target['text'] == 'green':
             self.image_changer('../../Images/red_x.png', self.green_check_label_clean, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_scale, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_features, 24, 24)
             self.image_changer('../../Images/red_x.png', self.green_check_label_trainer, 24, 24)
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
         self.image_changer('../../Images/green_checkmark.png', self.green_check_label_target, 24, 24)
-        # ToDo make a quick predictor where you don't have to save the predictions to a csv
 
     def on_select_model_button(self):
         from Step_8_Training.trainer import TrainingModelPage
         TrainingModelPage(self.scaled_train_df, self.target_variable, self.data_name)
-
-        # Checks the status of the green check image and changes images after button click
-        if self.green_check_label_trainer['text'] == 'green':
-            self.image_changer('../../Images/red_x.png', self.green_check_label_predict, 24, 24)
 
         # Changes the red x to a green checkmark
         self.image_changer('../../Images/green_checkmark.png', self.green_check_label_trainer, 24, 24)
@@ -616,7 +562,7 @@ class PageTwo(tk.Frame):
 
 
 app = Machine_Learning_App()
-app.geometry('415x430')
+app.geometry('415x315')
 app.resizable(False, False)
 
 app.mainloop()
